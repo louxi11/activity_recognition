@@ -9,6 +9,8 @@ function params = init_params( DimX, numStateY, numStateZ)
 params.DimX = DimX; % dimensionality of input X
 params.numStateY = numStateY; % cardinality of target output Y
 params.numStateZ = numStateZ;  % cadinality of latent variable Z
+params.numStateYZ = numStateY * numStateZ;
+params.szYZ = [numStateY, numStateZ];
 
 % indice of unary parameters
 params.idx_w_unary = 1 : params.DimX * (numStateY * numStateZ);

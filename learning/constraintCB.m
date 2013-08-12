@@ -12,7 +12,7 @@ assert(iscolumn(X))
 K = length(X) / params.DimX; % length of sequence 
 
 % build graphical model
-factors = build_graphical_factors(X,params,model);
+factors = build_graphical_factors(X,params,model,[]);
 
 % add loss factors
 loss_factors = repmat(struct('var', [], 'card', [], 'val', []), K, 1);
