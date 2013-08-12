@@ -1,0 +1,12 @@
+1. no latent variables
+2. learn latent variables directly from X
+3. learn latent variables from data
+
+* use the negative portion of exponential function
+
+* verbose messages
+* loss function - evaluation criteria
+
+*** added -g for debugging mex functiosn, DO CHANGE IT BACK LATER
+
+What are support vectors? if there is only 1 training example, why multiple support vectors??
