@@ -1,14 +1,16 @@
-function cumError = cccp_error(params,model)
+function cumError = cccp_error(params,trainData,model)
 
 cumError = 0;
 
 for i = 1 : length(params.labels)
     
+    
     X = params.patterns{i};
-    Y = params.labels{i};
+    Y = trainData.labels{i};
     Z = inferLatentVariable(params, model, X, Y);
     YZ = sub2indYZ(params,Y,Z);
     
+    K = length(X) / params.DimX; % length of sequence 
     factors = build_graphical_factors(X,params,model,[]);
     
     % add loss factors %% TODO
