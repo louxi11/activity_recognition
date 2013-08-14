@@ -1,6 +1,6 @@
 %% LOAD DATA (Word Recognition)
 clc
-clear all
+% clear all
 
 addpath graphical_model/
 addpath inference/
@@ -103,6 +103,8 @@ while true
     %  Check svm_struct_learn.m for all the auguments description
     model = svm_struct_learn('-y 0 -v 0 -c 1 -e 0.1 -o 2 -w 3 -l 1', params) ;
     
+    % stop criteria - CCCP
+    cumError = cccp_error(params,trainData,model);
     
     sprintf('******************************')
     sprintf('iteration = %d',cnt)
@@ -111,8 +113,6 @@ while true
     sprintf('error reduction = %f', cumErrorPrev - cumError);
     sprintf('******************************')
     
-    % stop criteria - CCCP
-    cumError = cccp_error(params,model);
     if cumError > cumErrorPrev
         error('Iteration makes higher error!')
     elseif cumErrorPrev - cumError < thres
@@ -121,18 +121,18 @@ while true
 end
     
 
-%% Classification
-% load charRecognitionSmall
-load test_data/model_WordRecognition
-C = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-CNT = 0;
-D = 0;
-data = trainData;
-for i = 1 : length(data.patterns)
-    X_test = data.patterns{i};
-    yhat = ssvm_classify(params, model, X_test);
-    disp([data.labels{i}';yhat'])
-    D = D + sum((data.labels{i} - yhat) == 0);
-    CNT = CNT + length(data.labels{i});
-end
-disp(D/CNT)
+% %% Classification
+% % load charRecognitionSmall
+% load test_data/model_WordRecognition
+% C = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+% CNT = 0;
+% D = 0;
+% data = trainData;
+% for i = 1 : length(data.patterns)
+%     X_test = data.patterns{i};
+%     yhat = ssvm_classify(params, model, X_test);
+%     disp([data.labels{i}';yhat'])
+%     D = D + sum((data.labels{i} - yhat) == 0);
+%     CNT = CNT + length(data.labels{i});
+% end
+% disp(D/CNT)
