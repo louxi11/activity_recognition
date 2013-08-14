@@ -13,6 +13,8 @@ assert(iscolumn(X))
 factors = build_graphical_factors(X,params,model,[]);
 
 % argmax_y <psi(x,y), w>
-Yhat = RunInference(factors);
+YZhat = RunInference(factors);
+
+Yhat = ind2subYZ(params,YZhat);
 
 end

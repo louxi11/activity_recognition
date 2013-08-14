@@ -1,4 +1,4 @@
-function Yhat = constraintCB(params, model, X, Y)
+function Yhat = constraintCB(params, model, X, YZ)
 %CONSTRAINCB Summary of this function goes here
 %  compute the augmented inference problem
 %  Yhat = argmax_y(delta(y,yhat),psi(x,y;w))
@@ -17,7 +17,7 @@ factors = build_graphical_factors(X,params,model,[]);
 % add loss factors
 loss_factors = repmat(struct('var', [], 'card', [], 'val', []), K, 1);
 for k = 1 : K
-    loss_factors(k) = compute_loss_factor(params, Y, k);
+    loss_factors(k) = compute_loss_factor(params, YZ, k);
 end
 
 % combine all factors

@@ -10,7 +10,7 @@ addpath svm-struct-matlab-1.2/
 
 addpath test_data/
 
-% dataset Word Recognition
+% dataset Word Recognition Large
 [trainData,testData] = load_word_recognition_data;
 DimX = 64;
 numStateY = 26;
@@ -67,7 +67,7 @@ params.featureFn = @featureCB ;
 
 % -c C
 % -p L-norm to use for slack variables
-% -w optimization option
+% -w optimization option1
 % -o 2 rescaling method Margin rescaling
 %  Check svm_struct_learn.m for all the auguments description
 model = svm_struct_learn('-c 1 -e 0.1 -o 2 -w 3 -l 1', params) ;
@@ -79,7 +79,7 @@ load test_data/model_WordRecognition
 C = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 CNT = 0;
 D = 0;
-data = testData;
+data = trainData;
 for i = 1 : length(data.patterns)
   X_test = data.patterns{i};
   yhat = ssvm_classify(params, model, X_test);
