@@ -1,3 +1,6 @@
+TODO: change cccp error to <w,phi>, inference only computes max!!!
+TODO: RunInference save to files. No disk read/write
+
 1. no latent variables DONE
 2. 
 2. learn latent variables directly from X
