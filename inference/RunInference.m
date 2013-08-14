@@ -1,4 +1,4 @@
-function pred = RunInference (factors)
+function pred = RunInference (factors,option)
 % This function performs inference for a Markov network specified as a list
 % of factors.
 %
@@ -20,7 +20,12 @@ binaries = {'.\inference\doinference.exe', ...
 kFactorsFilename = 'factors.fg';
 kStderrFilename = 'inf.log';
 kInfBinary = binaries{[ispc ismac isunix]}; % NB: need ismac first so that if ismac and isunix are both 1, then mac is chosen
-kInferenceType = 'map'; % choices are 'map' or 'pd'
+
+if strcmp(option,'map') || strcmp(option,'pd') 
+    kInferenceType = option; % choices are 'map' or 'pd'
+else
+    error('unknow option for RunInference: valid options is "map" or "pd"')
+end
 
 factorsString = SerializeFactorsFg (factors);
 
