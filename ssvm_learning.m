@@ -14,7 +14,7 @@ addpath test_data/
 [trainData,testData] = load_word_recognition_data;
 DimX = 64;
 numStateY = 26;
-numStateZ = 1;
+numStateZ = 2;
 
 % % dataset Word Recognition for testing factors PGM 7
 % [trainData,testData] = load_word_recognition_data_factors;
@@ -37,12 +37,13 @@ numStateZ = 1;
 %% LEARNING
 % param.patterns is a cell array of inputs X. Each cell X{i} corresponds with one
 % observation sequence. The rows of one cell has MxN dimension, which means
-% there are M observation (time slices) and for each time slice there is a 
+% there are M observation (time slices) and for each time slice there is a
 % N dimensional observation
 % parm.labels is a cell array of output target Y. The structure of the cell
-% is similar to X 
+% is similar to X
 
 % parameter settings
+need_init = true;
 params = init_params(DimX, numStateY, numStateZ);
 params.patterns = trainData.patterns;
 params.dimension = params.idx_w_tran(end);
@@ -51,16 +52,29 @@ params.lossFn = @lossCB ;
 params.constraintFn  = @constraintCB ;
 params.featureFn = @featureCB ;
 
+%% initialize Hidden state Z
+params.labels = cell(size(trainData.labels));
+if need_init
+    for i = 1 : length(params.patterns)
+        X = trainData.patterns{i};
+        Y = trainData.labels{i};
+        Zhat = randsample(params.numStateZ,length(Y),true); % random sample with replacement
+        YZ = sub2indYZ(params,Y,Zhat);
+        params.labels{i} = YZ;
+        need_init = false;
+    end
+end
 
 %% compute optimal Zhat under the current model.w
-params.labels = cell(size(trainData.labels));
+
 for i = 1 : length(params.patterns)
     X = trainData.patterns{i};
     Y = trainData.labels{i};
     Zhat = inferLatentVariable(params,model,X,Y);
-    YZ = sub2indYZ(params.Y,Zhat);
+    YZ = sub2indYZ(params,Y,Zhat);
     params.labels{i} = YZ;
 end
+
 %% update new model.w with (X,Y,Zhat) - STRUCTURED-SVM LEARNING
 %  svm_struct_learn is a function that calls three matlab functions
 %  1. lossCB: delta(y,yhat), it returns the number of misclassified labels
@@ -81,6 +95,7 @@ end
 %  Check svm_struct_learn.m for all the auguments description
 model = svm_struct_learn('-c 1 -e 0.1 -o 2 -w 3 -l 1', params) ;
 
+%% stop criteria
 
 %% Classification
 % load charRecognitionSmall
@@ -90,10 +105,10 @@ CNT = 0;
 D = 0;
 data = trainData;
 for i = 1 : length(data.patterns)
-  X_test = data.patterns{i};
-  yhat = ssvm_classify(params, model, X_test);
-  disp([data.labels{i}';yhat'])
-  D = D + sum((data.labels{i} - yhat) == 0);
-  CNT = CNT + length(data.labels{i});
+    X_test = data.patterns{i};
+    yhat = ssvm_classify(params, model, X_test);
+    disp([data.labels{i}';yhat'])
+    D = D + sum((data.labels{i} - yhat) == 0);
+    CNT = CNT + length(data.labels{i});
 end
 disp(D/CNT)

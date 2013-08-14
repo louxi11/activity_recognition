@@ -20,8 +20,8 @@ trans_factor.val = W(:)';
 
 % set factor value to 0 if y violate evidence yk
 if ~isempty(yk1)
-  yzk1 = sub2ind(params.szYZ,ones(1,numStateZ)*yk1,1:numStateZ);
-  yzk2 = sub2ind(params.szYZ,ones(1,numStateZ)*yk2,1:numStateZ);
+  yzk1 = sub2ind(params.szYZ,ones(1,params.numStateZ)*yk1,1:params.numStateZ);
+  yzk2 = sub2ind(params.szYZ,ones(1,params.numStateZ)*yk2,1:params.numStateZ);
   [a,b] = meshgrid(yzk1, yzk2);
   evidence = sparse(a(:),b(:),true,params.numStateYZ,params.numStateYZ);
   trans_factor.val(~evidence) = 0; % evidence index YZ

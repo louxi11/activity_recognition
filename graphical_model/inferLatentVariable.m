@@ -18,6 +18,6 @@ YZhat = RunInference(factors);
 
 Zhat = Zhat(:);
 assert(iscolumn(Zhat))
-assert(Y == Yhat(:));
+assert(isequal(Y,Yhat(:)));
 
 end
