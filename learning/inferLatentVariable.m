@@ -8,9 +8,6 @@ function Zhat = inferLatentVariable(params, model, X, Y)
 assert(length(model.w) == params.dimension)
 assert(iscolumn(X))
 assert(iscolumn(Y))
-% 
-% % length of sequence
-% K = length(X) / params.DimX;
 
 % build graphical model: factors that violate observed Y are set to zero
 factors = build_graphical_factors(X,params,model,Y);

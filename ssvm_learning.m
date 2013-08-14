@@ -45,14 +45,23 @@ numStateZ = 1;
 % parameter settings
 params = init_params(DimX, numStateY, numStateZ);
 params.patterns = trainData.patterns;
-params.labels = trainData.labels;
 params.dimension = params.idx_w_tran(end);
 params.verbose = 0 ;
 params.lossFn = @lossCB ;
 params.constraintFn  = @constraintCB ;
 params.featureFn = @featureCB ;
 
-%% STRUCTURED-SVM LEARNING
+
+%% compute optimal Zhat under the current model.w
+params.labels = cell(size(trainData.labels));
+for i = 1 : length(params.patterns)
+    X = trainData.patterns{i};
+    Y = trainData.labels{i};
+    Zhat = inferLatentVariable(params,model,X,Y);
+    YZ = sub2indYZ(params.Y,Zhat);
+    params.labels{i} = YZ;
+end
+%% update new model.w with (X,Y,Zhat) - STRUCTURED-SVM LEARNING
 %  svm_struct_learn is a function that calls three matlab functions
 %  1. lossCB: delta(y,yhat), it returns the number of misclassified labels
 %     of the sequence
@@ -71,7 +80,7 @@ params.featureFn = @featureCB ;
 % -o 2 rescaling method Margin rescaling
 %  Check svm_struct_learn.m for all the auguments description
 model = svm_struct_learn('-c 1 -e 0.1 -o 2 -w 3 -l 1', params) ;
-w = model.w;
+
 
 %% Classification
 % load charRecognitionSmall
