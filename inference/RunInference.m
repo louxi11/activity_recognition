@@ -1,4 +1,4 @@
-function pred = RunInference (factors,option)
+function [pred,score] = RunInference (factors,option)
 % This function performs inference for a Markov network specified as a list
 % of factors.
 %
@@ -18,7 +18,6 @@ binaries = {'.\inference\doinference.exe', ...
             './inference/doinference-linux'};
 
 kFactorsFilename = 'factors.fg';
-kStderrFilename = 'inf.log';
 kInfBinary = binaries{[ispc ismac isunix]}; % NB: need ismac first so that if ismac and isunix are both 1, then mac is chosen
 
 if strcmp(option,'map') || strcmp(option,'pd') 
@@ -42,21 +41,21 @@ end
 [retVal, output] = system(command);
 
 if (retVal ~= 0)
-    error('The doinference command failed. Look at the file %s to diagnose the cause', kStderrFilename);
+    error(output);
 end
 
-pred = ParseOutput(output);
+[pred,score] = ParseOutput(output);
 
 end
 
-function pred = ParseOutput(output)
+function [pred,score] = ParseOutput(output)
 
 lines = strread(output, '%s', 'delimiter', sprintf('\n'));
 lines(strcmp(lines, '')) = [];
 
 numVars = str2double(lines{1});
 
-if (numVars ~= length(lines) - 1)
+if (numVars ~= length(lines) - 2)
     error('Error parsing output: %s', output);
 end
 
@@ -65,5 +64,7 @@ for i = 2:(numVars + 1)
     line = str2num(lines{i}); %#ok
     pred(i-1) = line(end);
 end
+
+score = str2double(lines{end});
 
 end
