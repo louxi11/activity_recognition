@@ -3,7 +3,7 @@
 function ssvm_learning
 
 clc
-% clear all
+clear all
 
 addpath graphical_model/
 addpath inference/
@@ -11,6 +11,13 @@ addpath learning
 addpath svm-struct-matlab-1.2/
 
 addpath test_data/
+
+logfile = datestr(now);
+diary(logfile)
+diary on
+
+tic
+startTime = toc;
 
 % dataset Word Recognition Large
 [trainData,testData] = load_word_recognition_data;
@@ -110,13 +117,16 @@ while true
     % stop criteria - CCCP
     cumError = cccp_error(params,trainData,model);
     
+    endTime = toc;
+    
     fprintf('******************************\n')
     fprintf('iteration = %d\n',cnt)
     fprintf('cumError = %f\n',cumError)
     fprintf('cumErrorPrev = %f\n',cumErrorPrev)
     fprintf('error reduction = %f\n', cumErrorPrev - cumError);
+    fprintf('time elapsed = %f\n', endTime - startTime);
     fprintf('******************************\n')
-    
+      
     if cumError > cumErrorPrev
         warning('Iteration gives higher error!')
     elseif cumErrorPrev - cumError < thres
@@ -124,9 +134,10 @@ while true
     end
     
     cumErrorPrev = cumError;
-    
+    startTime = endTime;
 end
     
+diary off
 
 % %% Classification
 % % load charRecognitionSmall
