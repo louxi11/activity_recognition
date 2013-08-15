@@ -1,11 +1,10 @@
 %% LOAD DATA (Word Recognition)
 clc
-% clear all
+clear all
 
 addpath graphical_model/
 addpath inference/
 addpath learning
-% addpath singleton_graphical_model/
 addpath svm-struct-matlab-1.2/
 
 addpath test_data/
@@ -100,7 +99,7 @@ while true
     % -p L-norm to use for slack variables
     % -w optimization option1
     % -o 2 rescaling method Margin rescaling
-    %  Check svm_struct_learn.m for all the auguments description
+    %  Estimate new model.w with complete data (X,YZ)
     model = svm_struct_learn('-y 0 -v 0 -c 1 -e 0.1 -o 2 -w 3 -l 1', params) ;
     
     % stop criteria - CCCP

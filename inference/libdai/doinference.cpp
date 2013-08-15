@@ -68,7 +68,7 @@ int main( int argc, char *argv[] ) {
             cout << fg.nrVars() << endl;
             for( size_t i = 0; i < jtmapstate.size(); i++ )
                 cout << fg.var(i).label() << " " << jtmapstate[i] + 1 << endl; // +1 because in MATLAB assignments start at 1
-            cout << "Exact MAP state (log score = " << fg.logScore( jtmapstate ) << "):" << endl;
+            cout << fg.logScore( jtmapstate ) << endl; // score
         }
         else
         {
