@@ -1,4 +1,4 @@
-function Yhat = constraintCB(params, model, X, YZ)
+function YZhat = constraintCB(params, model, X, YZ)
 %CONSTRAINCB Summary of this function goes here
 %  compute the augmented inference problem
 %  Yhat = argmax_y(delta(y,yhat),psi(x,y;w))
@@ -24,6 +24,6 @@ end
 all_factors = [factors;loss_factors];
 
 % argmax_y delta(yi, y) + <psi(x,y), w>
-Yhat = RunInference(all_factors,'map');
+YZhat = RunInference(all_factors,'map');
 
 end
