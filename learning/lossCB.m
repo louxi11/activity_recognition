@@ -1,9 +1,11 @@
-function delta = lossCB(params, YZ, YZbar)
+function delta = lossCB(params, YZ, YZhat)
 %LOSSCB Summary of this function goes here
-%   Detailed explanation goes here
+%   get Y and Ybar
+
+[Y,~] = ind2subYZ(params,YZ);
+[Yhat,~] = ind2subYZ(params,YZhat);
 
 % the loss function is defined as the number of mis-classified items
-delta = sum(double((YZ - YZbar) ~= 0)); % TODO classification error instead?
-% delta = sum(abs(Y - Ybar)) / length(Y);
+delta = double(sum(Y ~= Yhat)); % TODO classification error instead?
 
 end
