@@ -24,6 +24,6 @@ end
 all_factors = [factors;loss_factors];
 
 % argmax_y delta(yi, y) + <psi(x,y), w>
-Yhat = RunInference(all_factors);
+Yhat = RunInference(all_factors,'map');
 
 end

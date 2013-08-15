@@ -1,6 +1,6 @@
 %% LOAD DATA (Word Recognition)
 clc
-clear all
+% clear all
 
 addpath graphical_model/
 addpath inference/
@@ -43,7 +43,6 @@ numStateZ = 2;
 % is similar to X
 
 % parameter settings
-need_init = true;
 params = init_params(DimX, numStateY, numStateZ);
 params.patterns = trainData.patterns;
 params.dimension = params.idx_w_tran(end);
@@ -52,63 +51,88 @@ params.lossFn = @lossCB ;
 params.constraintFn  = @constraintCB ;
 params.featureFn = @featureCB ;
 
-%% initialize Hidden state Z
-params.labels = cell(size(trainData.labels));
-if need_init
-    for i = 1 : length(params.patterns)
-        X = trainData.patterns{i};
-        Y = trainData.labels{i};
-        Zhat = randsample(params.numStateZ,length(Y),true); % random sample with replacement
-        YZ = sub2indYZ(params,Y,Zhat);
-        params.labels{i} = YZ;
-        need_init = false;
+cumErrorPrev = inf;
+need_init = true;
+cnt = 0;
+thres = 1;
+while true
+
+    cnt = cnt + 1
+    
+    if need_init
+        %%% initialize Hidden state Z
+        params.labels = cell(size(trainData.labels));
+        if need_init
+            for i = 1 : length(params.patterns)
+                X = trainData.patterns{i};
+                Y = trainData.labels{i};
+                Zhat = randsample(params.numStateZ,length(Y),true); % random sample with replacement
+                YZ = sub2indYZ(params,Y,Zhat);
+                params.labels{i} = YZ;
+                need_init = false;
+            end
+        end
+    else
+        %%% compute optimal Zhat under the current model.w
+        for i = 1 : length(params.patterns)
+            X = trainData.patterns{i};
+            Y = trainData.labels{i};
+            Zhat = inferLatentVariable(params,model,X,Y);
+            YZ = sub2indYZ(params,Y,Zhat);
+            params.labels{i} = YZ;
+        end
+    end
+    
+    %%% update new model.w with (X,Y,Zhat) - STRUCTURED-SVM LEARNING
+    %  svm_struct_learn is a function that calls three matlab functions
+    %  1. lossCB: delta(y,yhat), it returns the number of misclassified labels
+    %     of the sequence
+    %  2. featureCB: psi(x,y;w) returns a feature vector which has the same
+    %     size as the parameters vector w
+    %  3. constraintCB: compute yhat = argmax_y(delta(y,yhat),psi(x,y;w))
+    %     where psi(x,y;w) = <w,phi(x,y)>
+    
+    
+    % -y verbose level on svm light
+    % -v verbose leve on ssvm
+    
+    % -c C
+    % -p L-norm to use for slack variables
+    % -w optimization option1
+    % -o 2 rescaling method Margin rescaling
+    %  Check svm_struct_learn.m for all the auguments description
+    model = svm_struct_learn('-y 0 -v 0 -c 1 -e 0.1 -o 2 -w 3 -l 1', params) ;
+    
+    % stop criteria - CCCP
+    cumError = cccp_error(params,trainData,model);
+    
+    sprintf('******************************')
+    sprintf('iteration = %d',cnt)
+    sprintf('cumError = %f',cumError)
+    sprintf('cumErrorPrev = %f',cumErrorPrev)
+    sprintf('error reduction = %f', cumErrorPrev - cumError);
+    sprintf('******************************')
+    
+    if cumError > cumErrorPrev
+        error('Iteration makes higher error!')
+    elseif cumErrorPrev - cumError < thres
+        break
     end
 end
+    
 
-%% compute optimal Zhat under the current model.w
-
-for i = 1 : length(params.patterns)
-    X = trainData.patterns{i};
-    Y = trainData.labels{i};
-    Zhat = inferLatentVariable(params,model,X,Y);
-    YZ = sub2indYZ(params,Y,Zhat);
-    params.labels{i} = YZ;
-end
-
-%% update new model.w with (X,Y,Zhat) - STRUCTURED-SVM LEARNING
-%  svm_struct_learn is a function that calls three matlab functions
-%  1. lossCB: delta(y,yhat), it returns the number of misclassified labels
-%     of the sequence
-%  2. featureCB: psi(x,y;w) returns a feature vector which has the same
-%     size as the parameters vector w
-%  3. constraintCB: compute yhat = argmax_y(delta(y,yhat),psi(x,y;w))
-%     where psi(x,y;w) = <w,phi(x,y)>
-
-
-% -y verbose level on svm light
-% -v verbose leve on ssvm
-
-% -c C
-% -p L-norm to use for slack variables
-% -w optimization option1
-% -o 2 rescaling method Margin rescaling
-%  Check svm_struct_learn.m for all the auguments description
-model = svm_struct_learn('-c 1 -e 0.1 -o 2 -w 3 -l 1', params) ;
-
-%% stop criteria
-
-%% Classification
-% load charRecognitionSmall
-load test_data/model_WordRecognition
-C = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-CNT = 0;
-D = 0;
-data = trainData;
-for i = 1 : length(data.patterns)
-    X_test = data.patterns{i};
-    yhat = ssvm_classify(params, model, X_test);
-    disp([data.labels{i}';yhat'])
-    D = D + sum((data.labels{i} - yhat) == 0);
-    CNT = CNT + length(data.labels{i});
-end
-disp(D/CNT)
+% %% Classification
+% % load charRecognitionSmall
+% load test_data/model_WordRecognition
+% C = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+% CNT = 0;
+% D = 0;
+% data = trainData;
+% for i = 1 : length(data.patterns)
+%     X_test = data.patterns{i};
+%     yhat = ssvm_classify(params, model, X_test);
+%     disp([data.labels{i}';yhat'])
+%     D = D + sum((data.labels{i} - yhat) == 0);
+%     CNT = CNT + length(data.labels{i});
+% end
+% disp(D/CNT)
