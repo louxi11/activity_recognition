@@ -39,7 +39,7 @@ NAMES:=$(NAMES) jtree
 # Define standard libDAI header dependencies, source file names and object file names
 HEADERS=$(foreach name,graph dag bipgraph index var factor varset smallset prob daialg properties alldai enum exceptions util,$(INC)/$(name).h)
 SOURCES:=$(foreach name,$(NAMES),$(SRC)/$(name).cpp)
-OBJECTS:=$(foreach name,$(NAMES),$(name)$(OE))
+OBJECTS:=$(foreach name,$(NAMES),build/$(name)$(OE))
 
 # Setup final command for C++ compiler
 ifneq ($(OS),WINDOWS)
@@ -76,12 +76,12 @@ doinference: build/doinference$(EE)
 # OBJECTS
 ##########
 
-%$(OE) : $(SRC)/%.cpp $(INC)/%.h $(HEADERS)
-	$(CC) -c $<
+build/%$(OE) : $(SRC)/%.cpp $(INC)/%.h $(HEADERS)
+	$(CC) -c $(CCO)$@ $<
 
 
-jtree$(OE) : $(SRC)/jtree.cpp $(INC)/jtree.h $(HEADERS) $(INC)/weightedgraph.h $(INC)/clustergraph.h $(INC)/regiongraph.h
-	$(CC) -c $<
+build/jtree$(OE) : $(SRC)/jtree.cpp $(INC)/jtree.h $(HEADERS) $(INC)/weightedgraph.h $(INC)/clustergraph.h $(INC)/regiongraph.h
+	$(CC) -c $(CCO)$@ $<
 
 
 # EXAMPLES
