@@ -23,4 +23,4 @@ cd ../../
 
 fprintf('\n***************************************\n');
 
-fprintf('all done.')
+fprintf('all done.\n')
