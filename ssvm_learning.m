@@ -110,12 +110,12 @@ while true
     % stop criteria - CCCP
     cumError = cccp_error(params,trainData,model);
     
-    fprintf('******************************')
-    fprintf('iteration = %d',cnt)
-    fprintf('cumError = %f',cumError)
-    fprintf('cumErrorPrev = %f',cumErrorPrev)
-    fprintf('error reduction = %f', cumErrorPrev - cumError);
-    fprintf('******************************')
+    fprintf('******************************\n')
+    fprintf('iteration = %d\n',cnt)
+    fprintf('cumError = %f\n',cumError)
+    fprintf('cumErrorPrev = %f\n',cumErrorPrev)
+    fprintf('error reduction = %f\n', cumErrorPrev - cumError);
+    fprintf('******************************\n')
     
     if cumError > cumErrorPrev
         warning('Iteration gives higher error!')
