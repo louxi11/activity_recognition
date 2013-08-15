@@ -4,6 +4,7 @@ fprintf('\n***************************************\n')
 
 cd svm-struct-matlab-1.2/
 if system('make')
+  cd ..
   error('compile structued svm failed, check the error messages\n')
 end
 cd ..
@@ -11,8 +12,12 @@ cd ..
 fprintf('\n***************************************\n')
 
 cd inference/libdai/
+if ~exist('build','dir')
+  mkdir('build')
+end
 if system('make')
-  error('compile libdai failed, check the error messages\n')
+  cd ../../
+  error('compile libdai failed, check the error messages')
 end
 
 fprintf('\n***************************************\n');
