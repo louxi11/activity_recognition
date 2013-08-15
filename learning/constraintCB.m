@@ -1,7 +1,7 @@
-function YZhat = constraintCB(params, model, X, YZ)
+function [YZhat,score] = constraintCB(params, model, X, YZ)
 %CONSTRAINCB Summary of this function goes here
 %  compute the augmented inference problem
-%  Yhat = argmax_y(delta(y,yhat),psi(x,y;w))
+%  YZhat = argmax_yz(delta(yi,yz),psi(xi,yz;w))
 %  psi(x,y;w) is a graph model, and each y node in the graph is connected
 %  with a delta
 %  the argmax is computed by MAP inference using libDAI
@@ -9,7 +9,7 @@ function YZhat = constraintCB(params, model, X, YZ)
 assert(length(model.w) == params.dimension)
 assert(iscolumn(X))
 
-K = length(X) / params.DimX; % length of sequence 
+K = length(X) / params.DimX; % length of sequence
 
 % build graphical model
 factors = build_graphical_factors(X,params,model,[]);
@@ -21,9 +21,9 @@ for k = 1 : K
 end
 
 % combine all factors
-all_factors = [factors;loss_factors];
+all_factors = [factors; loss_factors];
 
 % argmax_y delta(yi, y) + <psi(x,y), w>
-YZhat = RunInference(all_factors,'map');
+[YZhat,score] = RunInference(all_factors,'map');
 
 end

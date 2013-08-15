@@ -1,4 +1,4 @@
-function Zhat = inferLatentVariable(params, model, X, Y)
+function [Zhat,score] = inferLatentVariable(params, model, X, Y)
 %CONSTRAINCB Summary of this function goes here
 %  compute the augmented inference problem
 %  zi = argmax_z(psi(xi,yi,z;w)) where psi(xi,yi,z;w) = <w,phi(xi,yi,z)>
@@ -13,11 +13,11 @@ assert(iscolumn(Y))
 factors = build_graphical_factors(X,params,model,Y);
 
 % argmax_z <phi(x,y,z), w>
-YZhat = RunInference(factors,'map');
+[YZhat,score] = RunInference(factors,'map');
 [Yhat,Zhat] = ind2subYZ(params,YZhat);
 
 Zhat = Zhat(:);
-assert(iscolumn(Zhat))
+
 assert(isequal(Y,Yhat(:)));
 
 end
