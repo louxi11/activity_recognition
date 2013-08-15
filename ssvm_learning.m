@@ -1,6 +1,9 @@
 %% LOAD DATA (Word Recognition)
+
+function ssvm_learning
+
 clc
-clear all
+% clear all
 
 addpath graphical_model/
 addpath inference/
@@ -41,6 +44,8 @@ numStateZ = 2;
 % parm.labels is a cell array of output target Y. The structure of the cell
 % is similar to X
 
+thres = 1; % threshold to stop iteration
+
 % parameter settings
 params = init_params(DimX, numStateY, numStateZ);
 params.patterns = trainData.patterns;
@@ -53,17 +58,16 @@ params.featureFn = @featureCB ;
 cumErrorPrev = inf;
 need_init = true;
 cnt = 0;
-thres = 1;
+
 while true
 
     cnt = cnt + 1
     
     if need_init
-        %%% initialize Hidden state Z
+        % initialize Hidden state Z
         params.labels = cell(size(trainData.labels));
         if need_init
             for i = 1 : length(params.patterns)
-                X = trainData.patterns{i};
                 Y = trainData.labels{i};
                 Zhat = randsample(params.numStateZ,length(Y),true); % random sample with replacement
                 YZ = sub2indYZ(params,Y,Zhat);
@@ -72,7 +76,7 @@ while true
             end
         end
     else
-        %%% compute optimal Zhat under the current model.w
+        % compute optimal Zhat under the current model.w
         for i = 1 : length(params.patterns)
             X = trainData.patterns{i};
             Y = trainData.labels{i};
@@ -82,6 +86,7 @@ while true
         end
     end
     
+    %---------------------- Structured SVM ----------------------------%
     %%% update new model.w with (X,Y,Zhat) - STRUCTURED-SVM LEARNING
     %  svm_struct_learn is a function that calls three matlab functions
     %  1. lossCB: delta(y,yhat), it returns the number of misclassified labels
@@ -100,23 +105,26 @@ while true
     % -w optimization option1
     % -o 2 rescaling method Margin rescaling
     %  Estimate new model.w with complete data (X,YZ)
-    model = svm_struct_learn('-y 0 -v 0 -c 1 -e 0.1 -o 2 -w 3 -l 1', params) ;
+    model = svm_struct_learn('-y 0 -v 1 -c 1 -e 0.1 -o 2 -w 3 -l 1', params) ;
     
     % stop criteria - CCCP
     cumError = cccp_error(params,trainData,model);
     
-    sprintf('******************************')
-    sprintf('iteration = %d',cnt)
-    sprintf('cumError = %f',cumError)
-    sprintf('cumErrorPrev = %f',cumErrorPrev)
-    sprintf('error reduction = %f', cumErrorPrev - cumError);
-    sprintf('******************************')
+    fprintf('******************************')
+    fprintf('iteration = %d',cnt)
+    fprintf('cumError = %f',cumError)
+    fprintf('cumErrorPrev = %f',cumErrorPrev)
+    fprintf('error reduction = %f', cumErrorPrev - cumError);
+    fprintf('******************************')
     
     if cumError > cumErrorPrev
-        error('Iteration makes higher error!')
+        warning('Iteration gives higher error!')
     elseif cumErrorPrev - cumError < thres
         break
     end
+    
+    cumErrorPrev = cumError;
+    
 end
     
 
@@ -135,3 +143,5 @@ end
 %     CNT = CNT + length(data.labels{i});
 % end
 % disp(D/CNT)
+
+end
