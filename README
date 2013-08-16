@@ -1,5 +1,5 @@
 TODO: change cccp error to <w,phi>, inference only computes max!!!
-TODO: RunInference save to files. No disk read/write
+TODO: RunInference save to files. No disk read/write DONE
 
 1. no latent variables DONE
 2. 
