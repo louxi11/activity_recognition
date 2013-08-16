@@ -36,15 +36,15 @@ int main( int argc, char *argv[] ) {
         fg.ReadFromFile(argv[1]);
 
         // Set some constants
-        size_t maxiter = 10000;
-        Real   tol = 1e-9;
-        size_t verb = 0;
+        //size_t maxiter = 10000;
+        //Real   tol = 1e-9;
+        //size_t verb = 0;
 
         // Store the constants in a PropertySet object
         PropertySet opts;
-        opts.set("maxiter",maxiter);  // Maximum number of iterations
-        opts.set("tol",tol);          // Tolerance for convergence
-        opts.set("verbose",verb);     // Verbosity (amount of output generated)
+        //opts.set("maxiter",maxiter);  // Maximum number of iterations
+        //opts.set("tol",tol);          // Tolerance for convergence
+        //opts.set("verbose",verb);     // Verbosity (amount of output generated)
 
         if (strcmp(argv[2], "map") == 0) {
             // Construct another JTree (junction tree) object that is used to calculate
