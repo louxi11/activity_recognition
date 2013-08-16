@@ -16,9 +16,9 @@ A = accumarray([indXDimension(:),indYZ(:)],X,[params.DimX,params.numStateYZ],[],
 B = accumarray(YZ,1,[params.numStateYZ,1],[],[],true);
 
 
-% transition features P(i->j) at (j,i) TODO: change back
+% transition features P(i->j) at (i,j)
 if length(YZ) > 1
-    C = accumarray([YZ(2:end), YZ(1:end-1)], 1,...
+    C = accumarray([YZ(1:end-1),YZ(2:end)], 1,...
         [params.numStateYZ,params.numStateYZ],[],[],true);
 else
     warning('training sequence only contain ONE observation!');
