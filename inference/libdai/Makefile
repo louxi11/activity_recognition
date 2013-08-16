@@ -60,6 +60,7 @@ MEX:=$(MEX) $(MEXINC) $(MEXFLAGS) $(WITHFLAGS) $(MEXLIBS) $(MEXLIB)
 
 # META TARGETS
 ###############
+
 all : $(TARGETS)
 	@echo
 	@echo libDAI built successfully!
