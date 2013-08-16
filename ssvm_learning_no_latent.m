@@ -10,24 +10,27 @@ addpath svm-struct-matlab-1.2/
 
 addpath test_data/
 
-logfile = datestr(now);
-diary(logfile)
-diary on
+% logfile = datestr(now);
+% diary(logfile)
+% diary on
+
+global count;
+count = 0;
 
 tic
 startTime = toc;
 
-% % dataset Word Recognition Large
-% [trainData,testData] = load_word_recognition_data;
-% DimX = 64;
-% numStateY = 26;
-% numStateZ = 1;
-
-% dataset Word Recognition for testing factors PGM 7
-[trainData,testData] = load_word_recognition_data_factors;
+% dataset Word Recognition Large
+[trainData,testData] = load_word_recognition_data;
 DimX = 64;
 numStateY = 26;
 numStateZ = 1;
+
+% % dataset Word Recognition for testing factors PGM 7
+% [trainData,testData] = load_word_recognition_data_factors;
+% DimX = 64;
+% numStateY = 26;
+% numStateZ = 1;
 
 % % dataset Word Recognition Small
 % trainData = load_word_recognition_small_data;
@@ -112,6 +115,8 @@ while true
     %  Estimate new model.w with complete data (X,YZ)
     model = svm_struct_learn('-y 0 -v 1 -c 1 -e 0.1 -o 2 -w 3 -l 1', params) ;
     
+    break
+    
     % stop criteria - CCCP
     cumError = cccp_error(params,trainData,model);
     
@@ -143,12 +148,12 @@ diary off
 C = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 CNT = 0;
 D = 0;
-data = testData;
+data = trainData;
 for i = 1 : length(data.patterns)
     X_test = data.patterns{i};
     yhat = ssvm_classify(params, model, X_test);
     disp([data.labels{i}';yhat'])
-    D = D + sum((data.labels{i} - yhat) == 0);
+    D = D + sum( (uint16(data.labels{i}) ~= yhat) == 0);
     CNT = CNT + length(data.labels{i});
 end
 disp(D/CNT)

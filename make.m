@@ -12,9 +12,6 @@ cd ..
 fprintf('\n***************************************\n')
 
 cd inference/libdai/
-if ~exist('build','dir')
-  mkdir('build')
-end
 if system('make')
   cd ../../
   error('compile libdai failed, check the error messages')
@@ -22,8 +19,8 @@ end
 
 fprintf('\n***************************************\n');
 
-fprintf('\ncp build/doinference ../doinference-linux\n')
-system('cp build/doinference ../doinference-linux');
+fprintf('\ncp build/doinference.mexa64 ../doinference.mexa64\n')
+system('cp build/doinference.mexa64 ../doinference.mexa64');
 cd ../../
 
 fprintf('\n***************************************\n');
