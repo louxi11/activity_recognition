@@ -1,6 +1,6 @@
 %% LOAD DATA (Word Recognition)
 
-function ssvm_learning
+% function ssvm_learning
 
 clc
 % clear all
@@ -62,6 +62,7 @@ params.lossFn = @lossCB ;
 params.constraintFn  = @constraintCB ;
 params.featureFn = @featureCB ;
 
+%%
 cumErrorPrev = inf;
 need_init = true;
 cnt = 0;
@@ -139,22 +140,23 @@ end
     
 diary off
 
-% %% Classification
-% % load charRecognitionSmall
-% load test_data/model_WordRecognition
-% C = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-% CNT = 0;
-% D = 0;
-% data = trainData;
-% for i = 1 : length(data.patterns)
-%     X_test = data.patterns{i};
-%     yhat = ssvm_classify(params, model, X_test);
-%     disp([data.labels{i}';yhat'])
-%     D = D + sum((data.labels{i} - yhat) == 0);
-%     CNT = CNT + length(data.labels{i});
-% end
-% disp(D/CNT)
-
 save(['model',num2str(logfile),'.mat'],'model')
 
+%% Classification
+% load charRecognitionSmall
+% load test_data/model_WordRecognition
+load 735461.7984.mat
+C = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+CNT = 0;
+D = 0;
+data = testData;
+for i = 1 : length(data.patterns)
+    X_test = data.patterns{i};
+    yhat = ssvm_classify(params, model, X_test);
+    disp([data.labels{i}';yhat'])
+    D = D + sum((data.labels{i} - yhat) == 0);
+    CNT = CNT + length(data.labels{i});
 end
+disp(D/CNT)
+
+% end
