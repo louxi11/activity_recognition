@@ -17,17 +17,17 @@ diary on
 tic
 startTime = toc;
 
-% dataset Word Recognition Large
-[trainData,testData] = load_word_recognition_data;
-DimX = 64;
-numStateY = 26;
-numStateZ = 1;
-
-% % dataset Word Recognition for testing factors PGM 7
-% [trainData,testData] = load_word_recognition_data_factors;
+% % dataset Word Recognition Large
+% [trainData,testData] = load_word_recognition_data;
 % DimX = 64;
 % numStateY = 26;
 % numStateZ = 1;
+
+% dataset Word Recognition for testing factors PGM 7
+[trainData,testData] = load_word_recognition_data_factors;
+DimX = 64;
+numStateY = 26;
+numStateZ = 1;
 
 % % dataset Word Recognition Small
 % trainData = load_word_recognition_small_data;

@@ -3,7 +3,7 @@
 function ssvm_learning
 
 clc
-clear all
+% clear all
 
 addpath graphical_model/
 addpath inference/
