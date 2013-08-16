@@ -371,8 +371,8 @@ class State {
                     states[*v] = 0;
             else {
                 for( VarSet::const_iterator v = vs.begin(); v != vs.end(); v++ ) {
-                    states[*v] = BigInt_size_t( linearState % v->states() );
-                    linearState /= v->states();
+                    states[*v] = BigInt_size_t( linearState % (BigInt)v->states() );
+                    linearState /= (BigInt)v->states();
                 }
                 DAI_ASSERT( linearState == 0 );
             }
@@ -431,8 +431,8 @@ class State {
             for( VarSet::const_iterator v = vs.begin(); v != vs.end(); v++ ) {
                 states_type::const_iterator entry = states.find( *v );
                 if( entry != states.end() )
-                    vs_state += entry->second * prod;
-                prod *= v->states();
+                    vs_state += (BigInt)entry->second * prod;
+                prod *= (BigInt)v->states();
             }
             return vs_state;
         }

@@ -59,6 +59,10 @@ class _builtinInfAlgs : public std::map<std::string, InfAlg *> {
 #ifdef DAI_WITH_DECMAP
             operator[]( DecMAP().name() ) = new DecMAP;
 #endif
+#ifdef DAI_WITH_GLC
+            operator[]( GLC().name() ) = new GLC;
+#endif
+
         }
 
         ~_builtinInfAlgs() {

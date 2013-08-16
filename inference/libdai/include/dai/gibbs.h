@@ -90,7 +90,7 @@ class Gibbs : public DAIAlgFG {
         virtual Factor beliefF( size_t I ) const;
         virtual std::vector<Factor> beliefs() const;
         virtual Real logZ() const { DAI_THROW(NOT_IMPLEMENTED); return 0.0; }
-        std::vector<std::size_t> findMaximum() const { return _max_state; }
+        std::vector<size_t> findMaximum() const { return _max_state; }
         virtual void init();
         virtual void init( const VarSet &/*ns*/ ) { init(); }
         virtual Real run();

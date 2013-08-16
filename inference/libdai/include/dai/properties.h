@@ -241,12 +241,25 @@ PropertySet p()("method","BP")("verbose",1)("tol",1e-9)
          */
         friend std::ostream& operator<< ( std::ostream& os, const PropertySet& ps );
 
+        /// Formats a PropertySet as a string
+        std::string toString() const {
+            std::stringstream ss;
+            ss << *this;
+            return ss.str();
+        }
+
         /// Reads a PropertySet object from an input stream.
         /** It expects a string in the format <tt>"[key1=val1,key2=val2,...,keyn=valn]"</tt>.
          *  Values are stored as strings.
          *  \throw MALFORMED_PROPERTY if the string is not in the expected format
          */
         friend std::istream& operator>> ( std::istream& is, PropertySet& ps );
+        
+        /// Reads a PropertySet from a string
+        void fromString( const std::string& s ) {
+            std::stringstream ss( s );
+            ss >> *this;
+        }
     //@}
 };
 

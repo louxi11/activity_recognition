@@ -15,6 +15,7 @@
 
 
 #include <iostream>
+#include <sstream>
 #include <dai/exceptions.h>
 
 
@@ -114,6 +115,13 @@ class Var {
         /// Writes a Var to an output stream
         friend std::ostream& operator << ( std::ostream& os, const Var& n ) {
             return( os << "x" << n.label() );
+        }
+
+        /// Formats a Var as a string
+        std::string toString() const {
+            std::stringstream ss;
+            ss << *this;
+            return ss.str();
         }
 };
 

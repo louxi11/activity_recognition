@@ -99,7 +99,7 @@ JTree::JTree( const FactorGraph &fg, const PropertySet &opts, bool automatic ) :
         BigInt memneeded = 0;
         bforeach( const VarSet& cl, ElimVec )
             memneeded += cl.nrStates();
-        memneeded *= sizeof(Real) * fudge;
+        memneeded *= (BigInt)sizeof(Real) * (BigInt)fudge;
         if( props.verbose >= 1 ) {
             cerr << "Estimate of needed memory: " << memneeded / 1024 << "kB" << endl;
             cerr << "Maximum memory: ";
@@ -108,7 +108,7 @@ JTree::JTree( const FactorGraph &fg, const PropertySet &opts, bool automatic ) :
             else
                cerr << "unlimited" << endl;
         }
-        if( props.maxmem && memneeded > props.maxmem )
+        if( props.maxmem && memneeded > (BigInt)props.maxmem )
             DAI_THROW(OUT_OF_MEMORY);
 
         // Generate the junction tree corresponding to the elimination sequence

@@ -279,13 +279,20 @@ class DAG {
 
     /// \name Input and output
     //@{
-        /// Writes this DAG to an output stream in GraphViz .dot syntax
+        /// Writes a DAG to an output stream in GraphViz .dot syntax
         void printDot( std::ostream& os ) const;
 
-        /// Writes this DAG to an output stream
+        /// Writes a DAG to an output stream
         friend std::ostream& operator<<( std::ostream& os, const DAG& g ) {
             g.printDot( os );
             return os;
+        }
+
+        /// Formats a DAG as a string
+        std::string toString() const {
+            std::stringstream ss;
+            ss << *this;
+            return ss.str();
         }
     //@}
 };

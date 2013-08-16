@@ -219,11 +219,30 @@ VarSet FactorGraph::Delta( const VarSet &ns ) const {
 }
 
 
+SmallSet<size_t> FactorGraph::Deltai( size_t i ) const {
+    // calculate Markov Blanket
+    SmallSet<size_t> Del;
+    bforeach( const Neighbor &I, nbV(i) ) // for all neighboring factors I of i
+        bforeach( const Neighbor &j, nbF(I) ) // for all neighboring variables j of I
+            Del |= j;
+
+    return Del;
+}
+
+
 void FactorGraph::makeCavity( size_t i, bool backup ) {
     // fills all Factors that include var(i) with ones
     map<size_t,Factor> newFacs;
     bforeach( const Neighbor &I, nbV(i) ) // for all neighboring factors I of i
         newFacs[I] = Factor( factor(I).vars(), (Real)1 );
+    setFactors( newFacs, backup );
+}
+
+
+void FactorGraph::makeRegionCavity( std::vector<size_t> facInds, bool backup ) {
+    map<size_t,Factor> newFacs;
+    for( size_t I = 0; I < facInds.size(); I++ )
+    	newFacs[facInds[I]] = Factor(factor(facInds[I]).vars(), (Real)1);
     setFactors( newFacs, backup );
 }
 

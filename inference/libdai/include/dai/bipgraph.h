@@ -324,13 +324,20 @@ class BipartiteGraph {
 
     /// \name Input and output
     //@{
-        /// Writes this BipartiteGraph to an output stream in GraphViz .dot syntax
+        /// Writes a BipartiteGraph to an output stream in GraphViz .dot syntax
         void printDot( std::ostream& os ) const;
 
-        /// Writes this BipartiteGraph to an output stream
+        /// Writes a BipartiteGraph to an output stream
         friend std::ostream& operator<<( std::ostream& os, const BipartiteGraph& g ) {
             g.printDot( os );
             return os;
+        }
+
+        /// Formats a BipartiteGraph as a string
+        std::string toString() const {
+            std::stringstream ss;
+            ss << *this;
+            return ss.str();
         }
     //@}
 };

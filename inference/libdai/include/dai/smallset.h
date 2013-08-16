@@ -17,6 +17,7 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include <sstream>
 
 
 namespace dai {
@@ -237,7 +238,7 @@ class SmallSet {
         }
     //@}
 
-    /// \name Streaming input/output
+    /// \name Input/output
     //@{
         /// Writes a SmallSet to an output stream
         friend std::ostream& operator << ( std::ostream& os, const SmallSet& x ) {
@@ -246,6 +247,13 @@ class SmallSet {
                 os << (it != x.begin() ? ", " : "") << *it;
             os << "}";
             return os;
+        }
+
+        /// Formats a SmallSet as a string
+        std::string toString() const {
+            std::stringstream ss;
+            ss << *this;
+            return ss.str();
         }
     //@}
 };

@@ -63,6 +63,13 @@ class DEdge {
             os << "(" << e.first << "->" << e.second << ")";
             return os;
         }
+
+        /// Formats a directed edge as a string
+        std::string toString() const {
+            std::stringstream ss;
+            ss << *this;
+            return ss.str();
+        }
 };
 
 
@@ -105,6 +112,13 @@ class UEdge {
             else
                 os << "{" << e.second << "--" << e.first << "}";
             return os;
+        }
+
+        /// Formats an undirected edge as a string
+        std::string toString() const {
+            std::stringstream ss;
+            ss << *this;
+            return ss.str();
         }
 };
 

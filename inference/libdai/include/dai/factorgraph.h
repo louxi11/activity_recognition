@@ -175,6 +175,14 @@ class FactorGraph {
             return I;
         }
 
+        /// Returns the VarSet corresponding to a vector of variable indices
+        VarSet inds2vars( const std::vector<size_t>& inds ) const {
+        	VarSet vs;
+        	for( std::vector<size_t>::const_iterator it = inds.begin(); it != inds.end(); it++ )
+        		vs.insert( var(*it) );
+        	return vs;
+        }
+
         /// Return all variables that occur in a factor involving the \a i 'th variable, itself included
         VarSet Delta( size_t i ) const;
 
@@ -189,6 +197,14 @@ class FactorGraph {
         /// Return all variables that occur in a factor involving some variable in \a vs, \a vs itself excluded
         VarSet delta( const VarSet& vs ) const {
             return Delta( vs ) / vs;
+        }
+
+        /// Return all the indices of variables that occur in a factor involving the \a i 'th variable, itself included
+        SmallSet<size_t> Deltai( size_t i ) const;
+
+        /// Return all the indices of variables that occur in a factor involving the \a i 'th variable, itself excluded
+        SmallSet<size_t> deltai( size_t i ) const {
+            return( Deltai( i ) / i );
         }
 
         /// Returns \c true if the factor graph is connected
@@ -310,6 +326,11 @@ class FactorGraph {
         /** If \a backup == \c true, make a backup of all factors that are changed
          */
         virtual void makeCavity( size_t i, bool backup = false );
+
+        /// Set all factors indexed by \a facInds to 1
+        /** If \a backup == \c true, make a backup of all factors that are changed
+         */
+        virtual void makeRegionCavity( std::vector<size_t> facInds, bool backup );
     //@}
 
     /// \name Input/Output
@@ -340,6 +361,19 @@ class FactorGraph {
 
         /// Writes a factor graph to a GraphViz .dot file
         virtual void printDot( std::ostream& os ) const;
+
+        /// Formats a factor graph as a string
+        std::string toString() const {
+            std::stringstream ss;
+            ss << *this;
+            return ss.str();
+        }
+        
+        /// Reads a factor graph from a string
+        void fromString( const std::string& s ) {
+            std::stringstream ss( s );
+            ss >> *this;
+        }
     //@}
 
     private:

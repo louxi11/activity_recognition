@@ -85,7 +85,7 @@ class TFactor {
          */
         template<typename S>
         TFactor( const VarSet& vars, const std::vector<S> &x ) : _vs(vars), _p() {
-            DAI_ASSERT( x.size() == vars.nrStates() );
+            DAI_ASSERT( (BigInt)x.size() == vars.nrStates() );
             _p = TProb<T>( x.begin(), x.end(), x.size() );
         }
 
@@ -100,7 +100,7 @@ class TFactor {
 
         /// Constructs factor depending on variables in \a vars, copying the values from \a p
         TFactor( const VarSet& vars, const TProb<T> &p ) : _vs(vars), _p(p) {
-            DAI_ASSERT( _vs.nrStates() == _p.size() );
+            DAI_ASSERT( _vs.nrStates() == (BigInt)_p.size() );
         }
 
         /// Constructs factor depending on variables in \a vars, permuting the values given in \a p accordingly
@@ -176,6 +176,13 @@ class TFactor {
         /// Comparison
         bool operator==( const TFactor<T>& y ) const {
             return (_vs == y._vs) && (_p == y._p);
+        }
+
+        /// Formats a factor as a string
+        std::string toString() const {
+            std::stringstream ss;
+            ss << *this;
+            return ss.str();
         }
     //@}
 

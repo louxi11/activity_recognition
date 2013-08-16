@@ -61,6 +61,9 @@
 #ifdef DAI_WITH_DECMAP
     #include <dai/decmap.h>
 #endif
+#ifdef DAI_WITH_GLC
+    #include <dai/glc.h>
+#endif
 
 
 /// Namespace for libDAI

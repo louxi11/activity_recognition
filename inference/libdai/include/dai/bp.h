@@ -74,7 +74,7 @@ class BP : public DAIAlgFG {
         /// Stores all edge properties
         std::vector<std::vector<EdgeProp> > _edges;
         /// Type of lookup table (only used for maximum-residual BP)
-        typedef std::multimap<Real, std::pair<std::size_t, std::size_t> > LutType;
+        typedef std::multimap<Real, std::pair<size_t, size_t> > LutType;
         /// Lookup table (only used for maximum-residual BP)
         std::vector<std::vector<LutType::iterator> > _edge2lut;
         /// Lookup table (only used for maximum-residual BP)
@@ -84,7 +84,7 @@ class BP : public DAIAlgFG {
         /// Number of iterations needed
         size_t _iters;
         /// The history of message updates (only recorded if \a recordSentMessages is \c true)
-        std::vector<std::pair<std::size_t, std::size_t> > _sentMessages;
+        std::vector<std::pair<size_t, size_t> > _sentMessages;
         /// Stores variable beliefs of previous iteration
         std::vector<Factor> _oldBeliefsV;
         /// Stores factor beliefs of previous iteration
@@ -194,7 +194,7 @@ class BP : public DAIAlgFG {
         virtual Real logZ() const;
         /** \pre Assumes that run() has been called and that \a props.inference == \c MAXPROD
          */
-        std::vector<std::size_t> findMaximum() const { return dai::findMaximum( *this ); }
+        std::vector<size_t> findMaximum() const { return dai::findMaximum( *this ); }
         virtual void init();
         virtual void init( const VarSet &ns );
         virtual Real run();
@@ -209,7 +209,7 @@ class BP : public DAIAlgFG {
     /// \name Additional interface specific for BP
     //@{
         /// Returns history of which messages have been updated
-        const std::vector<std::pair<std::size_t, std::size_t> >& getSentMessages() const {
+        const std::vector<std::pair<size_t, size_t> >& getSentMessages() const {
             return _sentMessages;
         }
 

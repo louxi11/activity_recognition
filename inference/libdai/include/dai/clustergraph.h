@@ -209,6 +209,13 @@ namespace dai {
                 os << cl.clusters();
                 return os;
             }
+
+            /// Formats a ClusterGraph as a string
+            std::string toString() const {
+                std::stringstream ss;
+                ss << *this;
+                return ss.str();
+            }
         //@}
 
         /// \name Variable elimination
@@ -241,7 +248,7 @@ namespace dai {
                     result.insert( Di );
                     if( maxStates ) {
                         totalStates += Di.nrStates();
-                        if( totalStates > maxStates )
+                        if( totalStates > (BigInt)maxStates )
                             DAI_THROW(OUT_OF_MEMORY);
                     }
                     varindices.erase( i );

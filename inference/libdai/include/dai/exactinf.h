@@ -74,7 +74,7 @@ class ExactInf : public DAIAlgFG {
         virtual Real logZ() const { return _logZ; }
         /** \note The complexity of this calculation is exponential in the number of variables.
          */
-        std::vector<std::size_t> findMaximum() const;
+        std::vector<size_t> findMaximum() const;
         virtual void init();
         virtual void init( const VarSet &/*ns*/ ) {}
         virtual Real run();
