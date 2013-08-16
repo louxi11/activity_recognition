@@ -12,8 +12,8 @@ addpath svm-struct-matlab-1.2/
 
 addpath test_data/
 
-logfile = datestr(now);
-diary(logfile)
+logfile = num2str(now);
+diary([logfile,'.log'])
 diary on
 
 tic
@@ -154,5 +154,7 @@ diary off
 %     CNT = CNT + length(data.labels{i});
 % end
 % disp(D/CNT)
+
+save(['model',num2str(logfile),'.mat'],'model')
 
 end
