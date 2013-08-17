@@ -45,6 +45,8 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray*prhs[] ) {
     vector<Factor> factors = mx2Factors(PSI_IN, 0);
     FactorGraph fg(factors);
 
+//    fg.WriteToFile( "factorgraph_new.fg" );
+
     PropertySet opts;
 
     // Construct Junction Tree
@@ -75,7 +77,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray*prhs[] ) {
         map_state[i] += 1;
     }
 
-    // output
+    // output map states
     QMAP_OUT = mxCreateNumericMatrix(map_state.size(), 1, mxUINT32_CLASS, mxREAL);
     uint32_T* qmap_p = reinterpret_cast<uint32_T *>(mxGetPr(QMAP_OUT));
     for (size_t n = 0; n < map_state.size(); ++n)
