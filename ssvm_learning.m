@@ -154,7 +154,7 @@ for i = 1 : length(data.patterns)
     X_test = data.patterns{i};
     yhat = ssvm_classify(params, model, X_test);
     disp([data.labels{i}';yhat'])
-    D = D + sum( (uint16(data.labels{i}) == yhat));
+    D = D + sum( uint32(data.labels{i}) == uint32(yhat));
     CNT = CNT + length(data.labels{i});
 end
 disp(D/CNT)
