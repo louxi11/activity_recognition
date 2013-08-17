@@ -1,8 +1,10 @@
-function log_on
+function log_on(timeStr)
 
-logfile = datestr(now);
+logfile = [timeStr,'.log'];
+
+diary off
 diary(logfile)
-fprintf('log file -> %s',logfile)
+fprintf('logging to file %s\n',logfile)
 diary on
 
 end

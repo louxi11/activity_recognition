@@ -7,10 +7,9 @@ addpath graphical_model/
 addpath inference/
 addpath learning
 addpath svm-struct-matlab-1.2/
+addpath tools/
 
 addpath test_data/
-
-% log_on
 
 tic
 startTime = toc;
@@ -48,6 +47,8 @@ numStateZ = 2;
 % is similar to X
 
 thres = 1; % threshold to stop iteration
+timeStr = getTimeStr(now);
+log_on(timeStr); % log file
 
 % parameter settings
 params = init_params(DimX, numStateY, numStateZ);
@@ -58,14 +59,17 @@ params.lossFn = @lossCB ;
 params.constraintFn  = @constraintCB ;
 params.featureFn = @featureCB ;
 
-%%
+%%%
 cumErrorPrev = inf;
 need_init = true;
 cnt = 0;
 
 while true
 
-    cnt = cnt + 1
+    cnt = cnt + 1;
+    fprintf('-------------------------------\n');
+    fprintf('------ CCCP iteration %d ------\n',cnt);
+    fprintf('-------------------------------\n');
     
     if need_init
         % initialize Hidden state Z
@@ -132,11 +136,12 @@ while true
     
     cumErrorPrev = cumError;
     startTime = endTime;
+    
 end
     
 diary off
 
-save(['model',num2str(logfile),'.mat'],'model')
+save(['model_',timeStr,'.mat'],'model')
 
 %% Classification
 % load charRecognitionSmall
