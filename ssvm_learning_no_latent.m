@@ -10,9 +10,7 @@ addpath svm-struct-matlab-1.2/
 
 addpath test_data/
 
-% logfile = datestr(now);
-% diary(logfile)
-% diary on
+% log_on
 
 tic
 startTime = toc;
@@ -139,6 +137,8 @@ end
     
 diary off
 
+save(['model',num2str(logfile),'.mat'],'model')
+
 %% Classification
 % load charRecognitionSmall
 % load test_data/model_WordRecognition
@@ -150,7 +150,7 @@ for i = 1 : length(data.patterns)
     X_test = data.patterns{i};
     yhat = ssvm_classify(params, model, X_test);
     disp([data.labels{i}';yhat'])
-    D = D + sum( (uint16(data.labels{i}) ~= yhat) == 0);
+    D = D + sum( (uint16(data.labels{i}) == yhat));
     CNT = CNT + length(data.labels{i});
 end
 disp(D/CNT)

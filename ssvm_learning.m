@@ -1,9 +1,7 @@
-%% LOAD DATA (Word Recognition)
-
 % function ssvm_learning
 
 clc
-% clear all
+clear all
 
 addpath graphical_model/
 addpath inference/
@@ -12,9 +10,7 @@ addpath svm-struct-matlab-1.2/
 
 addpath test_data/
 
-logfile = num2str(now);
-diary([logfile,'.log'])
-diary on
+% log_on
 
 tic
 startTime = toc;
@@ -145,7 +141,6 @@ save(['model',num2str(logfile),'.mat'],'model')
 %% Classification
 % load charRecognitionSmall
 % load test_data/model_WordRecognition
-load 735461.7984.mat
 C = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 CNT = 0;
 D = 0;
@@ -154,9 +149,7 @@ for i = 1 : length(data.patterns)
     X_test = data.patterns{i};
     yhat = ssvm_classify(params, model, X_test);
     disp([data.labels{i}';yhat'])
-    D = D + sum((data.labels{i} - yhat) == 0);
+    D = D + sum( (uint16(data.labels{i}) == yhat));
     CNT = CNT + length(data.labels{i});
 end
 disp(D/CNT)
-
-% end
