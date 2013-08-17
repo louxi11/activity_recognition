@@ -10,18 +10,13 @@ for i = 1 : length(factors)
   else
     sz = factors(i).card;
   end
-  fg{i}.P = reshape(factors(i).val, sz);
+  fg{i}.P = reshape(factors(i).val, sz); %% TODO
   
+%   % TODO better performance on precision?
+%   fg{i}.P = reshape(roundn(factors(i).val,-7), sz);
+    
 end
 
 [pred,score] = doinference(fg);
-
-global count
-if ~mod(count,300)
-  disp(count)
-  disp(pred)
-  disp(score)
-end
-count = count + 1;
 
 end
