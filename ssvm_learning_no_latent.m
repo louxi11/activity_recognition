@@ -14,9 +14,6 @@ addpath test_data/
 % diary(logfile)
 % diary on
 
-global count;
-count = 0;
-
 tic
 startTime = toc;
 
@@ -148,7 +145,7 @@ diary off
 C = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 CNT = 0;
 D = 0;
-data = trainData;
+data = testData;
 for i = 1 : length(data.patterns)
     X_test = data.patterns{i};
     yhat = ssvm_classify(params, model, X_test);
