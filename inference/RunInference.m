@@ -21,4 +21,6 @@ end
 
 [pred,score] = doinference(fg);
 
+pred = double(pred); % convert to double
+
 end

@@ -6,6 +6,7 @@ function delta = lossCB(params, YZ, YZhat)
 [Yhat,~] = ind2subYZ(params,YZhat);
 
 % the loss function is defined as the number of mis-classified items
-delta = double(sum(Y ~= Yhat)); % TODO classification error instead?
+% make sure Y and Yhat is int when comparing
+delta = double(sum(uint32(Y) ~= uint32(Yhat))); % TODO classification error instead?
 
 end

@@ -21,7 +21,7 @@ if ~isempty(yk1)
     params.numStateY,params.numStateZ);
   
   % set entrise of W to 0 if violate evidence yzk1 and yzk2
-  tran_idx = sub2ind([params.numStateYZ,params.numStateYZ],~yzk1(:),~yzk2(:));
+  tran_idx = sub2ind([params.numStateYZ,params.numStateYZ],find(~yzk1(:)),find(~yzk2(:)));
   W(tran_idx) = 0;
 end
 
