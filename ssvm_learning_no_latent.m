@@ -11,9 +11,6 @@ addpath tools/
 
 addpath test_data/
 
-tic
-startTime = toc;
-
 % dataset Word Recognition Large
 [trainData,testData] = load_word_recognition_data;
 DimX = 64;
@@ -38,7 +35,7 @@ numStateZ = 1;
 % numStateY = 7;
 % numStateZ = 1;
 
-%% LEARNING
+% LEARNING
 % param.patterns is a cell array of inputs X. Each cell X{i} corresponds with one
 % observation sequence. The rows of one cell has MxN dimension, which means
 % there are M observation (time slices) and for each time slice there is a
@@ -48,7 +45,8 @@ numStateZ = 1;
 
 thres = 1; % threshold to stop iteration
 timeStr = getTimeStr(now);
-log_on(timeStr); % log file
+tic
+% log_on(timeStr); % log file
 
 % parameter settings
 params = init_params(DimX, numStateY, numStateZ);
@@ -113,21 +111,24 @@ while true
     % -w optimization option1
     % -o 2 rescaling method Margin rescaling
     %  Estimate new model.w with complete data (X,YZ)
-    model = svm_struct_learn('-y 0 -v 1 -c 1 -e 0.1 -o 2 -w 3 -l 1', params) ;
-    
+    ssvm_option = '-y 0 -v 1 -c 1 -e 0.05 -o 2 -w 3 -l 1';
+    params.ssvm_option = ssvm_option;
+    model = svm_struct_learn(svm_option, params);
+
+    toc
     break
     
     % stop criteria - CCCP
     cumError = cccp_error(params,trainData,model);
     
-    endTime = toc;
+    elapsedTime = toc;
     
     fprintf('******************************\n')
     fprintf('iteration = %d\n',cnt)
     fprintf('cumError = %f\n',cumError)
     fprintf('cumErrorPrev = %f\n',cumErrorPrev)
     fprintf('error reduction = %f\n', cumErrorPrev - cumError);
-    fprintf('time elapsed = %f\n', endTime - startTime);
+    fprintf('time elapsed = %f\n', elapsedTime);
     fprintf('******************************\n')
       
     if cumError > cumErrorPrev
@@ -140,10 +141,11 @@ while true
     startTime = endTime;
     
 end
-    
-diary off
 
-save(['model_',timeStr,'.mat'],'model')
+if get(0,'diary') == on
+    save(['model_',timeStr,'.mat'],'model','params')
+    diary off
+end
 
 %% Classification
 % load charRecognitionSmall
@@ -151,7 +153,7 @@ save(['model_',timeStr,'.mat'],'model')
 C = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 CNT = 0;
 D = 0;
-data = trainData;
+data = testData;
 for i = 1 : length(data.patterns)
     X_test = data.patterns{i};
     yhat = ssvm_classify(params, model, X_test);
