@@ -46,7 +46,7 @@ numStateZ = 1;
 thres = 1; % threshold to stop iteration
 timeStr = getTimeStr(now);
 tic
-% log_on(timeStr); % log file
+% log_on(timeStr); % LOG file and SAVE MODEL
 
 % parameter settings
 params = init_params(DimX, numStateY, numStateZ);
@@ -113,7 +113,7 @@ while true
     %  Estimate new model.w with complete data (X,YZ)
     ssvm_option = '-y 0 -v 1 -c 1 -e 0.05 -o 2 -w 3 -l 1';
     params.ssvm_option = ssvm_option;
-    model = svm_struct_learn(svm_option, params);
+    model = svm_struct_learn(ssvm_option, params);
 
     toc
     break
@@ -142,7 +142,7 @@ while true
     
 end
 
-if get(0,'diary') == on
+if strcmp(get(0,'diary'),'on')
     save(['model_',timeStr,'.mat'],'model','params')
     diary off
 end
