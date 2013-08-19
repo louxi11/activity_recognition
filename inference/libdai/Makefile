@@ -58,4 +58,4 @@ build/doinference$(ME) : $(SRC)/matlab/doinference.cpp $(HEADERS) $(SOURCES) $(S
 # CLEAN
 ########
 clean :
-	-rm -rf build
+	rm -rfv build
