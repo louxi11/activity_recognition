@@ -12,9 +12,11 @@ for i = 1 : length(factors)
     % if multiple vars, size(fg.P) = variable cardinality
     sz = factors(i).card;
   end
+  
+  % P value should be a matrix, dimension indicates cardinality
   fg{i}.P = reshape(factors(i).val, sz); 
   
-%   % TODO better performance on precision?
+%   % better performance on precision? -> deprecated, not to use
 %   fg{i}.P = reshape(roundn(factors(i).val,-7), sz);
     
 end
