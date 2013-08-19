@@ -8,8 +8,9 @@ function phi = featureCB(params, X, YZ)
 % K = length(X) / params.DimX; % number of time slices
 
 % unary features
+maskX = find(X);
 [indYZ,indXDimension] = meshgrid(YZ,1:params.DimX);
-A = accumarray([indXDimension(:),indYZ(:)],X,[params.DimX,params.numStateYZ],[],[],true);
+A = accumarray([indXDimension(maskX),indYZ(maskX)],full(X(maskX)),[params.DimX,params.numStateYZ],[],[],true);
 
 
 % prior features
