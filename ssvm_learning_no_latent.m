@@ -11,10 +11,15 @@ addpath tools/
 
 addpath test_data/
 
-% dataset Word Recognition Large
-[trainData,testData] = load_word_recognition_data;
-DimX = 64;
-numStateY = 26;
+% % dataset Word Recognition Large
+% [trainData,testData] = load_word_recognition_data;
+% DimX = 64;
+% numStateY = 26;
+% numStateZ = 1;
+
+[trainData,testData] = load_CAD120(false);
+DimX = 7530;
+numStateY = 10;
 numStateZ = 1;
 
 % % dataset Word Recognition for testing factors PGM 7
@@ -150,10 +155,10 @@ end
 %% Classification
 % load charRecognitionSmall
 % load test_data/model_WordRecognition
-C = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
 CNT = 0;
 D = 0;
-data = testData;
+data = trainData;
 for i = 1 : length(data.patterns)
     X_test = data.patterns{i};
     yhat = ssvm_classify(params, model, X_test);

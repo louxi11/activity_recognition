@@ -11,10 +11,15 @@ addpath tools/
 
 addpath test_data/
 
-% dataset Word Recognition Large
-[trainData,testData] = load_word_recognition_data;
-DimX = 64;
-numStateY = 26;
+% % dataset Word Recognition Large
+% [trainData,testData] = load_word_recognition_data;
+% DimX = 64;
+% numStateY = 26;
+% numStateZ = 1;
+
+[trainData,testData] = load_CAD120(false);
+DimX = 7530;
+numStateY = 10;
 numStateZ = 4;
 
 % % dataset Word Recognition for testing factors PGM 7
@@ -35,7 +40,7 @@ numStateZ = 4;
 % numStateY = 7;
 % numStateZ = 1;
 
-%% LEARNING
+% LEARNING
 % param.patterns is a cell array of inputs X. Each cell X{i} corresponds with one
 % observation sequence. The rows of one cell has MxN dimension, which means
 % there are M observation (time slices) and for each time slice there is a
@@ -147,7 +152,7 @@ end
 %% Classification
 % load charRecognitionSmall
 % load test_data/model_WordRecognition
-C = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
 CNT = 0;
 D = 0;
 data = testData;

@@ -8,9 +8,13 @@ end
 
 load test_data/CAD120/CAD120.mat
 
-trainData.patterns = X;
-trainData.labels = Y;
+trainidx = 1:110; % TODO change back
+testidx = 111:125;
 
-testData = [];
+trainData.patterns = X(trainidx); 
+trainData.labels = Y(trainidx);
+
+testData.patterns = X(testidx);
+testData.labels = Y(testidx);
 
 end
