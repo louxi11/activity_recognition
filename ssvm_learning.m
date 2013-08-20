@@ -133,9 +133,7 @@ while true
     fprintf('time elapsed = %f\n', elapsedTime);
     fprintf('******************************\n')
       
-    if cumError > cumErrorPrev % TODO
-        warning('Iteration gives higher error!')
-    elseif cumErrorPrev - cumError < thres
+    if abs(cumErrorPrev - cumError) < thres
         break
     end
     
