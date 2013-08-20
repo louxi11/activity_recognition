@@ -70,7 +70,7 @@ while true
     fprintf('-------------------------------\n');
     
     if need_init
-        % initialize Hidden state Z
+        % initialize Hidden state Z TODO
         params.labels = cell(size(trainData.labels));
         if need_init
             for i = 1 : length(params.patterns)
@@ -128,7 +128,7 @@ while true
     fprintf('time elapsed = %f\n', elapsedTime);
     fprintf('******************************\n')
       
-    if cumError > cumErrorPrev
+    if cumError > cumErrorPrev % TODO
         warning('Iteration gives higher error!')
     elseif cumErrorPrev - cumError < thres
         break
