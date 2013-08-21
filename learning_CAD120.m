@@ -1,4 +1,4 @@
-function model = learning_CAD120(trainData,numStateZ,learning_option,log_on,thres)
+function [model,params] = learning_CAD120(trainData,numStateZ,learning_option,log_on,thres)
 
 DimX = trainData.DimX;
 numStateY = 10;
@@ -21,11 +21,5 @@ while true
         break
     end    
     
-    cumErrorPrev = cumError;   
-end
-
-% save model to file
-if log_on
-    save(['model_',timeStr,'.mat'],'model','params')
-    diary off
+    params.cumErrorPrev = params.cumError;   
 end

@@ -27,6 +27,7 @@ numStateZ = 4;
 % -o 2 rescaling method Margin rescaling
 learning_option = '-c 1 -e 0.05 -w 3'; % ssvm learning parameters
 log_on = 0; % log switch
+save_on = 1;
 thres = 1; % threshold to stop iteration TODO
 
 %% LEARNING
@@ -49,14 +50,14 @@ while true
         break
     end    
     
-    cumErrorPrev = cumError;   
+    params.cumErrorPrev = params.cumError;   
 end
 
 % save model to file
-if log_on
+if save_on
     save(['model_',timeStr,'.mat'],'model','params')
-    diary off
 end
+diary off
 
 %% Classification
 % load charRecognitionSmall

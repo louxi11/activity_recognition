@@ -1,5 +1,5 @@
 clc
-% clear all
+clear all
 
 addpath graphical_model/
 addpath inference/
@@ -9,22 +9,31 @@ addpath tools/
 
 addpath test_data/
 
-log_on = 1; % log switch
+log_on = 0;
+save_on = 1;
 
 %%% SETTINGS
 % -c C
 % -p L-norm to use for slack variables
 % -w optimization option1
 % -o 2 rescaling method Margin rescaling
-learning_option = '-c 1 -e 0.05 -w 3'; % ssvm learning parameters
+C = 1;
+E = 0.05;
+W = 3;
 numStateZ = 1;
 train_idx = [1,2,3];
 tfeat = 'tfeat_off';
 thres = 1; % threshold to stop iteration TODO
+timeStr = getTimeStr(now);
 
+learning_option = sprintf('-c %f -e %f -w %d',C,E,W); % ssvm learning parameters
 [trainData,testData] = load_CAD120('parse_off',tfeat,train_idx);
-learning_CAD120(trainData,numStateZ,learning_option,log_on,thres);
+model = learning_CAD120(trainData,numStateZ,learning_option,log_on,thres);
 
+% save model to file
+if save_on
+    save(['model_',timeStr,'.mat'],'model','params','C','E','W','numStateZ','train_idx','tfeat','thres')
+end
 
 %% Classification
 % load charRecognitionSmall
