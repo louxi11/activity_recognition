@@ -1,5 +1,5 @@
 function [YZhat,score] = constraintCB(params, model, X, YZ)
-%CONSTRAINCB Summary of this function goes here
+%CONSTRAINCB Margin rescaling for Structured-SVM
 %  compute the augmented inference problem
 %  YZhat = argmax_yz(delta(yi,yz),psi(xi,yz;w))
 %  psi(x,y;w) is a graph model, and each y node in the graph is connected
