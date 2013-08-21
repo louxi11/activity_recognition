@@ -8,7 +8,6 @@ W = model.w(params.idx_w_tran);
 
 % transition (yz_{k},yz_{k+1}) with size (Y*Z) * (Y*Z)
 W = reshape(W, params.numStateYZ, params.numStateYZ);
-% W = W'; % deprecated TODO
 
 % set factor value to 0 if y violate evidence yk
 if ~isempty(yk1)

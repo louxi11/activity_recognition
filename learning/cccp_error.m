@@ -18,7 +18,7 @@ for i = 1 : length(params.labels)
     % argmax_z <phi(x,y,z), w>
     [~,Gi] = inferLatentVariable(params, model, X, Y);
     
-    %%% error of data point %%% %% TODO
+    %%% error of data point %%%
     cumError = cumError + abs(Fi-Gi);
     
 end

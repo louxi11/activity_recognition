@@ -45,7 +45,6 @@ save('CAD120video.mat','video')
 
 %% CONVERT TO FORMAT OF STRUCTUED-SVM
 load test_data/CAD120/CAD120video.mat
-TEMP_FEAT = false; % TODO add temporal features
 FEATURES = {'obj' 'skel' 'interobj' 'skelobj'};
 TEMPORAL_FEATURES = {'obj' 'skel' 'interobj' 'skelobj' 'temporalObj' 'temporalSkel'};
 
