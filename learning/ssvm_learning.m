@@ -1,4 +1,4 @@
-function [params,model] = ssvm_learning(params,trainData,learning_option)
+function [params,model] = ssvm_learning(params,trainData,learning_option,model)
 % SSVM_LEARNING structured-SVM learning function
 % params.patterns is the inputs X of the structured SVM, and params.labels
 % is the Y which we would like to predict. params.patterns is a cell array where each

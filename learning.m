@@ -40,10 +40,11 @@ if log_on
 end
 
 tic
+model = [];
 
 while true
     % Structured-SVM
-    [params,model] = ssvm_learning(params,trainData,learning_option); 
+    [params,model] = ssvm_learning(params,trainData,learning_option,model); 
     
     % stop iteration
     if abs(params.cumErrorPrev - params.cumError) < thres || params.numStateZ == 1
