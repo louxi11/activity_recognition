@@ -61,10 +61,10 @@ params.verbose = 0 ;
 params.lossFn = @lossCB ;
 params.constraintFn  = @constraintCB ;
 params.featureFn = @featureCB ;
+params.need_init = true;
 
 %%%
 cumErrorPrev = inf;
-need_init = true;
 cnt = 0;
 
 while true

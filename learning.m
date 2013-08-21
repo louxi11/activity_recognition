@@ -1,5 +1,24 @@
 % function ssvm_learning
 
+
+% -y verbose level on svm light
+% -v verbose leve on ssvm
+
+% -c C
+% -p L-norm to use for slack variables
+% -w optimization option1
+% -o 2 rescaling method Margin rescaling
+%  Estimate new model.w with complete data (X,YZ)
+
+
+%  svm_struct_learn is a function that calls three matlab functions
+%  1. lossCB: delta(y,yhat), it returns the number of misclassified labels
+%     of the sequence
+%  2. featureCB: psi(x,y;w) returns a feature vector which has the same
+%     size as the parameters vector w
+%  3. constraintCB: compute yhat = argmax_y(delta(y,yhat),psi(x,y;w))
+%     where psi(x,y;w) = <w,phi(x,y)>
+
 clc
 % numStateZ == 1 : without latent variable
 % numStateZ > 1 : numStateZ latent variable(s)
@@ -14,16 +33,16 @@ addpath tools/
 
 addpath test_data/
 
-% % dataset Word Recognition Large
-% [trainData,testData] = load_word_recognition_data;
-% DimX = 64;
-% numStateY = 26;
-% numStateZ = 1;
+% dataset Word Recognition Large
+[trainData,testData] = load_word_recognition_data;
+DimX = 64;
+numStateY = 26;
+numStateZ = 1;
 
-[trainData,testData] = load_CAD120('parse_off','tfeat_off',[1,2,3]);
-DimX = trainData.DimX;
-numStateY = 10;
-numStateZ = 4;
+% [trainData,testData] = load_CAD120('parse_off','tfeat_off',[1,2,3]);
+% DimX = trainData.DimX;
+% numStateY = 10;
+% numStateZ = 4;
 
 % % dataset Word Recognition for testing factors PGM 7
 % [trainData,testData] = load_word_recognition_data_factors;
@@ -52,8 +71,10 @@ numStateZ = 4;
 % is similar to X
 
 thres = 1; % threshold to stop iteration TODO
-timeStr = getTimeStr(now);
 tic
+
+% LOG
+timeStr = getTimeStr(now);
 % log_on(timeStr); % LOG file and SAVE MODEL
 
 % parameter settings
@@ -64,10 +85,11 @@ params.verbose = 0 ;
 params.lossFn = @lossCB ;
 params.constraintFn  = @constraintCB ;
 params.featureFn = @featureCB ;
+params.need_init = true;
+params.ssvm_option = '-y 0 -v 1 -c 1 -e 0.05 -o 2 -w 3 -l 1';
 
 %%%
 cumErrorPrev = inf;
-need_init = true;
 cnt = 0;
 
 while true
@@ -77,7 +99,7 @@ while true
     fprintf('------ CCCP iteration %d ------\n',cnt);
     fprintf('-------------------------------\n');
     
-    learning
+    [params,cumError] = learning(params,trainData);
       
     if abs(cumErrorPrev - cumError) < thres || params.numStateZ == 1
         break
