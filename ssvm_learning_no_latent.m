@@ -1,4 +1,4 @@
-%% CRF without latent variable
+% function ssvm_learning
 
 clc
 clear all
@@ -11,16 +11,16 @@ addpath tools/
 
 addpath test_data/
 
-% % dataset Word Recognition Large
-% [trainData,testData] = load_word_recognition_data;
-% DimX = 64;
-% numStateY = 26;
-% numStateZ = 1;
-
-[trainData,testData] = load_CAD120('parse_off','tfeat_on',[1]);
-DimX = trainData.DimX;
-numStateY = 10;
+% dataset Word Recognition Large
+[trainData,testData] = load_word_recognition_data;
+DimX = 64;
+numStateY = 26;
 numStateZ = 1;
+
+% [trainData,testData] = load_CAD120('parse_off','tfeat_on',[1]);
+% DimX = trainData.DimX;
+% numStateY = 10;
+% numStateZ = 1;
 
 % % dataset Word Recognition for testing factors PGM 7
 % [trainData,testData] = load_word_recognition_data_factors;
@@ -119,9 +119,6 @@ while true
     ssvm_option = '-y 0 -v 1 -c 1 -e 0.05 -o 2 -w 3 -l 1';
     params.ssvm_option = ssvm_option;
     model = svm_struct_learn(ssvm_option, params);
-
-    toc
-    break
     
     % stop criteria - CCCP
     cumError = cccp_error(params,trainData,model);
@@ -136,7 +133,7 @@ while true
     fprintf('time elapsed = %f\n', elapsedTime);
     fprintf('******************************\n')
       
-    if abs(cumErrorPrev - cumError) < thres
+    if abs(cumErrorPrev - cumError) < thres || params.numStateZ == 1
         break
     end
     

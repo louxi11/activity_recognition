@@ -1,6 +1,9 @@
 % function ssvm_learning
 
 clc
+% numStateZ == 1 : without latent variable
+% numStateZ > 1 : numStateZ latent variable(s)
+
 clear all
 
 addpath graphical_model/
@@ -48,7 +51,7 @@ numStateZ = 4;
 % parm.labels is a cell array of output target Y. The structure of the cell
 % is similar to X
 
-thres = 1; % threshold to stop iteration
+thres = 1; % threshold to stop iteration TODO
 timeStr = getTimeStr(now);
 tic
 % log_on(timeStr); % LOG file and SAVE MODEL
@@ -74,66 +77,9 @@ while true
     fprintf('------ CCCP iteration %d ------\n',cnt);
     fprintf('-------------------------------\n');
     
-    if need_init
-        % initialize Hidden state Z TODO
-        params.labels = cell(size(trainData.labels));
-        if need_init
-            for i = 1 : length(params.patterns)
-                Y = trainData.labels{i};
-                Zhat = randsample(params.numStateZ,length(Y),true); % random sample with replacement
-                YZ = sub2indYZ(params,Y,Zhat);
-                params.labels{i} = YZ;
-                need_init = false;
-            end
-        end
-    else
-        % compute optimal Zhat under the current model.w
-        for i = 1 : length(params.patterns)
-            X = trainData.patterns{i};
-            Y = trainData.labels{i};
-            Zhat = inferLatentVariable(params,model,X,Y);
-            YZ = sub2indYZ(params,Y,Zhat);
-            params.labels{i} = YZ;
-        end
-    end
-    
-    %---------------------- Structured SVM ----------------------------%
-    %%% update new model.w with (X,Y,Zhat) - STRUCTURED-SVM LEARNING
-    %  svm_struct_learn is a function that calls three matlab functions
-    %  1. lossCB: delta(y,yhat), it returns the number of misclassified labels
-    %     of the sequence
-    %  2. featureCB: psi(x,y;w) returns a feature vector which has the same
-    %     size as the parameters vector w
-    %  3. constraintCB: compute yhat = argmax_y(delta(y,yhat),psi(x,y;w))
-    %     where psi(x,y;w) = <w,phi(x,y)>
-    
-    
-    % -y verbose level on svm light
-    % -v verbose leve on ssvm
-    
-    % -c C
-    % -p L-norm to use for slack variables
-    % -w optimization option1
-    % -o 2 rescaling method Margin rescaling
-    %  Estimate new model.w with complete data (X,YZ)
-    ssvm_option = '-y 0 -v 1 -c 1 -e 0.05 -o 2 -w 3 -l 1';
-    params.ssvm_option = ssvm_option;
-    model = svm_struct_learn(ssvm_option, params);
-    
-    % stop criteria - CCCP
-    cumError = cccp_error(params,trainData,model);
-    
-    elapsedTime = toc;
-    
-    fprintf('******************************\n')
-    fprintf('iteration = %d\n',cnt)
-    fprintf('cumError = %f\n',cumError)
-    fprintf('cumErrorPrev = %f\n',cumErrorPrev)
-    fprintf('error reduction = %f\n', cumErrorPrev - cumError);
-    fprintf('time elapsed = %f\n', elapsedTime);
-    fprintf('******************************\n')
+    learning
       
-    if abs(cumErrorPrev - cumError) < thres
+    if abs(cumErrorPrev - cumError) < thres || params.numStateZ == 1
         break
     end
     
