@@ -1,0 +1,3 @@
+0510182019,eating,subject1,1:cup,
+0510182057,eating,subject1,1:cup,
+0510182137,eating,subject1,1:cup,

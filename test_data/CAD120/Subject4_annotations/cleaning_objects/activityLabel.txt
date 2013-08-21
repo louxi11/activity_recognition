@@ -1,0 +1,3 @@
+0510172333,cleaning,subject4,1:microwave,2:cloth,
+0510172425,cleaning,subject4,1:microwave,2:cloth,
+0510172557,cleaning,subject4,1:microwave,2:cloth,

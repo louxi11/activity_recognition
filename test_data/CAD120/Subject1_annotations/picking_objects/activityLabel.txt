@@ -1,0 +1,3 @@
+0510175829,bending,subject1,1:bowl,
+0510175855,bending,subject1,1:remote,
+0510175921,bending,subject1,1:cup,

@@ -1,0 +1,11 @@
+0510175829,1,18,null,stationary
+0510175829,19,63,reaching,reachable
+0510175829,64,133,moving,movable
+0510175829,134,159,null,stationary
+0510175855,1,18,null,stationary
+0510175855,19,65,reaching,reachable
+0510175855,66,165,moving,movable
+0510175921,1,31,null,stationary
+0510175921,32,77,reaching,reachable
+0510175921,78,149,moving,movable
+0510175921,150,174,null,stationary

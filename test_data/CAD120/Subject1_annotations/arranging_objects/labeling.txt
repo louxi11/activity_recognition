@@ -1,0 +1,13 @@
+0510175411,1,24,null,stationary
+0510175411,25,92,reaching,reachable
+0510175411,93,228,moving,movable
+0510175411,229,279,placing,placeable
+0510175431,1,40,moving,stationary
+0510175431,41,79,null,stationary
+0510175431,80,99,reaching,reachable
+0510175431,100,188,moving,movable
+0510175431,189,227,placing,placeable
+0510175554,1,29,null,stationary
+0510175554,30,53,reaching,reachable
+0510175554,54,138,moving,movable
+0510175554,139,166,placing,placeable

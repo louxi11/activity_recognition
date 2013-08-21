@@ -1,0 +1,3 @@
+0504235245,placing,subject5,1:box,
+0504235647,placing,subject5,1:box,
+0504235908,placing,subject5,1:box,

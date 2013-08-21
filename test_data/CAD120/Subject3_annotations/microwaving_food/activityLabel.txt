@@ -1,0 +1,3 @@
+1204180344,microwave,subject3,1:microwave,2:box,
+1204180515,microwave,subject3,1:microwave,2:bowl,
+1204180612,microwave,subject3,1:microwave,2:bowl,

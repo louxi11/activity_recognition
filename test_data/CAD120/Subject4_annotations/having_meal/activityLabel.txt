@@ -1,0 +1,3 @@
+0510173506,eating,subject4,1:cup,
+0510173634,eating,subject4,1:cup,
+0510173714,eating,subject4,1:cup,

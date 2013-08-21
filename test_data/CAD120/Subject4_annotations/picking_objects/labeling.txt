@@ -1,0 +1,12 @@
+0510172725,1,23,null,stationary
+0510172725,24,69,reaching,reachable
+0510172725,70,144,moving,movable
+0510172725,145,188,null,stationary
+0510172745,1,30,null,stationary
+0510172745,31,83,reaching,reachable
+0510172745,84,163,moving,movable
+0510172745,164,206,null,stationary
+0510172851,1,22,null,stationary
+0510172851,23,71,reaching,reachable
+0510172851,72,142,moving,movable
+0510172851,143,165,null,stationary

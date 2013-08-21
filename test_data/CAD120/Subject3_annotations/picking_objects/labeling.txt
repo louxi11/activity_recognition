@@ -1,0 +1,12 @@
+0510141923,1,36,null,stationary
+0510141923,37,96,reaching,reachable
+0510141923,97,187,moving,movable
+0510141923,188,233,null,stationary
+0510141947,1,37,null,stationary
+0510141947,38,115,reaching,reachable
+0510141947,116,221,moving,movable
+0510141947,222,267,null,stationary
+0510142045,1,31,null,stationary
+0510142045,32,111,reaching,reachable
+0510142045,112,188,moving,movable
+0510142045,189,228,null,stationary

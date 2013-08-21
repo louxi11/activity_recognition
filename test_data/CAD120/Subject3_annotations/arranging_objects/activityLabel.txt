@@ -1,0 +1,3 @@
+0510143426,placing,subject3,1:box,
+0510143446,placing,subject3,1:book,
+0510143618,placing,subject3,1:box,

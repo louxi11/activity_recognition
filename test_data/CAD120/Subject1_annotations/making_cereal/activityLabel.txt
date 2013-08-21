@@ -1,0 +1,4 @@
+1204142055,cereal,subject1,1:bowl,2:box,3:milk,
+1204142227,cereal,subject1,1:bowl,2:box,3:milk,
+1204142500,cereal,subject1,1:bowl,2:box,3:milk,
+1204142616,cereal,subject1,1:bowl,2:box,3:milk,

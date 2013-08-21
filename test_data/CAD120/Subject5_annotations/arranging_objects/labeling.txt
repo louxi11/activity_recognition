@@ -1,0 +1,11 @@
+0504235245,1,30,null,stationary
+0504235245,31,110,reaching,reachable
+0504235245,111,275,moving,movable
+0504235245,276,315,placing,placeable
+0504235647,1,27,null,stationary
+0504235647,28,179,moving,movable
+0504235647,180,240,placing,placeable
+0504235908,1,42,null,stationary
+0504235908,43,103,reaching,reachable
+0504235908,104,224,moving,movable
+0504235908,225,268,placing,placeable

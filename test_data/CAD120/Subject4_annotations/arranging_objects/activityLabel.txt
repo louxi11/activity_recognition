@@ -1,0 +1,3 @@
+0510173051,placing,subject4,1:box,
+0510173203,placing,subject4,1:book,
+0510173217,placing,subject4,1:box,

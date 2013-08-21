@@ -1,0 +1,3 @@
+0510171810,takeout,subject4,1:microwave,2:bowl,
+0510172015,takeout,subject4,1:microwave,2:cup,
+0510172049,takeout,subject4,1:microwave,2:cup,

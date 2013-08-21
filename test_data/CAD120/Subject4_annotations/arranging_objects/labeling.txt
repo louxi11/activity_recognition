@@ -1,0 +1,12 @@
+0510173051,1,25,null,stationary
+0510173051,26,56,reaching,reachable
+0510173051,57,176,moving,movable
+0510173051,177,229,placing,placeable
+0510173203,1,12,null,stationary
+0510173203,13,34,reaching,reachable
+0510173203,35,181,moving,movable
+0510173203,182,220,placing,placeable
+0510173217,1,32,null,stationary
+0510173217,33,80,reaching,reachable
+0510173217,81,211,moving,movable
+0510173217,212,254,placing,placeable

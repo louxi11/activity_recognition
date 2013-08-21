@@ -1,0 +1,4 @@
+0126141638,cereal,subject5,1:bowl,2:box,3:milk,
+0126141850,cereal,subject5,1:bowl,2:box,3:milk,
+0126142037,cereal,subject5,1:bowl,2:box,3:milk,
+0126142253,cereal,subject5,1:bowl,2:box,3:milk,

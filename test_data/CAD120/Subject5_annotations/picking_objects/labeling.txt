@@ -1,0 +1,10 @@
+0504232829,1,22,null,stationary
+0504232829,23,127,reaching,reachable
+0504232829,128,269,moving,movable
+0504233253,1,35,null,stationary
+0504233253,36,109,reaching,reachable
+0504233253,110,209,moving,movable
+0504233320,1,26,null,stationary
+0504233320,27,102,reaching,reachable
+0504233320,103,196,moving,movable
+0504233320,197,238,null,stationary

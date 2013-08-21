@@ -1,0 +1,3 @@
+0510172725,bending,subject4,1:box,
+0510172745,bending,subject4,1:bowl,
+0510172851,bending,subject4,1:box,
