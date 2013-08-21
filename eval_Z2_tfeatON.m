@@ -31,7 +31,7 @@ for i = 1 : size(combos,1)
   W = 3;
   numStateZ = 2;
   tfeat = 'tfeat_on';
-  thres = 1; % threshold to stop iteration TODO
+  thres = 0.05; % threshold to stop iteration TODO
   timeStr = getTimeStr(now);
   
   learning_option = sprintf('-c %f -e %f -w %d',C,E,W); % ssvm learning parameters
