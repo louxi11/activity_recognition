@@ -1,4 +1,4 @@
-function log_on(timeStr)
+function make_log(timeStr)
 
 logfile = [timeStr,'.log'];
 

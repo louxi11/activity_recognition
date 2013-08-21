@@ -18,7 +18,8 @@ addpath test_data/
 % numStateZ = 4;
 
 [trainData,testData,DimX,numStateY,numStateZ] = load_debug_dataset(1);
-numStateZ = 4
+numStateZ = 4;
+
 %% SETTINGS
 % -c C
 % -p L-norm to use for slack variables
@@ -34,7 +35,7 @@ params = init_params(trainData, DimX, numStateY, numStateZ);
 
 if log_on
     timeStr = getTimeStr(now);
-    log_on(timeStr); % LOG file and SAVE MODEL
+    make_log(timeStr); % LOG file and SAVE MODEL
 end
 
 tic
