@@ -12,13 +12,13 @@ addpath tools/
 
 addpath test_data/
 
-[trainData,testData] = load_CAD120('parse_off','tfeat_off',[1,2,3]);
-DimX = trainData.DimX;
-numStateY = 10;
-numStateZ = 4;
+% [trainData,testData] = load_CAD120('parse_off','tfeat_off',[1,2,3]);
+% DimX = trainData.DimX;
+% numStateY = 10;
+% numStateZ = 4;
 
-% [trainData,testData,DimX,numStateY,numStateZ] = load_debug_dataset(1);
-
+[trainData,testData,DimX,numStateY,numStateZ] = load_debug_dataset(1);
+numStateZ = 4
 %% SETTINGS
 % -c C
 % -p L-norm to use for slack variables
