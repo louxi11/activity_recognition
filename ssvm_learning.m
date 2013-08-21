@@ -17,8 +17,8 @@ addpath test_data/
 % numStateY = 26;
 % numStateZ = 1;
 
-[trainData,testData] = load_CAD120(false);
-DimX = 7530;
+[trainData,testData] = load_CAD120('parse_off','tfeat_off',[1,2,3]);
+DimX = trainData.DimX;
 numStateY = 10;
 numStateZ = 4;
 
@@ -40,7 +40,7 @@ numStateZ = 4;
 % numStateY = 7;
 % numStateZ = 1;
 
-% LEARNING
+%% LEARNING
 % param.patterns is a cell array of inputs X. Each cell X{i} corresponds with one
 % observation sequence. The rows of one cell has MxN dimension, which means
 % there are M observation (time slices) and for each time slice there is a
