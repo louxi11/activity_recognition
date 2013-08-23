@@ -1,4 +1,4 @@
-function params = init_params( trainData, DimX, numStateY, numStateZ)
+function params = init_params( trainData, DimX, numStateY, numStateZ, initByClustering)
 %INIT_PARAMS Summary of this function goes here
 % The parameter vector is formed as follows:
 % 1. unary parameters for each pixel and state: numX*(numY*numZ)  
@@ -29,6 +29,7 @@ params.numParams = params.idx_w_tran(end);
 params.cnt = 1;
 params.need_init = true;
 params.cumErrorPrev = inf;
+params.initByClustering = initByClustering;
 
 % structured svm parameters
 params.patterns = trainData.patterns;

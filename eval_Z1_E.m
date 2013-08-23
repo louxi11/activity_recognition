@@ -15,6 +15,7 @@ save_on = 1;
 numStateZ = 1;
 C = 1; % normalization constant
 eval_set = [0.05, 0.25, 0.5, 0.75, 1.5, 2, 3, 4];
+initByClustering = true;
 
 %%% allocate buffer %%%
 trainRate = zeros(4,length(eval_set));
@@ -52,7 +53,7 @@ for iter = 1 : length(eval_set) % epsilon
     [trainData,testData] = load_CAD120('parse_off',tfeat,train_sid);
     
     % learning
-    [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres);
+    [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initByClustering);
 
     % save model to file
     if save_on

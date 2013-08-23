@@ -16,7 +16,7 @@ if params.need_init
     % random initialize latent variable Z TODO
     params.labels = cell(size(trainData.labels));
     if params.need_init
-        if ~params.initByClustering
+        if ~params.initByClustering || params.numStateZ == 1
             for i = 1 : length(params.patterns)
                 Y = trainData.labels{i};
                 Zhat = randsample(params.numStateZ,length(Y),true); % random sample with replacement
@@ -24,6 +24,7 @@ if params.need_init
                 params.labels{i} = YZ;
             end
         else
+            fprintf('initilizing latent variable by clustering X\n')
             params.labels = initByClustering(trainData);
         end
         params.need_init = false;

@@ -18,6 +18,7 @@ E = 0.5; % epsilon
 W = 3; % optimization strategy
 tfeat = 'tfeat_on';
 thres = 1; % threshold to stop iteration TODO
+initByClustering = true;
 
 iter = 1;
 %%% allocate buffer %%%
@@ -48,7 +49,7 @@ for i = 1 : size(combos,1)
   [trainData,testData] = load_CAD120('parse_off',tfeat,train_sid);
   
   % learning
-  [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres);
+  [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initByClustering);
   
   % save model to file
   if save_on
