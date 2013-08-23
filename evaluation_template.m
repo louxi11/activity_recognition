@@ -56,8 +56,6 @@ for i = 1 : size(combos,1)
     save(['model_',logfile,'.mat'],'model','params','C','E','W','numStateZ','train_sid','tfeat','thres','trainData','testData')
   end
   
-  diary off
-  
   
   %%% classification %%%
   
@@ -89,5 +87,7 @@ for i = 1 : size(combos,1)
   fprintf('Test set: %d\n',test_sid);
   fprintf('classification rate: %f\n',testRate(i));
   fprintf('******************************\n\n')
+  
+  diary off
   
 end
