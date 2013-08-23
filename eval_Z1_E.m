@@ -11,14 +11,14 @@ addpath test_data/
 
 save_on = 1;
 
-%%% allocate buffer %%%
-trainRate = zeros(4,8);
-testRate = zeros(4,8);
-
 %%% parameters %%%
 numStateZ = 1;
 C = 1; % normalization constant
 eval_set = [0.05, 0.25, 0.5, 0.75, 1.5, 2, 3, 4];
+
+%%% allocate buffer %%%
+trainRate = zeros(4,length(eval_set));
+testRate = zeros(4,length(eval_set));
 
 for iter = 1 : length(eval_set) % epsilon
   
