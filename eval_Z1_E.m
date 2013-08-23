@@ -10,7 +10,6 @@ addpath tools/
 addpath test_data/
 
 save_on = 1;
-mfilename
 
 %%% allocate buffer %%%
 trainRate = zeros(4,8);
