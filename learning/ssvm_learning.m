@@ -15,48 +15,47 @@ fprintf('-------------------------------\n');
 if params.need_init
     % random initialize latent variable Z TODO
     params.labels = cell(size(trainData.labels));
-    if params.need_init
-        if ~params.initByClustering || params.numStateZ == 1
-            for i = 1 : length(params.patterns)
-                Y = trainData.labels{i};
-                Zhat = randsample(params.numStateZ,length(Y),true); % random sample with replacement
-                YZ = sub2indYZ(params,Y,Zhat);
-                params.labels{i} = YZ;
-            end
-        else
-            fprintf('initilizing latent variable by clustering X\n')
-            params.labels = initByClustering(trainData,params);
-        end
-        params.need_init = false;
-    else
-        % otherwise compute Zhat under the current model.w
+    if ~params.initByClustering || params.numStateZ == 1
         for i = 1 : length(params.patterns)
-            X = trainData.patterns{i};
             Y = trainData.labels{i};
-            Zhat = inferLatentVariable(params,model,X,Y);
+            Zhat = randsample(params.numStateZ,length(Y),true); % random sample with replacement
             YZ = sub2indYZ(params,Y,Zhat);
             params.labels{i} = YZ;
         end
+    else
+        fprintf('initilizing latent variable by clustering X\n')
+        params.labels = initByClustering(trainData,params);
     end
-    
-    %---------------------- Structured SVM ----------------------------%
-    %%% update new model.w with (X,Y,Zhat) - STRUCTURED-SVM LEARNING
-    model = svm_struct_learn(learning_option, params);
-    
-    % stop criteria - CCCP
-    params.cumError = cccp_error(params,trainData,model);
-    
-    % % compute time so far
-    % elapsedTime = toc;
-    
-    fprintf('******************************\n')
-    fprintf('iteration = %d\n',params.cnt)
-    fprintf('cumError = %f\n',params.cumError)
-    fprintf('cumErrorPrev = %f\n',params.cumErrorPrev)
-    fprintf('error reduction = %f\n', params.cumErrorPrev - params.cumError);
-    % fprintf('time elapsed = %f\n', elapsedTime);
-    fprintf('******************************\n')
-    
-    params.cnt = params.cnt + 1;
-    
+    params.need_init = false;
+else
+    % otherwise compute Zhat under the current model.w
+    for i = 1 : length(params.patterns)
+        X = trainData.patterns{i};
+        Y = trainData.labels{i};
+        Zhat = inferLatentVariable(params,model,X,Y);
+        YZ = sub2indYZ(params,Y,Zhat);
+        params.labels{i} = YZ;
+    end
+end
+
+%---------------------- Structured SVM ----------------------------%
+%%% update new model.w with (X,Y,Zhat) - STRUCTURED-SVM LEARNING
+model = svm_struct_learn(learning_option, params);
+
+% stop criteria - CCCP
+params.cumError = cccp_error(params,trainData,model);
+
+% % compute time so far
+% elapsedTime = toc;
+
+fprintf('******************************\n')
+fprintf('iteration = %d\n',params.cnt)
+fprintf('cumError = %f\n',params.cumError)
+fprintf('cumErrorPrev = %f\n',params.cumErrorPrev)
+fprintf('error reduction = %f\n', params.cumErrorPrev - params.cumError);
+% fprintf('time elapsed = %f\n', elapsedTime);
+fprintf('******************************\n')
+
+params.cnt = params.cnt + 1;
+
 end

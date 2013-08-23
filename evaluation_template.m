@@ -12,7 +12,7 @@ addpath test_data/
 save_on = 1;
 
 %%% parameters %%%
-numStateZ = 1;
+numStateZ = 4;
 C = 1; % normalization constant
 E = 0.5; % epsilon
 W = 3; % optimization strategy
