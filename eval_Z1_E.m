@@ -1,5 +1,5 @@
 clc
-% clear all
+clear all
 
 addpath graphical_model/
 addpath inference/
@@ -10,7 +10,7 @@ addpath tools/
 addpath test_data/
 
 save_on = 1;
-
+mfilename
 
 %%% allocate buffer %%%
 trainRate = zeros(4,8);
@@ -95,6 +95,10 @@ for e = 1 : length(Eset) % epsilon
   
 end
 
+results.meanTrain = mean(trainRate);
+results.meanTest = mean(testRate);
+results.stdTrain = std(trainRate);
+results.stdTest = std(testRate);
 if save_on
-  save('resultsZ1_E.mat','trainRate','testRate');
+  save(sprintf('%f.mat',mfilename),'trainRate','testRate','results');
 end
