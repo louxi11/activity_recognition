@@ -25,7 +25,7 @@ if params.need_init
             end
         else
             fprintf('initilizing latent variable by clustering X\n')
-            params.labels = initByClustering(trainData);
+            params.labels = initByClustering(trainData,params);
         end
         params.need_init = false;
     else

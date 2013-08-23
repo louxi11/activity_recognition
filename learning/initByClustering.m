@@ -1,4 +1,4 @@
-function labels = initByClustering(trainData)
+function labels = initByClustering(trainData,params)
 % labels is a cell
 
 X = trainData.patterns;
