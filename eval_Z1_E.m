@@ -102,5 +102,5 @@ results.meanTest = mean(testRate);
 results.stdTrain = std(trainRate);
 results.stdTest = std(testRate);
 if save_on
-  save(sprintf('%f.mat',mfilename),'trainRate','testRate','results');
+  save(sprintf('Z%d_C%d_E%.2f_W%d_%s_Thre%.1f.mat',numStateZ,C,E,W,tfeat,thres),'trainRate','testRate','results');
 end

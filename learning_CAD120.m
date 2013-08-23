@@ -21,6 +21,17 @@ while true
         break
     end    
     
+    fprintf('******************************\n')
+    fprintf('iteration = %d\n',params.cnt)
+    fprintf('cumError = %f\n',params.cumError)
+    fprintf('cumErrorPrev = %f\n',params.cumErrorPrev)
+    fprintf('error reduction = %f\n', params.cumErrorPrev - params.cumError);
+    % fprintf('time elapsed = %f\n', elapsedTime);
+    fprintf('******************************\n')
+      
+    params.cnt = params.cnt + 1;
+    
     params.cumErrorPrev = params.cumError;
+    
     
 end
