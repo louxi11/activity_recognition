@@ -1,18 +1,18 @@
-function [model,params] = learning_CAD120(trainData,numStateZ,learning_option,log_on,thres,model)
+function [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres)
+% iterate until convergence
 
 DimX = trainData.DimX;
+
 numStateY = 10;
 
 params = init_params(trainData, DimX, numStateY, numStateZ);
 
-if log_on
-    timeStr = getTimeStr(now);
-    make_log(timeStr); % LOG file and SAVE MODEL
-end
+% tic
 
-tic
+model = [];
 
 while true
+    
     % Structured-SVM
     [params,model] = ssvm_learning(params,trainData,learning_option,model); 
     
@@ -21,5 +21,6 @@ while true
         break
     end    
     
-    params.cumErrorPrev = params.cumError;   
+    params.cumErrorPrev = params.cumError;
+    
 end

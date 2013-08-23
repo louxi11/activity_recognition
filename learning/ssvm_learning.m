@@ -42,15 +42,15 @@ model = svm_struct_learn(learning_option, params);
 % stop criteria - CCCP
 params.cumError = cccp_error(params,trainData,model);
 
-% compute time so far
-elapsedTime = toc;
+% % compute time so far
+% elapsedTime = toc;
 
 fprintf('******************************\n')
 fprintf('iteration = %d\n',params.cnt)
 fprintf('cumError = %f\n',params.cumError)
 fprintf('cumErrorPrev = %f\n',params.cumErrorPrev)
 fprintf('error reduction = %f\n', params.cumErrorPrev - params.cumError);
-fprintf('time elapsed = %f\n', elapsedTime);
+% fprintf('time elapsed = %f\n', elapsedTime);
 fprintf('******************************\n')
 
 params.cnt = params.cnt + 1;
