@@ -35,8 +35,10 @@ for i = 1 : size(combos,1)
   timeStr = getTimeStr(now);
   
   learning_option = sprintf('-c %f -e %f -w %d',C,E,W); % ssvm learning parameters
+  
   [trainData,testData] = load_CAD120('parse_off',tfeat,train_idx);
-  [model,params] = learning_CAD120(trainData,numStateZ,learning_option,log_on,thres,model);
+  
+  [model,params] = learning_CAD120(trainData,numStateZ,learning_option,log_on,thres,timeStr);
   
   % save model to file
   if save_on
