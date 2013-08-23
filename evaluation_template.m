@@ -82,9 +82,9 @@ for i = 1 : size(combos,1)
   
   fprintf('******************************\n')
   fprintf('Training set: %d, %d, %d\n',train_sid(1),train_sid(2),train_sid(3));
-  fprintf('classification rate: %f\n',trainRate(i));
+  fprintf('classification rate: %f\n',trainRate(i,iter));
   fprintf('Test set: %d\n',test_sid);
-  fprintf('classification rate: %f\n',testRate(i));
+  fprintf('classification rate: %f\n',testRate(i,iter));
   fprintf('******************************\n\n')
   
   diary off
