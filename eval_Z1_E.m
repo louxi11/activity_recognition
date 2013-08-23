@@ -31,8 +31,7 @@ for iter = 1 : length(eval_set) % epsilon
   P = 1; % L-norm of slack. Use 1 for L1 and 2 for e^2
   
   combos = combntns(1:4,3);
-  
-  
+
   %%% learning %%%
   for i = 1 : size(combos,1)
     
@@ -54,7 +53,7 @@ for iter = 1 : length(eval_set) % epsilon
     
     % learning
     [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres);
-    
+
     % save model to file
     if save_on
       save(['model_',logfile,'.mat'],'model','params','trainData','testData')
