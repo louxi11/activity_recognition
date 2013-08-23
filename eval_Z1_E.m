@@ -18,9 +18,12 @@ testRate = zeros(4,8);
 %%% parameters %%%
 numStateZ = 1;
 C = 1; % normalization constant
-Eset = [0.05, 0.25, 0.5, 0.75, 1.5, 2, 3, 4];
-for e = 1 : length(Eset) % epsilon
-  E = Eset(e);
+eval_set = [0.05, 0.25, 0.5, 0.75, 1.5, 2, 3, 4];
+
+for iter = 1 : length(eval_set) % epsilon
+  
+  E = eval_set(iter);
+  
   W = 3; % optimization strategy
   tfeat = 'tfeat_on';
   thres = 1; % threshold to stop iteration TODO
@@ -54,7 +57,7 @@ for e = 1 : length(Eset) % epsilon
     
     % save model to file
     if save_on
-      save(['model_',logfile,'.mat'],'model','params','C','E','W','numStateZ','train_sid','tfeat','thres','trainData','testData')
+      save(['model_',logfile,'.mat'],'model','params','trainData','testData')
     end
     
     %%% classification %%%
@@ -68,7 +71,7 @@ for e = 1 : length(Eset) % epsilon
       D = D + sum( int32(data.labels{j}) == int32(yhat));
       CNT = CNT + length(data.labels{j});
     end
-    trainRate(i,e) = D/CNT;
+    trainRate(i,iter) = D/CNT;
     
     CNT = 0;
     D = 0;
@@ -79,7 +82,7 @@ for e = 1 : length(Eset) % epsilon
       D = D + sum( int32(data.labels{j}) == int32(yhat));
       CNT = CNT + length(data.labels{j});
     end
-    testRate(i,e) = D/CNT;
+    testRate(i,iter) = D/CNT;
     
     fprintf('******************************\n')
     fprintf('Training set: %d, %d, %d\n',train_sid(1),train_sid(2),train_sid(3));
