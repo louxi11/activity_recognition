@@ -1,6 +1,6 @@
-function make_log(timeStr)
+function make_log(logfile)
 
-logfile = [timeStr,'.log'];
+logfile = [logfile,'.log'];
 
 diary off
 diary(logfile)

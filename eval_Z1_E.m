@@ -1,5 +1,5 @@
 clc
-clear all
+% clear all
 
 addpath graphical_model/
 addpath inference/
@@ -19,7 +19,7 @@ testRate = zeros(4,1);
 %%% parameters %%%
 numStateZ = 1;
 C = 1; % normalization constant
-E = 2; % epsilon
+E = 0.25; % epsilon
 W = 3; % optimization strategy
 tfeat = 'tfeat_on';
 thres = 1; % threshold to stop iteration TODO
