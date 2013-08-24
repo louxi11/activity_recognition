@@ -1,5 +1,5 @@
 clc
-clear all
+% clear all
 
 addpath graphical_model/
 addpath inference/
@@ -12,8 +12,8 @@ addpath test_data/
 save_on = 1;
 
 %%% parameters %%%
-numStateZ = 4;
-C = 1; % normalization constant
+numStateZ = 1;
+C = 10; % normalization constant
 E = 0.5; % epsilon
 W = 3; % optimization strategy
 tfeat = 'tfeat_on';
@@ -38,12 +38,12 @@ for i = 1 : size(combos,1)
   test_sid = all_sid(~ismember(all_sid,train_sid));
   
   if save_on
-    logfile = sprintf('Z%d_C%d_E%.2f_W%d_%s_Thre%.1f_Test%d',numStateZ,C,E,W,tfeat,thres,test_sid);
+    logfile = sprintf('Z%d_C%.2f_E%.2f_W%d_%s_Thre%.1f_Test%d',numStateZ,C,E,W,tfeat,thres,test_sid);
     make_log(logfile); % LOG file and SAVE MODEL
   end
   
   % load structured svm options
-  learning_option = sprintf('-c %f -e %f -w %d',C,E,W); % ssvm learning parameters
+  learning_option = sprintf('-c %.2f -e %.2f -w %d',C,E,W); % ssvm learning parameters
   
   % split training and test data
   [trainData,testData] = load_CAD120('parse_off',tfeat,train_sid);
@@ -96,5 +96,5 @@ results.meanTest = mean(testRate);
 results.stdTrain = std(trainRate);
 results.stdTest = std(testRate);
 if save_on
-  save(sprintf('Z%d_C%d_E%.2f_W%d_%s_Thre%.1f.mat',numStateZ,C,E,W,tfeat,thres),'trainRate','testRate','results');
+  save(sprintf('Z%d_C%.2f_E%.2f_W%d_%s_Thre%.1f.mat',numStateZ,C,E,W,tfeat,thres),'trainRate','testRate','results');
 end
