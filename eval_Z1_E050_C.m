@@ -16,7 +16,7 @@ numStateZ = 1;
 C = 1; % normalization constant
 E = 0.5;
 eval_set = 0.1:0.1:1;
-W = 3; % optimization strategy
+W = 4; % optimization strategy
 tfeat = 'tfeat_on';
 thres = 1; % threshold to stop iteration TODO
 initByClustering = true;
@@ -24,8 +24,8 @@ P = 1; % L-norm of slack. Use 1 for L1 and 2 for e^2
 
 
 %%% allocate buffer %%%
-trainRate = zeros(4,length(eval_set));
-testRate = zeros(4,length(eval_set));
+trainRate = nan(4,length(eval_set));
+testRate = nan(4,length(eval_set));
 
 for iter = 1 : length(eval_set) % epsilon
   

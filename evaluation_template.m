@@ -1,5 +1,5 @@
 clc
-% clear all
+clear all
 
 addpath graphical_model/
 addpath inference/
@@ -13,7 +13,7 @@ save_on = 1;
 
 %%% parameters %%%
 numStateZ = 1;
-C = 1; % normalization constant
+C = 0.4; % normalization constant
 E = 0.5; % epsilon
 W = 3; % optimization strategy
 tfeat = 'tfeat_on';
@@ -23,8 +23,8 @@ P = 1; % L-norm of slack. Use 1 for L1 and 2 for e^2
 
 iter = 1;
 %%% allocate buffer %%%
-trainRate = zeros(4,1);
-testRate = zeros(4,1);
+trainRate = nan(4,1);
+testRate = nan(4,1);
 
 
 

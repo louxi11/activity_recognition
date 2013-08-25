@@ -23,8 +23,8 @@ P = 1; % L-norm of slack. Use 1 for L1 and 2 for e^2
 
 
 %%% allocate buffer %%%
-trainRate = zeros(4,length(eval_set));
-testRate = zeros(4,length(eval_set));
+trainRate = nan(4,length(eval_set));
+testRate = nan(4,length(eval_set));
 
 for iter = 1 : length(eval_set) % epsilon
   
