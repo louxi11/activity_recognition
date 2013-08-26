@@ -25,6 +25,7 @@ if strcmp(tfeat,'tfeat_on')
     Y = Yt;
     vid_id = int32(str2double(vid_id_t));
     FEATURE_LENGTH = TEMPORAL_FEATURE_LENGTH;
+    A = At;
 else
     vid_id = int32(str2double(vid_id));
 end
@@ -57,6 +58,7 @@ end
 trainData.patterns = X(trainidx);
 trainData.labels = Y(trainidx);
 trainData.DimX = FEATURE_LENGTH;
+trainData.Affordance = A(trainidx);
 testData.patterns = X(testidx);
 testData.labels = Y(testidx);
 testData.DimX = FEATURE_LENGTH;

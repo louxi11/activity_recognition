@@ -1,4 +1,4 @@
-function eval_test(Z,C,E,W,thres)
+function eval_test(Z,C,E,W,thres,initStrategy)
 
 clc
 % clear all
@@ -20,7 +20,7 @@ numStateZ = Z;
 % W = 3; % optimization strategy
 tfeat = 'tfeat_on';
 % thres = 1; % threshold to stop iteration TODO
-initByClustering = true;
+% initByClustering = true;
 P = 1; % L-norm of slack. Use 1 for L1 and 2 for e^2
 
 iter = 1;
@@ -41,7 +41,8 @@ for i = 1 : size(combos,1)
   test_sid = all_sid(~ismember(all_sid,train_sid));
   
   if save_on
-    logfile = sprintf('Z%d_C%.2f_E%.2f_W%d_%s_Thre%.1f_Test%d',numStateZ,C,E,W,tfeat,thres,test_sid);
+    logfile = sprintf('Z%d_C%.2f_E%.2f_W%d_%s_Thre%.1f_clust%s_Test%d',...
+      numStateZ,C,E,W,tfeat,thres,num2str(initStrategy),test_sid);
     make_log(logfile); % LOG file and SAVE MODEL
   end
   
@@ -52,7 +53,7 @@ for i = 1 : size(combos,1)
   [trainData,testData] = load_CAD120('parse_off',tfeat,train_sid);
 
   % learning
-  [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initByClustering);
+  [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initStrategy);
 
   % save model to file
   if save_on
@@ -99,5 +100,5 @@ results.meanTest = mean(testRate);
 results.stdTrain = std(trainRate);
 results.stdTest = std(testRate);
 if save_on
-  save(sprintf('Z%d_C%.2f_E%.2f_W%d_%s_Thre%.1f.mat',numStateZ,C,E,W,tfeat,thres),'trainRate','testRate','results');
+  save(sprintf('Z%d_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s.mat',numStateZ,C,E,W,tfeat,thres,initStrategy),'trainRate','testRate','results');
 end

@@ -13,29 +13,32 @@ fprintf('------ CCCP iteration %d ------\n',params.cnt);
 fprintf('-------------------------------\n');
 
 if params.need_init
-    % random initialize latent variable Z TODO
-    params.labels = cell(size(trainData.labels));
-    if ~params.initByClustering || params.numStateZ == 1
-        for i = 1 : length(params.patterns)
-            Y = trainData.labels{i};
-            Zhat = randsample(params.numStateZ,length(Y),true); % random sample with replacement
-            YZ = sub2indYZ(params,Y,Zhat);
-            params.labels{i} = YZ;
-        end
-    else
-        fprintf('initilizing latent variable by clustering X\n')
-        params.labels = initByClustering(trainData,params);
-    end
-    params.need_init = false;
-else
-    % otherwise compute Zhat under the current model.w
+  % random initialize latent variable Z TODO
+  params.labels = cell(size(trainData.labels));
+  if strcmp(params.initStrategy,'random') || params.numStateZ == 1
     for i = 1 : length(params.patterns)
-        X = trainData.patterns{i};
-        Y = trainData.labels{i};
-        Zhat = inferLatentVariable(params,model,X,Y);
-        YZ = sub2indYZ(params,Y,Zhat);
-        params.labels{i} = YZ;
+      Y = trainData.labels{i};
+      Zhat = randsample(params.numStateZ,length(Y),true); % random sample with replacement
+      YZ = sub2indYZ(params,Y,Zhat);
+      params.labels{i} = YZ;
     end
+  elseif strcmp(params.initStrategy,'clustering')
+    fprintf('initilizing latent variables by clustering X\n')
+    params.labels = initByClustering(trainData,params);
+  elseif strcmp(params.initStrategy,'affordance')
+    fprintf('initilizing latent variables by Object Affordance X\n')
+    params.labels = initByAffordance(trainData,params);
+  end
+  params.need_init = false;
+else
+  % otherwise compute Zhat under the current model.w
+  for i = 1 : length(params.patterns)
+    X = trainData.patterns{i};
+    Y = trainData.labels{i};
+    Zhat = inferLatentVariable(params,model,X,Y);
+    YZ = sub2indYZ(params,Y,Zhat);
+    params.labels{i} = YZ;
+  end
 end
 
 %---------------------- Structured SVM ----------------------------%

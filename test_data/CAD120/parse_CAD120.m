@@ -39,7 +39,7 @@ sz = whos('video');
 sz = sz.bytes/1024/1024;
 
 fprintf('\nCAD120 loaded successfully. Total size = %.2fMB\n',sz);
-
+pwd
 save('CAD120video.mat','video')
 
 
@@ -52,6 +52,7 @@ TEMPORAL_FEATURES = {'obj' 'skel' 'interobj' 'skelobj' 'temporalObj' 'temporalSk
 % single segment features
 X = cell(length(video),1);
 Y = cell(length(video),1);
+A = cell(length(video),1);
 vid_id = cell(length(video),1);
 for v = 1 : length(video)
     vid = video{v};
@@ -65,6 +66,7 @@ for v = 1 : length(video)
         end
         Y{v} = [Y{v};seg.sub_activity];
         X{v} = [X{v};F];
+        A{v} = [A{v},encodeAffordance(seg.affordance,12)];
     end
 end
 
@@ -74,6 +76,7 @@ FEATURE_LENGTH = numel(F);
 % combined temporal features
 Xt = cell(length(video),1);
 Yt = cell(length(video),1);
+At = cell(length(video),1);
 for v = 1 : length(video)
     vid = video{v};
     
@@ -92,15 +95,17 @@ for v = 1 : length(video)
             F = [F;f(:)];
         end
         Yt{v} = [Yt{v};seg.sub_activity];
-        Xt{v} = [Xt{v};F];
+        Xt{v} = [Xt{v};F]; 
+        At{v} = [At{v},encodeAffordance(seg.affordance,12)];
     end
 end
 mask = ~cellfun('isempty',Xt);
 Xt = Xt(mask); % remove empty cell in X
 Yt = Yt(mask); % remove empty cell in labels
+At = At(mask);
 TEMPORAL_FEATURE_LENGTH = numel(F);
 vid_id_t = vid_id(mask);
-save('CAD120.mat','X','Y','Xt','Yt','FEATURE_LENGTH','TEMPORAL_FEATURE_LENGTH','vid_id','vid_id_t');
+save('CAD120.mat','X','Y','A','Xt','Yt','At','FEATURE_LENGTH','TEMPORAL_FEATURE_LENGTH','vid_id','vid_id_t');
 
 fprintf('LOADE DATASET CARD120... DONE.\n')
 

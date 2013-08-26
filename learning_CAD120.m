@@ -1,11 +1,11 @@
-function [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initByClustering)
+function [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initStrategy)
 % iterate until convergence
 
 DimX = trainData.DimX;
 
 numStateY = 10;
 
-params = init_params(trainData, DimX, numStateY, numStateZ,initByClustering);
+params = init_params(trainData, DimX, numStateY, numStateZ,initStrategy);
 
 % tic
 
