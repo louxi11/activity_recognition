@@ -13,17 +13,24 @@ ylabel('classification rate')
 legend('training data','test data')
 
 %% plot error bar
+results.meanTrain = [results1.meanTrain,results.meanTrain];
+results.meanTest = [results1.meanTest,results.meanTest];
+results.stdTrain = [results1.stdTrain,results.stdTrain];
+results.stdTest = [results1.stdTest,results.stdTest];
+
+%%
+
 X = [0.01,0.1:0.1:1];
 hold off
-errorbar(X,[results1.meanTrain,results.meanTrain]...
-  ,[results1.stdTrain,results.stdTrain],'b','LineWidth',2)
+errorbar(X,results.meanTrain...
+  ,results.stdTrain,'b','LineWidth',2)
 hold on
-errorbar(X,[results1.meanTest,results.meanTest]...
-  ,[results1.stdTest,results.stdTest],'m','LineWidth',2)
+errorbar(X,results.meanTest...
+  ,results.stdTest,'m','LineWidth',2)
 hold off
 axis([-0 1 0.6 1])
 % title('on E')
-xlabel('C (N_z=1,epsilon=0.5)')
+xlabel('C (N_z=1,epsilon=0.25)')
 ylabel('classification rate')
 set(gca,'XTick',[0.01,0.1:0.1:1])
 legend('training data','test data')
