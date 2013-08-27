@@ -16,6 +16,7 @@ if params.need_init
   % random initialize latent variable Z TODO
   params.labels = cell(size(trainData.labels));
   if strcmp(params.initStrategy,'random') || params.numStateZ == 1
+    fprintf('initilizing latent variables randomly X\n')
     for i = 1 : length(params.patterns)
       Y = trainData.labels{i};
       Zhat = randsample(params.numStateZ,length(Y),true); % random sample with replacement
