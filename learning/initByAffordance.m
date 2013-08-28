@@ -16,15 +16,19 @@ end
 
 XX = XX';
 
-while true
-  try
-    IDX = kmeans(XX,params.numStateZ);
-    break;
-  catch
-    warning('something wrong with kmeans')
-    continue
-  end
-end
+% while true
+%   try
+%     IDX = kmeans(XX,params.numStateZ);
+%     break;
+%   catch
+%     warning('something wrong with kmeans')
+%     continue
+%   end
+% end
+  
+IDX = kmeans(XX,params.numStateZ,'Replicates',5,'distance','Hamming','emptyaction','singleton');
+   
+
 YZ = sub2indYZ(params,YY,IDX);
 
 c = 0;
