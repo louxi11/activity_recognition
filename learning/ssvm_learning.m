@@ -23,9 +23,11 @@ if params.need_init
       YZ = sub2indYZ(params,Y,Zhat);
       params.labels{i} = YZ;
     end
+    
   elseif strcmp(params.initStrategy,'clustering')
     fprintf('initilizing latent variables by clustering X\n')
     params.labels = initByClustering(trainData,params);
+    
   elseif strcmp(params.initStrategy,'affordance')
     fprintf('initilizing latent variables by Object Affordance\n')
     params.labels = initByAffordance(trainData,params);
