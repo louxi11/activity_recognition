@@ -40,7 +40,7 @@ for o = 1 : E3
 end
 
 
-% parse temporal skeleton features (1 x 160) TODO check with paper
+% parse temporal skeleton features (1 x 160)
 num_skeleton_features = 160;
 data(SN2).features.temporalSkel = nan(num_skeleton_features,1);
 
