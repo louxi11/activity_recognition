@@ -27,7 +27,7 @@ if params.need_init
     fprintf('initilizing latent variables by clustering X\n')
     params.labels = initByClustering(trainData,params);
   elseif strcmp(params.initStrategy,'affordance')
-    fprintf('initilizing latent variables by Object Affordance X\n')
+    fprintf('initilizing latent variables by Object Affordance\n')
     params.labels = initByAffordance(trainData,params);
   end
   params.need_init = false;

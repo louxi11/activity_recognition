@@ -12,13 +12,13 @@ addpath test_data/
 save_on = 1;
 
 %%% parameters %%%
-numStateZ = 2;
+numStateZ = 3;
 C = 0.3; % normalization constant
 E = 0.25; % epsilon
 W = 3; % optimization strategy
 tfeat = 'tfeat_on';
 thres = 1; % threshold to stop iteration TODO
-initStrategy = 'offordance';
+initStrategy = 'affordance';
 P = 1; % L-norm of slack. Use 1 for L1 and 2 for e^2
 
 iter = 1;
