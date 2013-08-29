@@ -15,7 +15,7 @@ addpath test_data/
 save_on = 1;
 
 %%% parameters %%%
-numStateZ = 1;
+numStateZ = 2;
 C = 0.3; % normalization constant
 E = 0.25; % epsilon
 W = 3; % optimization strategy
@@ -124,7 +124,7 @@ for iter = 1 : length(eval_set)
   fprintf('******************************\n\n')
   
   if save_on
-    save(sprintf([filebase,'.mat'],iter),...
+    save([filebase,'.mat'],...
       'trainRate','testRate','results','prec','recall','fscore','confmat');
   end
   
