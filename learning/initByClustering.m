@@ -28,7 +28,7 @@ XX = XX';
 %   end
 % end
   
-IDX = kmeans(XX,params.numStateZ,'Replicates',10,'distance','Hamming','emptyaction','singleton');
+IDX = kmeans(XX,params.numStateZ,'Replicates',10,'distance','Hamming','emptyaction','singleton'); % TODO
    
 
 YZ = sub2indYZ(params,YY,IDX);

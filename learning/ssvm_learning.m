@@ -15,17 +15,19 @@ fprintf('-------------------------------\n');
 if params.need_init
   % random initialize latent variable Z TODO
   params.labels = cell(size(trainData.labels));
-  if strcmp(params.initStrategy,'random') || params.numStateZ == 1
-    fprintf('initilizing latent variables randomly X\n')
+  if params.numStateZ == 1
+    fprintf('Latent variable gets only one state. Equivilent to normal CRF.\n')
+    params.labels = trainData.labels;    
+  elseif strcmp(params.initStrategy,'random')
+    fprintf('initilizing latent variables randomly\n')
     for i = 1 : length(params.patterns)
       Y = trainData.labels{i};
       Zhat = randsample(params.numStateZ,length(Y),true); % random sample with replacement
       YZ = sub2indYZ(params,Y,Zhat);
       params.labels{i} = YZ;
     end
-    
   elseif strcmp(params.initStrategy,'clustering')
-    fprintf('initilizing latent variables by clustering X\n')
+    fprintf('initilizing latent variables by clustering\n')
     params.labels = initByClustering(trainData,params);
     
   elseif strcmp(params.initStrategy,'affordance')

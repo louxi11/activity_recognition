@@ -33,6 +33,7 @@ end
 
 % split training and test set based on subject id
 if isempty(train_sid)
+    warning('using default train_sid,');
     trainidx = 1:110; % default
     testidx = 111:125;
 else
@@ -50,7 +51,7 @@ else
     
     [~,trainidx,~] = intersect(vid_id,train_videos);
     [~,testidx,~] = intersect(vid_id,test_videos);
-    
+    assert(isempty(intersect(trainidx,testidx)))
 end
 
 
