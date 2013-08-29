@@ -1,4 +1,4 @@
-function [confmat, prec, recall, fscore] = prec_recall(prediction,groundtruth)
+function [confmat, prec, recall, fscore] = prec_recall(groundtruth,prediction)
 
 if ~iscolumn(prediction) || ~iscolumn(groundtruth)
   error('input must be column vectors');
