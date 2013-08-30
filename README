@@ -11,3 +11,13 @@ learn latent variables from data TODO
 
 What are support vectors? if there is only 1 training example, why multiple support vectors??
 
+= Platform =
+
+Ubuntu 12.04
+Matlab 2012a
+
+
+
+= Install libDAI Dependencies =
+
+  sudo apt-get install g++ make doxygen graphviz libboost-dev libboost-graph-dev libboost-program-options-dev libboost-test-dev libgmp-dev cimg-dev
