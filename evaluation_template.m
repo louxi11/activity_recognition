@@ -15,7 +15,7 @@ addpath test_data/
 save_on = 1;
 
 %%% parameters %%%
-numStateZ = 2;
+numStateZ = 1;
 C = 0.3; % normalization constant
 E = 0.25; % epsilon
 W = 3; % optimization strategy
@@ -28,13 +28,14 @@ eval_set = 1;
 %%% allocate buffer %%%
 trainRate = nan(4,length(eval_set));
 testRate = nan(4,length(eval_set));
+prec = nan(4,length(eval_set));
+recall = nan(4,length(eval_set));
+confMAT = cell(4,length(eval_set));
+fscore = nan(4,length(eval_set));
 
 combos = combntns(1:4,3);
 
 for iter = 1 : length(eval_set)
-  
-  GT = [];
-  PRED = [];
   
   %%% learning %%%
   for i = 1 : size(combos,1)
@@ -65,7 +66,8 @@ for iter = 1 : length(eval_set)
     end
     
     %%% classification %%%
-    
+    GT = [];
+    PRED = [];
     CNT = 0;
     D = 0;
     data = trainData;
@@ -90,11 +92,20 @@ for iter = 1 : length(eval_set)
     end
     testRate(i,iter) = D/CNT;
     
+    [confmat, prec_vec, recall_vec, fscore_vec] = prec_recall(GT,PRED);
+    prec(i,iter) = mean(prec_vec);
+    recall(i,iter) = mean(recall_vec);
+    fscore(i,iter) = mean(fscore_vec);
+    confMAT{i,iter} = confmat;
+    
     fprintf('******************************\n')
     fprintf('Training set: %d, %d, %d\n',train_sid(1),train_sid(2),train_sid(3));
     fprintf('Training rate: %.4f\n\n',trainRate(i,iter));
     fprintf('Test set: %d\n',test_sid);
     fprintf('Test rate: %.4f\n\n',testRate(i,iter));
+    fprintf('Test precision: %.4f\n',prec(i,iter));
+    fprintf('Test recall: %.4f\n',recall(i,iter));
+    fprintf('Test Fscore: %.4f\n',fscore(i,iter));
     fprintf('******************************\n\n')
     
     diary off
@@ -102,7 +113,6 @@ for iter = 1 : length(eval_set)
   end
   
   
-  [confmat, prec, recall, fscore] = prec_recall(GT,PRED);
   
   results.meanTrain = mean(trainRate);
   results.stdTrain = std(trainRate);
@@ -125,7 +135,7 @@ for iter = 1 : length(eval_set)
   
   if save_on
     save([filebase,'.mat'],...
-      'trainRate','testRate','results','prec','recall','fscore','confmat');
+      'trainRate','testRate','results','prec','recall','fscore','confMAT');
   end
   
 end
