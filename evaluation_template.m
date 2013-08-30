@@ -50,10 +50,10 @@ for c = 1 : length(eval_set)
     test_sid = all_sid(~ismember(all_sid,train_sid));
     
     filebase = sprintf('Z%d_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d',numStateZ,C,E,W,tfeat,thres,initStrategy,iter);
-%     if save_on
+    if save_on
       logfile = sprintf([filebase,'_Test%d'],test_sid);
-%       make_log(logfile); % LOG file and SAVE MODEL
-%     end
+      make_log(logfile); % LOG file and SAVE MODEL
+    end
     
     % load structured svm options
     learning_option = sprintf('-c %.2f -e %.2f -w %d',C,E,W); % ssvm learning parameters
@@ -61,14 +61,14 @@ for c = 1 : length(eval_set)
     % split training and test data
     [trainData,testData] = load_CAD120('parse_off',tfeat,train_sid);
     
-%     % learning
-%     [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initStrategy);
+    % learning
+    [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initStrategy);
     
-%     % save model to file
-%     if save_on
-%       save(['model_',logfile,'.mat'],'model','params','trainData','testData')
-%     end
-load(['model_',logfile,'.mat'],'model','params','trainData','testData')
+    % save model to file
+    if save_on
+      save(['model_',logfile,'.mat'],'model','params','trainData','testData')
+    end
+    % load(['model_',logfile,'.mat'],'model','params','trainData','testData')
     
 
     %%% classification %%%
@@ -120,9 +120,7 @@ load(['model_',logfile,'.mat'],'model','params','trainData','testData')
     diary off
     
   end
-  
-  
-  
+
   results.meanTrain = mean(trainRate(:));
   results.stdTrain = std(trainRate(:));
   results.meanTest = mean(testRate(:));
