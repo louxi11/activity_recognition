@@ -1,7 +1,7 @@
 % function evaluation_template
 
 clc
-clear all
+% clear all
 
 addpath graphical_model/
 addpath inference/
@@ -15,12 +15,12 @@ addpath test_data/
 save_on = 1;
 
 %%% parameters %%%
-numStateZ = 4;
+numStateZ = 2;
 C = 0.3; % normalization constant
 E = 0.25; % epsilon
 W = 3; % optimization strategy
 tfeat = 'tfeat_on';
-thres = inf; % threshold to stop iteration TODO
+thres = 0.5; % threshold to stop iteration TODO
 initStrategy = 'affordance';
 
 eval_set = 1:3;
@@ -62,7 +62,7 @@ for c = 1 : length(eval_set)
     [trainData,testData] = load_CAD120('parse_off',tfeat,train_sid);
     
     % learning
-    [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initStrategy);
+    [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initStrategy,C);
     
     % save model to file
     if save_on

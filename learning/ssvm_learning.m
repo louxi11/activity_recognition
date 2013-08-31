@@ -1,4 +1,4 @@
-function [params,model] = ssvm_learning(params,trainData,learning_option,model)
+function [params,model] = ssvm_learning(params,trainData,learning_option,model,C)
 % SSVM_LEARNING structured-SVM learning function
 % params.patterns is the inputs X of the structured SVM, and params.labels
 % is the Y which we would like to predict. params.patterns is a cell array where each
@@ -51,7 +51,7 @@ end
 model = svm_struct_learn(learning_option, params);
 
 % stop criteria - CCCP
-params.cumError = cccp_error(params,trainData,model);
+params.cumError = cccp_error(params,trainData,model,C);
 
 % % compute time so far
 % elapsedTime = toc;

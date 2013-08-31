@@ -1,4 +1,4 @@
-function [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initStrategy)
+function [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initStrategy,C)
 % iterate until convergence
 
 DimX = trainData.DimX;
@@ -14,7 +14,7 @@ model = [];
 while true
     
     % Structured-SVM
-    [params,model] = ssvm_learning(params,trainData,learning_option,model);   
+    [params,model] = ssvm_learning(params,trainData,learning_option,model,C);   
     
     fprintf('******************************\n')
     fprintf('iteration = %d\n',params.cnt)
@@ -25,7 +25,11 @@ while true
     fprintf('******************************\n')
     
     % stop iteration
-    if abs(params.cumErrorPrev - params.cumError) < thres || params.numStateZ == 1
+    if params.cumErrorPrev - params.cumError < 0
+      warning('something is wrong')
+    end
+    
+    if params.cumErrorPrev - params.cumError < thres || params.numStateZ == 1
         break
     end  
       
