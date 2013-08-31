@@ -21,7 +21,7 @@ for i = 1 : length(factors)
     
 end
 
-[pred,score] = doinference(fg);
+[pred,score] = doinference(fg); % compute the best state sequence and LOG score
 
 pred = double(pred); % convert to double
 
