@@ -9,9 +9,9 @@ for i = 1 : length(params.labels)
        
     X = params.patterns{i};
     Y = trainData.labels{i};
-    YZ = sub2ind(params.szYZ, Y, ones(size(Y))); % Z does not matter when computing loss function
+    YZ = sub2ind(params.szYZ, Y, ones(size(Y))); % assign an arbitrary Z because Y will be recoverd when compute loss factor
     
-    % argmax_y delta(yi, y) + <psi(x,y), w>
+    % max_yz (delta(yzi, yz) + <psi(xi,yz), w>)
     [~,Fi] = constraintCB(params, model, X, YZ);
     F = Fi + F;
 end
@@ -28,6 +28,6 @@ for i = 1 : length(params.labels)
 end
 G = C * G;
 
-cumError = F - G; % don't forget the norm...
+cumError = F - G; % don't forget the regularization...
 
 end
