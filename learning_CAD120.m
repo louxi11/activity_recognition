@@ -10,7 +10,7 @@ params = init_params(trainData, DimX, numStateY, numStateZ,initStrategy);
 % tic
 
 model = [];
-
+cooling_eps = 0.5 * thres;
 while true
     
     % Structured-SVM
@@ -24,14 +24,16 @@ while true
     % fprintf('time elapsed = %f\n', elapsedTime);
     fprintf('******************************\n')
     
-    % stop iteration
-    if params.cumErrorPrev - params.cumError < 0
-      warning('something is wrong')
+    % stop iteration -TODO sometimes decrement < 0!!!!!
+    decrement = params.cumErrorPrev - params.cumError;
+    if params.numStateZ == 1 % linear chain CRF
+      break
+    elseif decrement < thres && cooling_eps < 0.5*thres+1E-8
+      break
+    else
+      cooling_eps = -decrement*0.01;
+      cooling_eps = max(cooling_eps, 0.5 * thres);
     end
-    
-    if params.cumErrorPrev - params.cumError < thres || params.numStateZ == 1
-        break
-    end  
       
     params.cnt = params.cnt + 1;
     
