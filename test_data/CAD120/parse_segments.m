@@ -40,13 +40,13 @@ for o = 1 : N1
     objects(obj_id) = 1;
     assert(ismember(obj_id,1 : num_objects))
     affordance(obj_id) = affordance_class;
-    
+
     s = textscan(fid,'%f:%f',num_obj_features);
     data.features.obj(:,obj_id) = s{2};
 end
 
 
-% parse skeleton features (1 x 630) TODO check with paper
+% parse skeleton features (1 x 630)
 num_skeleton_features = 630;
 data.features.skel = nan(num_skeleton_features,1);
 
@@ -69,20 +69,20 @@ if E1 ~= 0
     indice = combntns(1:N1,2);
     indice = [indice;fliplr(indice)];
     for e = 1 : E1
-        
+
         s = textscan(fid,'%f',4);
         s = s{1};
-        
+
         affordance1 = s(1);
         affordance2 = s(2);
         obj1_id = s(3);
         obj2_id = s(4);
         [~,interobj_idx] = ismember(indice,[obj1_id,obj2_id],'rows');
-        
+
         assert(affordance(obj1_id) == affordance1)
         assert(affordance(obj2_id) == affordance2)
         assert(sum(interobj_idx) == 1)
-        
+
         s = textscan(fid,'%f:%f',num_interobj_features);
         data.features.interobj(:,logical(interobj_idx)) = s{2};
     end
@@ -96,13 +96,13 @@ data.features.skelobj = zeros(num_skelobj_features,num_objects);
 for e = 1 : E2
     s = textscan(fid,'%f',3);
     s = s{1};
-    
+
     affordance_class = s(1);
     obj_id = s(3);
-    
+
     assert(affordance_class == affordance(obj_id))
     assert(sub_activity == s(2))
-    
+
     s = textscan(fid,'%f:%f',num_skelobj_features);
     data.features.skelobj(:,obj_id) = s{2};
 end
