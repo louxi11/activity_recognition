@@ -24,10 +24,12 @@ midValue = mean(get(gca,'CLim'));
 textColors = repmat(mat(:) < midValue,1,3);
 nanIND = isnan(mat(:));
 textColors(nanIND,:) = 1;
+zeroIND = mat(:) == 0;
+textColors(zeroIND,:) = 0;
 set(hStrings,{'Color'},num2cell(textColors,2));  %# Change the text colors
 set(gca,'xticklabel',tickx,'XAxisLocation','top');
 set(gca, 'XTick', 1:dim(2), 'YTick', 1:dim(1));
 set(gca,'yticklabel',ticky);
-% rotateXLabels(gca, 45 );% rotate the x tick
+xticklabel_rotate([],45,[],'Fontsize',10);% rotate the x tick
 
 
