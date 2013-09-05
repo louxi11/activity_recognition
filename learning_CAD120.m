@@ -31,7 +31,8 @@ while true
     
     if params.numStateZ == 1 % linear chain CRF
       break
-    elseif decrement < thres && cooling_eps < 0.5*thres+1E-8
+%     elseif decrement < thres && cooling_eps < 0.5*thres+1E-8
+    elseif decrement < thres
       break
     end
       
