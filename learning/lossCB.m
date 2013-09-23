@@ -1,6 +1,7 @@
 function delta = lossCB(params, YZ, YZhat)
 %LOSSCB Summary of this function goes here
 %   get Y and Ybar
+% TODO
 
 [Y,~] = ind2subYZ(params,YZ);
 [Yhat,~] = ind2subYZ(params,YZhat);

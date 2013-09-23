@@ -24,6 +24,8 @@ if ~isempty(yk1)
   W(tran_idx) = 0;
 end
 
+if isnan(yk1)
+
 % construct transition factor
 trans_factor = struct('var', [], 'card', [], 'val', []);
 trans_factor.var = [k,k+1]; % (y_{k},z_{k}) -> (y_{k+1},z_{k+1})

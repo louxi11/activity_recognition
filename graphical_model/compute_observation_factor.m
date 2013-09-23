@@ -25,7 +25,7 @@ obs_factor.card = params.numStateYZ;
 obs_factor.val = psi_k';
 
 % set factor value to 0 if y violate evidence yk
-if ~isempty(yk)
+if ~isempty(yk) && ~isnan(yk) %TODO
   evidence = sparse(yk, 1:params.numStateZ, true, ...
     params.numStateY, params.numStateZ);
   obs_factor.val(~evidence) = 0; % evidence index YZ
