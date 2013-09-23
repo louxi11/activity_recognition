@@ -12,7 +12,7 @@ addpath evaluation/
 
 addpath test_data/
 
-save_on = 1;
+save_on = 0;
 
 %%% parameters %%%
 numStateZ = 2;

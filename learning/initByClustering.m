@@ -1,10 +1,10 @@
 function labels = initByClustering(trainData,params)
-% labels is a cell
+% labels is a cell array
 
 X = trainData.patterns;
 Y = trainData.labels;
 XX = [];
-YY = [];
+YY = []; % labels list
 NUM = [];
 for i = 1 : length(trainData.patterns)
   x = X{i};
