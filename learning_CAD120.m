@@ -29,10 +29,13 @@ while true
     cooling_eps = -decrement*0.01;
     cooling_eps = max(cooling_eps, 0.5 * thres);
     
-    if params.numStateZ == 1 % linear chain CRF
-      break
-%     elseif decrement < thres && cooling_eps < 0.5*thres+1E-8
-    elseif decrement < thres
+%     if params.numStateZ == 1 % linear chain CRF
+%       break
+%     if decrement < thres && cooling_eps < 0.5*thres+1E-8
+%       break
+%     end
+    
+    if decrement < thres
       break
     end
       
