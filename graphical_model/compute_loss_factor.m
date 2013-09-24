@@ -6,10 +6,14 @@ function loss_factor = compute_loss_factor( params, YZ, k)
 loss_factor = struct('var', [], 'card', [], 'val', []);
 
 YZk = YZ(k);
-[Yk,~] = ind2subYZ(params,YZk); % compute groundtruth Yk
 
-delta_k = ones(params.numStateY,params.numStateZ);
-delta_k(Yk,:) = 0; % loss is zero when YZk is consistent with the groundtruth Yk
+if ~isnan(YZk)
+  [Yk,~] = ind2subYZ(params,YZk); % compute groundtruth Yk
+  delta_k = ones(params.numStateY,params.numStateZ);
+  delta_k(Yk,:) = 0; % loss is zero when YZk is consistent with the groundtruth Yk
+else
+  delta_k = zeros(params.numStateY,params.numStateZ);
+end
 
 loss_factor.var = k; % yz{k}
 loss_factor.card = params.numStateYZ;

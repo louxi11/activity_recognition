@@ -17,7 +17,7 @@ if params.need_init
   params.labels = cell(size(trainData.labels));
   if params.numStateZ == 1
     fprintf('Latent variable gets only one state. Equivilent to normal CRF.\n')
-    params.labels = trainData.labels;    
+    params.labels = initBySemi(trainData,params);
   elseif strcmp(params.initStrategy,'random')
     fprintf('initilizing latent variables randomly\n')
     for i = 1 : length(params.patterns)
@@ -28,7 +28,7 @@ if params.need_init
     end
   elseif strcmp(params.initStrategy,'clustering')
     fprintf('initilizing latent variables by clustering\n')
-    params.labels = initByClustering(trainData,params);
+    params.labels = initBySemi(trainData,params);
     
   elseif strcmp(params.initStrategy,'affordance')
     fprintf('initilizing latent variables by Object Affordance\n')

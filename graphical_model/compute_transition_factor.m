@@ -14,17 +14,23 @@ if ~isempty(yk1)
   % given groudtruth yk1 and yk2, compute all permutation of (yk1,zk1) and
   % (yk2,zk2), represented in YZ space. yzk is a sparse matrix with boolean
   % values, where true values satisf the evidence yk
-  yzk1 = sparse(yk1,1:params.numStateZ,true,...
-    params.numStateY,params.numStateZ);
-  yzk2 = sparse(yk2,1:params.numStateZ,true,...
-    params.numStateY,params.numStateZ);
+  if ~isnan(yk1)
+    yzk1 = sparse(yk1,1:params.numStateZ,true,...
+      params.numStateY,params.numStateZ);
+  else
+    yzk1 = true(params.numStateY,params.numStateZ);
+  end
+  if ~isnan(yk2)
+    yzk2 = sparse(yk2,1:params.numStateZ,true,...
+      params.numStateY,params.numStateZ);
+  else
+    yzk2 = true(params.numStateY,params.numStateZ);
+  end
   
   % set entrise of W to 0 if violate evidence yzk1 and yzk2
   tran_idx = sub2ind([params.numStateYZ,params.numStateYZ],find(~yzk1(:)),find(~yzk2(:)));
   W(tran_idx) = 0;
 end
-
-if isnan(yk1)
 
 % construct transition factor
 trans_factor = struct('var', [], 'card', [], 'val', []);
