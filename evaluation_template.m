@@ -15,12 +15,12 @@ addpath test_data/
 save_on = 1;
 
 %%% parameters %%%
-numStateZ = 4;
+numStateZ = 2;
 C = 0.3; % normalization constant
 E = 0.25; % epsilon
 W = 3; % optimization strategy
 tfeat = 'tfeat_on';
-thres = 1; % threshold to stop iteration TODO
+thres = 0.1; % threshold to stop iteration TODO
 % thres = C * E; % threshold to stop iteration TODO
 initStrategy = 'affordance';
 
@@ -119,7 +119,7 @@ for c = 1 : length(eval_set)
     fprintf('******************************\n\n')
     
     diary off
-    
+    break
   end
 
   results.meanTrain = mean(trainRate(:));

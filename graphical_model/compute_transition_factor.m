@@ -20,8 +20,11 @@ if ~isempty(yk1)
     params.numStateY,params.numStateZ);
   
   % set entrise of W to 0 if violate evidence yzk1 and yzk2
-  tran_idx = sub2ind([params.numStateYZ,params.numStateYZ],find(~yzk1(:)),find(~yzk2(:)));
-  W(tran_idx) = 0;
+  [m1,m2] = meshgrid(find(yzk1(:)),find(yzk2(:)));
+  tran_idx = true(params.numStateYZ,params.numStateYZ);
+  tran_idx(m1(:),m2(:)) = false;
+%   tran_idx = sub2ind([params.numStateYZ,params.numStateYZ],find(~yzk1(:)),find(~yzk2(:)));
+  W(tran_idx(:)) = 0;
 end
 
 % construct transition factor
