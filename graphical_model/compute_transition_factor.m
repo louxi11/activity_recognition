@@ -10,7 +10,7 @@ W = model.w(params.idx_w_tran);
 W = reshape(W, params.numStateYZ, params.numStateYZ);
 
 % set factor value to 0 if y violate evidence yk
-if ~isempty(yk1)
+if ~isempty(yk1) && ~(isnan(yk1)&&isnan(yk2))
   % given groudtruth yk1 and yk2, compute all permutation of (yk1,zk1) and
   % (yk2,zk2), represented in YZ space. yzk is a sparse matrix with boolean
   % values, where true values satisf the evidence yk
@@ -28,8 +28,12 @@ if ~isempty(yk1)
   end
   
   % set entrise of W to 0 if violate evidence yzk1 and yzk2
-  tran_idx = sub2ind([params.numStateYZ,params.numStateYZ],find(~yzk1(:)),find(~yzk2(:)));
-  W(tran_idx) = 0;
+  [m1,m2] = meshgrid(find(yzk1(:)),find(yzk2(:)));
+  tran_idx = true(params.numStateYZ,params.numStateYZ);
+  tran_idx(m1(:),m2(:)) = false;
+  %   tran_idx = sub2ind([params.numStateYZ,params.numStateYZ],find(~yzk1(:)),find(~yzk2(:)));
+  W(tran_idx(:)) = 0;
+
 end
 
 % construct transition factor
