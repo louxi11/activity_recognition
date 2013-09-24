@@ -53,7 +53,7 @@ for c = 1 : length(eval_set)
     all_sid = 1 : 4;
     test_sid = all_sid(~ismember(all_sid,train_sid));
     
-    filebase = sprintf('Z%d_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d',numStateZ,C,E,W,tfeat,thres,initStrategy,iter);
+    filebase = sprintf('Z%d_cp_%02f_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d',numStateZ,corruptPercentage,C,E,W,tfeat,thres,initStrategy,iter);
     if save_on
       logfile = sprintf([filebase,'_Test%d'],test_sid);
       make_log(logfile); % LOG file and SAVE MODEL
