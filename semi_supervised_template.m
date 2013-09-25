@@ -23,7 +23,7 @@ C = 0.3; % normalization constant
 E = 0.25; % epsilon
 W = 3; % optimization strategy
 tfeat = 'tfeat_on';
-thres = 1; % threshold to stop iteration TODO
+thres = inf; % threshold to stop iteration TODO
 % thres = C * E; % threshold to stop iteration TODO
 initStrategy = 'clustering'; % semi supervised
 

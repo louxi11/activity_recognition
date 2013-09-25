@@ -13,7 +13,7 @@ for i = 1 : length(trainData.patterns)
   K = length(x) / trainData.DimX;
   x = reshape(x,trainData.DimX,K);
   XX = [XX,x];
-  y(isnan(y)) = randsample(params.numStateY,sum(isnan(y))); % randomly initialize y
+  y(isnan(y)) = randsample(params.numStateY,sum(isnan(y)),true); % randomly initialize y
   YY = [YY;y];
   NUM = [NUM;length(y)];
 end
