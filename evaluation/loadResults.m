@@ -58,7 +58,7 @@ end
 disp('Z4')
 numStateZ = 4;
 Z4 = [];
-for corruptPercentage = 0:0.1:0.9
+for corruptPercentage = 0.2:0.1:0.8
   filebase = sprintf('Z%d_cp_%02f_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d.mat',numStateZ,corruptPercentage,C,E,W,tfeat,thres,initStrategy,iter);
   load(filebase)
   fscore = 2*prec.*recall./(prec+recall);
@@ -77,10 +77,10 @@ hold on
 plot(0.1:0.1:1,flipud(Z2(:,1))*100,'r','linewidth',3)
 
 % errorbar(Z1(:,1),Z1(:,2));
-plot(0:0.1:0.9,flipud(Z3(:,1))*100)
+plot(0.1:0.1:1,flipud(Z3(:,1))*100,'g','linewidth',3)
 
 % errorbar(Z2(:,1),Z2(:,2),'r')
-plot(0.2:0.1:0.8,flipud(Z4(:,1))*100,'r')
+plot(0.2:0.1:0.8,flipud(Z4(:,1))*100,'m','linewidth',3)
 
 axis([0.1,1,0,100])
 legend('Z1','Z2','Z3','Z4')
