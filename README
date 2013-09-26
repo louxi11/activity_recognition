@@ -2,6 +2,7 @@ add latent variables DONE.
 RunInference save to files. No disk read/write DONE.
 learn latent variables directly from X TODO
 learn latent variables from data TODO
+speed up training, remove assert? remove debug flag?
 
 * use the negative portion of exponential function
 * verbose messages
