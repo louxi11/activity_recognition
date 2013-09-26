@@ -16,7 +16,9 @@ What are support vectors? if there is only 1 training example, why multiple supp
 Ubuntu 12.04
 Matlab 2012a
 
-
+Change log
+ added semi-supervised learning
+ fixed bugs for computing cccp error
 
 = Install libDAI Dependencies =
 
