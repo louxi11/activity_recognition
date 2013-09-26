@@ -7,22 +7,16 @@ function obs_factor = compute_observation_factor( xk, model, params, k, yk)
 assert(iscolumn(xk)) % must be a column vector
 
 % parameter vector to matrix [X x (YxZ)]
-w = reshape(model.w(params.idx_w_unary), params.DimX, params.numStateY);
+w = reshape(model.w(params.idx_w_unary), params.DimX, params.numStateYZ);
 bias  = model.w(params.idx_w_bias);
 
 assert(iscolumn(bias))
 
-psi_y = w' * xk;
+psi_k = bsxfun(@plus, w' * xk, bias);
 
 % psi_k = bsxfun(@minus, psi_k, max(psi_k));  % avoid numberical problem
-psi_k = zeros(params.szYZ);
-for i = 1 : params.numStateY
-  psi_k(i,:) = psi_y(i);
-end
 
-psi_k = psi_k(:) + bias;
-
-psi_k = exp(psi_k(:)); % potential for libDAI
+psi_k = exp(psi_k); % potential for libDAI
 
 % construct factor
 obs_factor = struct('var', [], 'card', [], 'val', []);

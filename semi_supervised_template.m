@@ -18,7 +18,7 @@ save_on = 1;
 corruptPercentage = 0.1;
 
 %%% parameters %%%
-numStateZ = 1;
+numStateZ = 2;
 C = 0.3; % normalization constant
 E = 0.25; % epsilon
 W = 3; % optimization strategy
@@ -53,7 +53,7 @@ for c = 1 : length(eval_set)
     all_sid = 1 : 4;
     test_sid = all_sid(~ismember(all_sid,train_sid));
     
-    filebase = sprintf('Z%d_cp_%02f_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d',numStateZ,corruptPercentage,C,E,W,tfeat,thres,initStrategy,iter);
+    filebase = sprintf('Z%d_cp_%.2f_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d',numStateZ,corruptPercentage,C,E,W,tfeat,thres,initStrategy,iter);
     if save_on
       logfile = sprintf([filebase,'_Test%d'],test_sid);
       make_log(logfile); % LOG file and SAVE MODEL
@@ -108,7 +108,7 @@ for c = 1 : length(eval_set)
     [confmat0, prec0, recall0, fscore0] = prec_recall(GT,PRED);
     prec(i,c) = mean(prec0);
     recall(i,c) = mean(recall0);
-    fscore(i,c) = mean(fscore0);
+    fscore(i,c) = 2 * prec(i,c) * recall(i,c) / (prec(i,c) + recall(i,c));
     confmat{i,c} = confmat;
     
     fprintf('******************************\n')

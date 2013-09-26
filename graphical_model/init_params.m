@@ -18,7 +18,7 @@ params.numStateYZ = numStateY * numStateZ;
 params.szYZ = [numStateY, numStateZ];
 
 % indice of unary parameters
-params.idx_w_unary = 1 : params.DimX * numStateY ;
+params.idx_w_unary = 1 : params.DimX * (numStateY * numStateZ);
 
 % indice of bias parameters
 params.idx_w_bias = params.idx_w_unary(end) + 1 ...

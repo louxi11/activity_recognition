@@ -9,9 +9,8 @@ function phi = featureCB(params, X, YZ)
 
 % unary features
 maskX = find(X);
-Y = ind2subYZ(params,YZ);
-[indYZ,indXDimension] = meshgrid(Y,1:params.DimX);
-A = accumarray([indXDimension(maskX),indYZ(maskX)],full(X(maskX)),[params.DimX,params.numStateY],[],[],true);
+[indYZ,indXDimension] = meshgrid(YZ,1:params.DimX);
+A = accumarray([indXDimension(maskX),indYZ(maskX)],full(X(maskX)),[params.DimX,params.numStateYZ],[],[],true);
 
 
 % prior features
