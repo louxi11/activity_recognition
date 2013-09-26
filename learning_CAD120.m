@@ -6,7 +6,7 @@ DimX = trainData.DimX;
 numStateY = 10;
 
 params = init_params(trainData, DimX, numStateY, numStateZ,initStrategy);
-
+params.trainData = trainData;
 % tic
 
 model = [];

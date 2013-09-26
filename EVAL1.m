@@ -1,6 +1,6 @@
-
-for corruptPercentage = 0:0.1:0.9
 % function evaluation_template
+
+for corruptPercentage = 0 : 0.1 : 0.9
 
 clc
 % clear all
@@ -16,8 +16,6 @@ addpath evaluation/
 addpath test_data/
 
 save_on = 1;
-
-% corruptPercentage = 0.1;
 
 %%% parameters %%%
 numStateZ = 1;
@@ -146,4 +144,5 @@ for c = 1 : length(eval_set)
   end
   
 end
+
 end

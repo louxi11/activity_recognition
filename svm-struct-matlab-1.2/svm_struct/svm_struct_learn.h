@@ -3,7 +3,7 @@
 /*   svm_struct_learn.h                                                */
 /*                                                                     */
 /*   Basic algorithm for learning structured outputs (e.g. parses,     */
-/*   sequences, multi-label classification) with a Support Vector      */ 
+/*   sequences, multi-label classification) with a Support Vector      */
 /*   Machine.                                                          */
 /*                                                                     */
 /*   Author: Thorsten Joachims                                         */
@@ -29,8 +29,8 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
-#include "svm_struct_common.h" 
-#include "../svm_struct_api_types.h" 
+#include "svm_struct_common.h"
+#include "../svm_struct_api_types.h"
 
 #define  SLACK_RESCALING    1
 #define  MARGIN_RESCALING   2
@@ -65,37 +65,37 @@ typedef struct ccache {
 			     last iter? */
 } CCACHE;
 
-void find_most_violated_constraint(SVECTOR **fydelta, double *lossval, 
-				   EXAMPLE *ex, SVECTOR *fycached, long n, 
+void find_most_violated_constraint(SVECTOR **fydelta, double *lossval,
+				   EXAMPLE *ex, SVECTOR *fycached, long n,
 				   STRUCTMODEL *sm,STRUCT_LEARN_PARM *sparm,
-				   double *rt_viol, double *rt_psi, 
-				   long *argmax_count);
-CCACHE *create_constraint_cache(SAMPLE sample, STRUCT_LEARN_PARM *sparm, 
+				   double *rt_viol, double *rt_psi,
+				   long *argmax_count,int idx_n);
+CCACHE *create_constraint_cache(SAMPLE sample, STRUCT_LEARN_PARM *sparm,
 				STRUCTMODEL *sm);
 void free_constraint_cache(CCACHE *ccache);
-double add_constraint_to_constraint_cache(CCACHE *ccache, MODEL *svmModel, 
-	  				  int exnum, SVECTOR *fydelta, 
+double add_constraint_to_constraint_cache(CCACHE *ccache, MODEL *svmModel,
+	  				  int exnum, SVECTOR *fydelta,
 					  double rhs, double gainthresh,
 					  int maxconst, double *rt_cachesum);
 void update_constraint_cache_for_model(CCACHE *ccache, MODEL *svmModel);
 double compute_violation_of_constraint_in_cache(CCACHE *ccache, double thresh);
-double find_most_violated_joint_constraint_in_cache(CCACHE *ccache, 
+double find_most_violated_joint_constraint_in_cache(CCACHE *ccache,
   		     double thresh, double *lhs_n, SVECTOR **lhs, double *rhs);
 void svm_learn_struct(SAMPLE sample, STRUCT_LEARN_PARM *sparm,
-		      LEARN_PARM *lparm, KERNEL_PARM *kparm, 
+		      LEARN_PARM *lparm, KERNEL_PARM *kparm,
 		      STRUCTMODEL *sm, int alg_type);
 void svm_learn_struct_joint(SAMPLE sample, STRUCT_LEARN_PARM *sparm,
-		      LEARN_PARM *lparm, KERNEL_PARM *kparm, 
+		      LEARN_PARM *lparm, KERNEL_PARM *kparm,
 		      STRUCTMODEL *sm, int alg_type);
 void svm_learn_struct_joint_custom(SAMPLE sample, STRUCT_LEARN_PARM *sparm,
-		      LEARN_PARM *lparm, KERNEL_PARM *kparm, 
+		      LEARN_PARM *lparm, KERNEL_PARM *kparm,
 		      STRUCTMODEL *sm);
-void remove_inactive_constraints(CONSTSET *cset, double *alpha, 
+void remove_inactive_constraints(CONSTSET *cset, double *alpha,
 			         long i, long *alphahist, long mininactive);
-MATRIX *init_kernel_matrix(CONSTSET *cset, KERNEL_PARM *kparm); 
+MATRIX *init_kernel_matrix(CONSTSET *cset, KERNEL_PARM *kparm);
 MATRIX *update_kernel_matrix(MATRIX *matrix, int newpos, CONSTSET *cset,
 			     KERNEL_PARM *kparm);
- 
+
 #endif
 
 

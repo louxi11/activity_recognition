@@ -12,7 +12,7 @@ for i = 1 : length(params.labels)
     YZ = sub2ind(params.szYZ, Y, ones(size(Y))); % assign an arbitrary Z because Y will be recoverd when compute loss factor
     
     % max_yz (delta(yzi, yz) + <psi(xi,yz), w>)
-    [~,F(i)] = constraintCB(params, model, X, YZ);
+    [~,F(i)] = constraintCB(params, model, X, YZ,i);
 end
 Fsum = (norm(model.w)^2)/2 + C * sum(F);
 
