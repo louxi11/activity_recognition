@@ -1,0 +1,1 @@
+ls *.log | while read fn; do grep -iH "iteration = " "$fn" | tail -1; done > Iter.txt
