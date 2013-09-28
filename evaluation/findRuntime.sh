@@ -1,0 +1,1 @@
+ls *.log | while read fn; do grep -iH "Runtime in " "$fn" | tail -1; done > runtime.txt

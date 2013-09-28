@@ -129,20 +129,22 @@ legend('Z1','Z2','Z3','Z4')
 SV = importdata('SV.txt');
 SV = SV.data;
 SV = reshape(SV,12,length(SV)/12);
-SV1 = mean(SV(:,1:10)-1);
-SV2 = mean(SV(:,11:20)-1);
-figure(2)
+SV1 = mean(SV(:,1:10));
+SV2 = mean(SV(:,11:20));
+SV3 = mean(SV(:,21:30));
+
+figure(3)
 hold off
 plot(0.1:0.1:1,SV1,'linewidth',3)
 hold on
 plot(0.1:0.1:1,SV2,'r','linewidth',3)
-% plot(0.1:0.1:1,Z3(:,1),'g','linewidth',3)
+plot(0.1:0.1:1,SV3,'g','linewidth',3)
 % plot(0.1:0.1:1,Z4(:,1),'m','linewidth',3)
 
 set(gca,'XTickLabel',100:-10:10,'FontSize',12)
-% axis([0.1,1,0,90])
+axis([0.1,1,0,90])
 xlabel('Percentage of Labeled Data (%)','FontSize',12)
-ylabel('Number of Support Vectors','FontSize',12)
+ylabel('Average Number of Support Vectors','FontSize',12)
 legend('Z1','Z2','Z3','Z4')
 
 %% Iter
@@ -150,19 +152,45 @@ Iter = importdata('Iter.txt');
 Iter = Iter.data;
 Iter = reshape(Iter,12,length(Iter)/12);
 Iter(Iter<2)=2;
-SV1 = mean(Iter(:,1:10)-1);
-SV2 = mean(Iter(:,11:20)-1);
-figure(3)
+SV1 = mean(Iter(:,1:10));
+SV1(1) = 1;
+SV2 = mean(Iter(:,11:20));
+SV3 = mean(Iter(:,21:30));
+
+figure(4)
 hold off
 plot(0.1:0.1:1,SV1,'linewidth',3)
 hold on
 plot(0.1:0.1:1,SV2,'r','linewidth',3)
-% plot(0.1:0.1:1,Z3(:,1),'g','linewidth',3)
+plot(0.1:0.1:1,SV3,'g','linewidth',3)
 % plot(0.1:0.1:1,Z4(:,1),'m','linewidth',3)
+
+% axis([0.1,1,0,5.5])
+set(gca,'XTickLabel',100:-10:10,'FontSize',12)
+xlabel('Percentage of Labeled Data (%)','FontSize',12)
+ylabel('Average CCCP iterations','FontSize',12)
+legend('SemiSup LS-SVM-1','Z2','Z3','Z4')
+
+%% Runtime
+runtime = importdata('runtime.txt');
+runtime = runtime.data;
+runtime = reshape(runtime,12,length(runtime)/12);
+runtime(runtime<2)=2;
+SV1 = mean(runtime(:,1:10));
+SV2 = mean(runtime(:,11:20));
+SV3 = median(runtime(:,21:30));
+
+figure(5)
+hold off
+plot(0.1:0.1:1,SV1,'linewidth',3)
+hold on
+plot(0.1:0.1:1,SV2,'r','linewidth',3)
+plot(0.1:0.1:1,SV3,'g','linewidth',3)
+% plot(0.1:0.1:1,SV4,'m','linewidth',3)
 
 set(gca,'XTickLabel',100:-10:10,'FontSize',12)
 xlabel('Percentage of Labeled Data (%)','FontSize',12)
-ylabel('CCCP iterations','FontSize',12)
+ylabel('Average CPU Runtime per iteraction (seconds)','FontSize',12)
 legend('Z1','Z2','Z3','Z4')
 
 %% AUC
