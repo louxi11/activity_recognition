@@ -144,6 +144,6 @@ combos = combntns(1:4,3);
   plot(2:size(AA,2)+1,AA(3,:),'g-*');
   plot(2:size(AA,2)+1,AA(4,:),'m-*');
   
-  xlabel('video length','FontSize',13)
-  ylabel('classification time','FontSize',13)
+  xlabel('Video length (number of segments)','FontSize',13)
+  ylabel('Inference runtime per video (seconds)','FontSize',13)
   legend('Semi. Latent-1','Semi. Latent-2','Semi. Latent-3','Semi. Latent-4');

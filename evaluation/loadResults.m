@@ -173,17 +173,17 @@ Iter = importdata('Iter.txt');
 Iter = Iter.data;
 Iter = reshape(Iter,12,length(Iter)/12);
 Iter(Iter<2)=2;
-SV2 = mean(Iter(:,11:20));
-SV3 = mean(Iter(:,21:30));
-SV4 = mean(Iter(:,31:40));
+Iter2 = mean(Iter(:,11:20));
+Iter3 = mean(Iter(:,21:30));
+Iter4 = mean(Iter(:,31:40));
 
 figure(4)
 hold off
-plot(0.1:0.1:1,SV1,'r','linewidth',3)
+plot([0.1,1],[1,1],'r','linewidth',3)
 hold on
-plot(0.1:0.1:1,SV2,'b','linewidth',3)
-plot(0.1:0.1:1,SV3,'g','linewidth',3)
-plot(0.1:0.1:1,SV4,'m','linewidth',3)
+plot(0.1:0.1:1,Iter2,'b','linewidth',3)
+plot(0.1:0.1:1,Iter3,'g','linewidth',3)
+plot(0.1:0.1:1,Iter4,'m','linewidth',3)
 
 % axis([0.1,1,0,5.5])
 set(gca,'XTickLabel',100:-10:10)
@@ -191,26 +191,26 @@ xlabel('Percentage of Labeled Data (%)','FontSize',13)
 ylabel('Average CCCP iterations','FontSize',13)
 h2 = legend('Semi. Latent-1','Semi. Latent-2','Semi. Latent-3','Semi. Latent-4');
 
-%% Runtime
+%% CCCP Runtime
 runtime = importdata('runtime.txt');
 runtime = runtime.data;
 runtime = reshape(runtime,12,length(runtime)/12);
 runtime(runtime<2)=2;
-SV1 = mean(runtime(:,1:10));
-SV2 = mean(runtime(:,11:20));
-SV3 = mean(runtime(:,21:30));
-SV4 = mean(runtime(:,31:40));
+runtime1 = mean(runtime(:,1:10));
+runtime2 = mean(runtime(:,11:20));
+runtime3 = mean(runtime(:,21:30));
+runtime4 = mean(runtime(:,31:40));
 figure(5)
 hold off
-plot(0.1:0.1:1,SV1,'r','linewidth',3)
+plot(0.1:0.1:1,runtime1,'r','linewidth',3)
 hold on
-plot(0.1:0.1:1,SV2,'b','linewidth',3)
-plot(0.1:0.1:1,SV3,'g','linewidth',3)
-plot(0.1:0.1:1,SV4,'m','linewidth',3)
+plot(0.1:0.1:1,runtime2,'b','linewidth',3)
+plot(0.1:0.1:1,runtime3,'g','linewidth',3)
+plot(0.1:0.1:1,runtime4,'m','linewidth',3)
 
 set(gca,'XTickLabel',100:-10:10)
 xlabel('Percentage of Labeled Data (%)','FontSize',13)
-ylabel('Average CPU Runtime per iteraction (seconds)','FontSize',13)
+ylabel('CPU Runtime per CCCP iteraction (seconds)','FontSize',13)
 h3 = legend('Semi. Latent-1','Semi. Latent-2','Semi. Latent-3','Semi. Latent-4');
 
 %% AUC
