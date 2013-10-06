@@ -28,8 +28,10 @@ if params.need_init
     end
   elseif strcmp(params.initStrategy,'clustering')
     fprintf('initilizing latent variables by clustering\n')
-    params.labels = initBySemi(trainData,params);
-    
+    params.labels = initByClustering(trainData,params);
+  elseif strcmp(params.initStrategy,'semi')
+    fprintf('initilizing latent variables by clustering (semi-supervised)\n')
+    params.labels = initBySemi(trainData,params);  
   elseif strcmp(params.initStrategy,'affordance')
     fprintf('initilizing latent variables by Object Affordance\n')
     params.labels = initByAffordance(trainData,params);
