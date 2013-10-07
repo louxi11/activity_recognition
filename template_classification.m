@@ -46,7 +46,8 @@ combos = combntns(1:4,3);
   
   iter = 1;
   AA = [];
-  for numStateZ = 1 : 4
+%   for numStateZ = 1 : 4
+numStateZ = 2;
   %%% learning %%%
 %   for i = 1 : size(combos,1)
     i=1;
@@ -136,13 +137,14 @@ combos = combntns(1:4,3);
       A(i) = mean([A(i+1),A(i-1)]);
     end
     AA = [AA;A];
-  end
+%   end
+%%
   hold off
-  plot(2:size(AA,2)+1,AA(1,:),'r-*');
+  plot(2:size(AA,2)+1,AA(1,:),'r-*','linewidth',3);
   hold on;
-  plot(2:size(AA,2)+1,AA(2,:),'b-*');
-  plot(2:size(AA,2)+1,AA(3,:),'g-*');
-  plot(2:size(AA,2)+1,AA(4,:),'m-*');
+  plot(2:size(AA,2)+1,AA(2,:),'b-*','linewidth',3);
+  plot(2:size(AA,2)+1,AA(3,:),'g-*','linewidth',3);
+  plot(2:size(AA,2)+1,AA(4,:),'m-*','linewidth',3);
   
   xlabel('Video length (number of segments)','FontSize',13)
   ylabel('Inference runtime per video (seconds)','FontSize',13)
