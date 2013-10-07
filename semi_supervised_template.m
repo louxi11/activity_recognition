@@ -25,7 +25,7 @@ W = 3; % optimization strategy
 tfeat = 'tfeat_on';
 thres = 1; % threshold to stop iteration TODO
 % thres = C * E; % threshold to stop iteration TODO
-initStrategy = 'clustering'; % semi supervised
+initStrategy = 'semi'; % semi supervised
 
 eval_set = 1:3;
 iter = 1;
