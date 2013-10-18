@@ -15,21 +15,26 @@ addpath test_data/
 
 save_on = 1;
 
-corruptPercentage = 0;
+% corruptPercentage = 0;
+corruptPercentage = inf; % change only transition label
 
 %%% parameters %%%
 numStateZ = 1;
 C = 0.3; % normalization constant
-E = 0.25; % epsilon
+% E = 0.25; % epsilon
+E = 1.7; % epsilon
 W = 3; % optimization strategy
 tfeat = 'tfeat_on';
-thres = 1; % threshold to stop iteration TODO
+thres = 7; % threshold to stop iteration TODO
 % thres = C * E; % threshold to stop iteration TODO
 initStrategy = 'semi'; % semi supervised
 
-eval_set = 1;
+eval_set = 1:3;
 iter = 1;
-path = '/home/ninghang/workspace/activity_recognition/CAD120/segmentation_lists/groundtruth/';
+baseFolder = '/home/ninghang/workspace/activity_recognition/CAD120/segmentation_lists';
+% baseFile = 'groundtruth';
+baseFile = 'uniform_20_10';
+path = fullfile(baseFolder,baseFile);
 
 
 %%% allocate buffer %%%
@@ -55,7 +60,7 @@ for c = 1 : length(eval_set)
     all_sid = 1 : 4;
     test_sid = all_sid(~ismember(all_sid,train_sid));
     
-    filebase = sprintf('Z%d_cp_%.2f_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d',numStateZ,corruptPercentage,C,E,W,tfeat,thres,initStrategy,iter);
+    filebase = sprintf('%s_Z%d_cp_%.2f_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d',baseFile,numStateZ,corruptPercentage,C,E,W,tfeat,thres,initStrategy,iter);
     if save_on
       logfile = sprintf([filebase,'_Test%d'],test_sid);
       make_log(logfile); % LOG file and SAVE MODEL
@@ -75,7 +80,7 @@ for c = 1 : length(eval_set)
     if save_on
       save(['model_',logfile,'.mat'],'model','params','trainData','testData')
     end
-    % load(['model_',logfile,'.mat'],'model','params','trainData','testData')
+    load(['model_',logfile,'.mat'],'model','params','trainData','testData')
     
 
     %%% classification %%%
