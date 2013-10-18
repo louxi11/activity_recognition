@@ -8,7 +8,7 @@ speed up training, remove assert? remove debug flag?
 * verbose messages
 * loss function - evaluation criteria
 
-*** added -g for debugging mex functiosn, DO CHANGE IT BACK LATER DONE.
+* added -g for debugging mex functiosn, DO CHANGE IT BACK LATER DONE. *
 
 What are support vectors? if there is only 1 training example, why multiple support vectors??
 
@@ -30,3 +30,5 @@ Download CAD120 dataset
 =======================
 
    ./scripts/downloadCAD120.sh
+   
+
