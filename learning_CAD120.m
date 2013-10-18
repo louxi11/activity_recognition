@@ -6,7 +6,7 @@ DimX = trainData.DimX;
 numStateY = 10;
 
 params = init_params(trainData, DimX, numStateY, numStateZ,initStrategy);
-
+params.trainData = trainData;
 % tic
 
 model = [];
@@ -26,16 +26,19 @@ while true
     
     % stop iteration -TODO sometimes decrement < 0!!!!!
     decrement = params.cumErrorPrev - params.cumError;    
-%     cooling_eps = -decrement*0.01;
-%     cooling_eps = max(cooling_eps, 0.5 * thres);
+    cooling_eps = -decrement*0.01;
+    cooling_eps = max(cooling_eps, 0.5 * thres);
+    
 %     if params.numStateZ == 1 % linear chain CRF
 %       break
-%     elseif decrement < thres && cooling_eps < 0.5*thres+1E-8
+%     if decrement < thres && cooling_eps < 0.5*thres+1E-8
 %       break
 %     end
+    
     if decrement < thres
       break
     end
+      
     params.cnt = params.cnt + 1;
     
     params.cumErrorPrev = params.cumError;

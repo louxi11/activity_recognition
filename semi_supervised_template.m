@@ -2,6 +2,7 @@
 
 clc
 % clear all
+diary off
 
 addpath graphical_model/
 addpath inference/
@@ -12,7 +13,9 @@ addpath evaluation/
 
 addpath test_data/
 
-save_on = 0;
+save_on = 1;
+
+corruptPercentage = 0.1;
 
 %%% parameters %%%
 numStateZ = 2;
@@ -20,9 +23,9 @@ C = 0.3; % normalization constant
 E = 0.25; % epsilon
 W = 3; % optimization strategy
 tfeat = 'tfeat_on';
-thres = inf; % threshold to stop iteration TODO
+thres = 1; % threshold to stop iteration TODO
 % thres = C * E; % threshold to stop iteration TODO
-initStrategy = 'clustering';
+initStrategy = 'semi'; % semi supervised
 
 eval_set = 1:3;
 iter = 1;
@@ -50,7 +53,7 @@ for c = 1 : length(eval_set)
     all_sid = 1 : 4;
     test_sid = all_sid(~ismember(all_sid,train_sid));
     
-    filebase = sprintf('Z%d_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d',numStateZ,C,E,W,tfeat,thres,initStrategy,iter);
+    filebase = sprintf('Z%d_cp_%.2f_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d',numStateZ,corruptPercentage,C,E,W,tfeat,thres,initStrategy,iter);
     if save_on
       logfile = sprintf([filebase,'_Test%d'],test_sid);
       make_log(logfile); % LOG file and SAVE MODEL
@@ -61,6 +64,7 @@ for c = 1 : length(eval_set)
     
     % split training and test data
     [trainData,testData] = load_CAD120('parse_off',tfeat,train_sid);
+    trainData = corruptLabels(trainData,corruptPercentage);
     
     % learning
     [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initStrategy,C);
@@ -79,7 +83,7 @@ for c = 1 : length(eval_set)
     data = trainData;
     for j = 1 : length(data.patterns)
       X_test = data.patterns{j};
-      yhat = ssvm_classify(params, model, X_test);
+      yhat = ssvm_classify(params, model, X_test); % TODO bugs for classification
       D = D + sum( int32(data.labels{j}) == int32(yhat));
       CNT = CNT + length(data.labels{j});
     end
@@ -104,7 +108,7 @@ for c = 1 : length(eval_set)
     [confmat0, prec0, recall0, fscore0] = prec_recall(GT,PRED);
     prec(i,c) = mean(prec0);
     recall(i,c) = mean(recall0);
-    fscore(i,c) = mean(fscore0);
+    fscore(i,c) = 2 * prec(i,c) * recall(i,c) / (prec(i,c) + recall(i,c));
     confmat{i,c} = confmat;
     
     fprintf('******************************\n')
@@ -119,7 +123,7 @@ for c = 1 : length(eval_set)
     fprintf('******************************\n\n')
     
     diary off
-
+    
   end
 
   results.meanTrain = mean(trainRate(:));

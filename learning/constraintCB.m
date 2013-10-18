@@ -1,4 +1,4 @@
-function [YZhat,score] = constraintCB(params, model, X, YZ)
+function [YZhat,score] = constraintCB(params, model, X, YZ, idx)
 %CONSTRAINCB Margin rescaling for Structured-SVM
 %  solve the augmented inference problem
 %  YZhat = argmax_yz(delta(xi,yz) + psi(xi,yz;w))
@@ -17,7 +17,7 @@ factors = build_graphical_factors(X,params,model,[]);
 % add loss factors
 loss_factors = repmat(struct('var', [], 'card', [], 'val', []), K, 1);
 for k = 1 : K
-    loss_factors(k) = compute_loss_factor(params, YZ, k);
+    loss_factors(k) = compute_loss_factor(params, k, idx);
 end
 
 % combine all factors

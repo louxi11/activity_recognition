@@ -313,12 +313,12 @@ find_most_violated_constraint_slackrescaling (PATTERN x, LABEL y,
 LABEL
 find_most_violated_constraint_marginrescaling (PATTERN x, LABEL y,
                                                STRUCTMODEL *sm,
-                                               STRUCT_LEARN_PARM *sparm)
+                                               STRUCT_LEARN_PARM *sparm,int idx)
 {
   LABEL ybar ;
   mxArray* fn_array ;
   mxArray* model_array ;
-  mxArray* args [5] ;
+  mxArray* args [6] ;
   int status ;
 
   fn_array = mxGetField(sparm->mex, 0, "constraintFn") ;
@@ -337,9 +337,13 @@ find_most_violated_constraint_marginrescaling (PATTERN x, LABEL y,
   args[2] = model_array ;
   args[3] = x.mex ;
   args[4] = y.mex ;
+  args[5] = mxCreateDoubleMatrix(1,1,mxREAL);
+  double *pt_idx;
+  pt_idx = mxGetPr(args[5]);
+  *pt_idx = (double) idx;
 
   mexSetTrapFlag (1) ;
-  status = mexCallMATLAB(1, &ybar.mex, 5, args, "feval") ;
+  status = mexCallMATLAB(1, &ybar.mex, 6, args, "feval") ;
   mexSetTrapFlag (0) ;
 
   destroyMxArrayEncapsulatingSmodel (model_array) ;

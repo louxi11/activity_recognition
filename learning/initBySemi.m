@@ -1,5 +1,6 @@
-function labels = initByClustering(trainData,params)
+function labels = initBySemi(trainData,params)
 % labels is a cell array
+% semi supervised learning
 
 X = trainData.patterns;
 Y = trainData.labels;
@@ -12,6 +13,7 @@ for i = 1 : length(trainData.patterns)
   K = length(x) / trainData.DimX;
   x = reshape(x,trainData.DimX,K);
   XX = [XX,x];
+  y(isnan(y)) = randsample(params.numStateY,sum(isnan(y)),true); % randomly initialize y
   YY = [YY;y];
   NUM = [NUM;length(y)];
 end
@@ -28,7 +30,7 @@ XX = XX';
 %   end
 % end
   
-IDX = kmeans(XX,params.numStateZ,'Replicates',10,'distance','Hamming','emptyaction','singleton'); % TODO
+IDX = kmeans(XX,params.numStateZ,'Replicates',params.numStateY,'distance','Hamming','emptyaction','singleton'); % TODO
    
 
 YZ = sub2indYZ(params,YY,IDX);
