@@ -1,8 +1,10 @@
-% LOAD CAD120 DATASET TO MATLAB
+function parse_CAD120(path)
+% PARSE_CAD120  parse binary features of the CAD120 dataset
+%   PARSE_CAD120(path) load both the segment-based features and temporal
+%   features. path specifies the folder where to find the list of filenames
+%   of the binary features
 
-% clear all
-
-vidfiles = dir('segments_svm_format/*.txt'); % activity segments
+vidfiles = dir(fullfile(path,'*.txt')); % activity segments
 
 video = cell(length(vidfiles),1);
 
@@ -10,9 +12,10 @@ num_objects = 5; % TODO: USE CLASS OF OBJECTS INSTEAD
 
 for v = 1 : length(vidfiles)
     
-    vidfile = fullfile('segments_svm_format/',vidfiles(v).name);
+    vidfile = fullfile(path,vidfiles(v).name);
     
     % parse video file into segments
+    disp(vidfile)
     [sfile,tfile] = parse_video(vidfile);
     
     data = repmat(struct('features',[],'N1',[],'E1',[],'E2',[],...
@@ -39,12 +42,12 @@ sz = whos('video');
 sz = sz.bytes/1024/1024;
 
 fprintf('\nCAD120 loaded successfully. Total size = %.2fMB\n',sz);
-pwd
-save('CAD120video.mat','video')
+
+save(fullfile(path,'CAD120video.mat'),'video')
 
 
 %% CONVERT TO FORMAT OF STRUCTUED-SVM
-load test_data/CAD120/CAD120video.mat
+load(fullfile(path,'CAD120video.mat'));
 FEATURES = {'obj' 'skel' 'interobj' 'skelobj'};
 TEMPORAL_FEATURES = {'obj' 'skel' 'interobj' 'skelobj' 'temporalObj' 'temporalSkel'};
 
@@ -105,7 +108,7 @@ Yt = Yt(mask); % remove empty cell in labels
 At = At(mask);
 TEMPORAL_FEATURE_LENGTH = numel(F);
 vid_id_t = vid_id(mask);
-save('CAD120.mat','X','Y','A','Xt','Yt','At','FEATURE_LENGTH','TEMPORAL_FEATURE_LENGTH','vid_id','vid_id_t');
+save(fullfile(path,'CAD120.mat'),'X','Y','A','Xt','Yt','At','FEATURE_LENGTH','TEMPORAL_FEATURE_LENGTH','vid_id','vid_id_t');
 
-fprintf('LOADE DATASET CARD120... DONE.\n')
+fprintf('Data saved to %s.\n',fullfile(path,'CAD120.mat'))
 

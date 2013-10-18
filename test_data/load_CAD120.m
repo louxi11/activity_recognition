@@ -1,4 +1,4 @@
-function [trainData,testData] = load_CAD120(parse,tfeat,train_sid)
+function [trainData,testData] = load_CAD120(parse,tfeat,train_sid,path)
 
 parse_opts = {'parse_on','parse_off'};
 tfeat_opts = {'tfeat_on','tfeat_off'};
@@ -16,7 +16,7 @@ if strcmp(parse,'parse_on')
     cd ../../
 end
 
-load test_data/CAD120/CAD120.mat
+load(fullfile(path,'CAD120.mat'));
 
 
 % replace data with tfeatures if the switch is turned on

@@ -15,10 +15,10 @@ addpath test_data/
 
 save_on = 1;
 
-corruptPercentage = 0.1;
+corruptPercentage = 0;
 
 %%% parameters %%%
-numStateZ = 2;
+numStateZ = 1;
 C = 0.3; % normalization constant
 E = 0.25; % epsilon
 W = 3; % optimization strategy
@@ -27,8 +27,10 @@ thres = 1; % threshold to stop iteration TODO
 % thres = C * E; % threshold to stop iteration TODO
 initStrategy = 'semi'; % semi supervised
 
-eval_set = 1:3;
+eval_set = 1;
 iter = 1;
+path = '/home/ninghang/workspace/activity_recognition/CAD120/segmentation_lists/groundtruth/';
+
 
 %%% allocate buffer %%%
 trainRate = nan(4,length(eval_set));
@@ -63,7 +65,7 @@ for c = 1 : length(eval_set)
     learning_option = sprintf('-c %.2f -e %.2f -w %d',C,E,W); % ssvm learning parameters
     
     % split training and test data
-    [trainData,testData] = load_CAD120('parse_off',tfeat,train_sid);
+    [trainData,testData] = load_CAD120('parse_off',tfeat,train_sid,path);
     trainData = corruptLabels(trainData,corruptPercentage);
     
     % learning

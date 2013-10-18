@@ -8,14 +8,12 @@ tar -xvzf segmentation_features.tgz
 # download ground-truth segments
 cd segmentation_features
 wget -nc http://pr.cs.cornell.edu/humanactivities/data/features.tar
-tar -xvf features.tar
-cd features_cad120_ground_truth_segmentation
-tar -xvzf features_binary_svm_format.tar.gz
-mv features_binary_svm_format/* ./
-rm -r features_binary_svm_format
-cd ../
-mv features_cad120_ground_truth_segmentation groundtruth
-cd ../
+mkdir groundtruth
+tar -xvf features.tar -C groundtruth --strip-components=1
+cd groundtruth
+tar -xvzf features_binary_svm_format.tar.gz --strip-components=1
+tar -xvzf segments_svm_format.tar.gz
+cd ../../
 
 # parse segment names
 mkdir segmentation_lists
@@ -29,4 +27,8 @@ do
     cd ../
 done
 
+# use groundtruth
+#cp groundtruth/segments_svm_format/* ../segmentation_lists/groundtruth/
+#p=`pwd`/groundtruth
+#sed -i "s:path_to_file:$p:g" ../segmentation_lists/groundtruth/*.txt
 
