@@ -46,7 +46,7 @@ fprintf('\nCAD120 loaded successfully. Total size = %.2fMB\n',sz);
 save(fullfile(path,'CAD120video.mat'),'video')
 
 
-%% CONVERT TO FORMAT OF STRUCTUED-SVM
+%%% CONVERT TO FORMAT OF STRUCTUED-SVM
 load(fullfile(path,'CAD120video.mat'));
 FEATURES = {'obj' 'skel' 'interobj' 'skelobj'};
 TEMPORAL_FEATURES = {'obj' 'skel' 'interobj' 'skelobj' 'temporalObj' 'temporalSkel'};
@@ -110,5 +110,5 @@ TEMPORAL_FEATURE_LENGTH = numel(F);
 vid_id_t = vid_id(mask);
 save(fullfile(path,'CAD120.mat'),'X','Y','A','Xt','Yt','At','FEATURE_LENGTH','TEMPORAL_FEATURE_LENGTH','vid_id','vid_id_t');
 
-fprintf('Data saved to %s.\n',fullfile(path,'CAD120.mat'))
+fprintf('Data saved to %s.\n\n',fullfile(path,'CAD120.mat'))
 
