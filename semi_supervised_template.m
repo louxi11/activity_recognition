@@ -31,7 +31,6 @@ thres = 7; % threshold to stop iteration TODO
 initStrategy = 'semi'; % semi supervised
 
 eval_set = 1:3;
-iter = 1;
 baseFolder = fullfile(pwd,'CAD120/segmentation_lists');
 % baseFile = 'groundtruth';
 baseFile = 'm2_500';
