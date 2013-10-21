@@ -12,6 +12,7 @@ addpath tools/
 addpath evaluation/
 
 addpath test_data/
+addpath test_data/CAD120/
 
 save_on = 1;
 
@@ -31,7 +32,7 @@ initStrategy = 'semi'; % semi supervised
 
 eval_set = 1:3;
 iter = 1;
-baseFolder = '/home/ninghang/workspace/activity_recognition/CAD120/segmentation_lists';
+baseFolder = fullfile(pwd,'CAD120/segmentation_lists');
 % baseFile = 'groundtruth';
 baseFile = 'uniform_20_10';
 path = fullfile(baseFolder,baseFile);

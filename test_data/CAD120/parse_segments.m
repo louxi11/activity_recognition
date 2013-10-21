@@ -77,7 +77,7 @@ if E1 ~= 0
         affordance2 = s(2);
         obj1_id = s(3);
         obj2_id = s(4);
-        [~,interobj_idx] = ismember(indice,[obj1_id,obj2_id],'rows');
+        [temppp,interobj_idx] = ismember(indice,[obj1_id,obj2_id],'rows');
 
         assert(affordance(obj1_id) == affordance1)
         assert(affordance(obj2_id) == affordance2)
@@ -128,7 +128,7 @@ data.sub_activity = sub_activity;
 data.object_id = objects;
 data.skel_id = skel_id;
 data.affordance = affordance;
-[~, filename, ext] = fileparts(segpath);
+[temp, filename, ext] = fileparts(segpath);
 data.filename = [filename,ext];
 
 end
