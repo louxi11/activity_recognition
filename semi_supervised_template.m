@@ -16,7 +16,7 @@ addpath test_data/
 save_on = 1;
 
 % corruptPercentage = 0;
-corruptPercentage = inf; % change only transition label
+corruptPercentage = 0; % change only transition label
 
 %%% parameters %%%
 numStateZ = 1;
