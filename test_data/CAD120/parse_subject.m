@@ -1,21 +1,20 @@
-function subjects = parse_subject
+function subjects = parse_subject(subject_path)
 
-base = '';
-subject_folders = dir(fullfile(base,'Subject*_annotations'));
+subject_folders = dir(fullfile(subject_path,'Subject*_annotations'));
 
 subjects = cell(size(subject_folders));
 
 for s = 1 : length(subjects)
 
     % find all activity directories under subjects
-    activity_folders = dir(fullfile(base,subject_folders(s).name));
+    activity_folders = dir(fullfile(subject_path,subject_folders(s).name));
     nameFolds = {activity_folders.name}';
     activity_folders(ismember(nameFolds,{'.','..'})) = [];
     
     for a = 1 : length(activity_folders)
         
         % full path of the activity label
-        file = fullfile(base,subject_folders(s).name,activity_folders(a).name,'activityLabel.txt');
+        file = fullfile(subject_path,subject_folders(s).name,activity_folders(a).name,'activityLabel.txt');
         
         % parse label file to find video ids
         fid = fopen(file);
@@ -29,6 +28,8 @@ for s = 1 : length(subjects)
     end
     
 end
+
+assert(~isempty(subjects))
 
 % % check uniqueness of video ids among subjects
 % clc

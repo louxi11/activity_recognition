@@ -1,10 +1,10 @@
 % function evaluation_template
 
 clc
-% clear all
+clear all
 diary off
 
-profile on
+% profile on
 
 addpath graphical_model/
 addpath inference/
@@ -74,9 +74,6 @@ for c = 1 : length(eval_set)
     % split training and test data
     [trainData,testData] = load_CAD120(tfeat,train_sid,path);
     trainData = corruptLabels(trainData,corruptPercentage);
-    profile viewer
-    profile off
-    return
     
     % learning
     [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initStrategy,C);

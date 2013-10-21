@@ -32,7 +32,7 @@ else
     test_sid = all_sid(~ismember(all_sid,train_sid));
     
 %     cd test_data/CAD120/
-    subjects = parse_subject;
+    subjects = parse_subject(fullfile(pwd,'CAD120'));
 %     cd ../../
     
     train_videos = [subjects{train_sid}];
