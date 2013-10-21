@@ -16,8 +16,8 @@ addpath test_data/CAD120/
 
 save_on = 1;
 
-% corruptPercentage = 0;
-corruptPercentage = 0; % change only transition label
+corruptPercentage = inf; % change only transition label
+% corruptPercentage = 0; 
 
 %%% parameters %%%
 numStateZ = 1;

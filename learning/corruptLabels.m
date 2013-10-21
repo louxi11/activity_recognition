@@ -11,14 +11,14 @@ if percentage ~= inf
     data.labels{i} = label;
   end
 else
-  % make transition nodes to nan
+  % set transition nodes to nan
   for i = 1 : length(data.labels)
     label = labels{i};
     c = SplitVec(label);
     len = cellfun('length',c);
     cumlen = cumsum(len);
     mask = len >= 5;
-    mask(end) = 0; % make sure not the end label is chozen
+    mask(end) = 0; % make sure not the end label is chozen % TODO (begining nodes?)
     idx = cumlen(mask);
     label(idx) = nan;
     data.labels{i} = label;
