@@ -9,6 +9,8 @@ function label = initFromNeighbor(label,params)
 
 l = label;
 
+% dd=l;
+
 nan_mask = isnan(l);
 idx = find(nan_mask);
 nan_mask = [false;nan_mask;false];
@@ -30,7 +32,10 @@ label(idx(s == 1)) = b(~isnan(b));
 % both neighbors are valid -> init with either of them
 c = a(s == 0,:);
 if ~isempty(c)
-  label(idx(s == 0)) = datasample(c,1);
+  linIDX = sub2ind(size(c), 1:size(c,1), randi(size(c,2),[1,size(c,1)]));
+  label(idx(s == 0)) = c(linIDX);
 end
+
+% [dd,label]
 
 end
