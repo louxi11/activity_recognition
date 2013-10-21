@@ -128,7 +128,7 @@ data.sub_activity = sub_activity;
 data.object_id = objects;
 data.skel_id = skel_id;
 data.affordance = affordance;
-[~, filename, ext] = fileparts(segpath);
+[temp, filename, ext] = fileparts(segpath);
 data.filename = [filename,ext];
 
 end

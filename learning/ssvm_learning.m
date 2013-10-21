@@ -31,7 +31,7 @@ if params.need_init
     params.labels = initByClustering(trainData,params);
   elseif strcmp(params.initStrategy,'semi')
     fprintf('initilizing latent variables by clustering (semi-supervised)\n')
-    params.labels = initBySemi(trainData,params);  
+    params.labels = initBySemi(trainData,params);
   elseif strcmp(params.initStrategy,'affordance')
     fprintf('initilizing latent variables by Object Affordance\n')
     params.labels = initByAffordance(trainData,params);
@@ -42,7 +42,7 @@ else
   for i = 1 : length(params.patterns)
     X = trainData.patterns{i};
     Y = trainData.labels{i};
-    [Zhat,~,Yhat] = inferLatentVariable(params,model,X,Y);
+    [Zhat,temp,Yhat] = inferLatentVariable(params,model,X,Y);
     YZ = sub2indYZ(params,Yhat,Zhat);
     params.labels{i} = YZ;
   end
