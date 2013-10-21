@@ -34,7 +34,7 @@ eval_set = 1:3;
 iter = 1;
 baseFolder = fullfile(pwd,'CAD120/segmentation_lists');
 % baseFile = 'groundtruth';
-baseFile = 'uniform_20_10';
+baseFile = 'm2_500';
 path = fullfile(baseFolder,baseFile);
 
 
