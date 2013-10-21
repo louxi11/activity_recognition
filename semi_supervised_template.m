@@ -4,8 +4,6 @@ clc
 clear all
 diary off
 
-% profile on
-
 addpath graphical_model/
 addpath inference/
 addpath learning

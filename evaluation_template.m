@@ -1,7 +1,7 @@
 function evaluation_template(Z)
 
 clc
-% clear all
+clear all
 diary off
 
 addpath graphical_model/
@@ -70,7 +70,7 @@ for c = 1 : length(eval_set)
     learning_option = sprintf('-c %.2f -e %.2f -w %d',C,E,W); % ssvm learning parameters
     
     % split training and test data
-    [trainData,testData] = load_CAD120('parse_off',tfeat,train_sid,path);
+    [trainData,testData] = load_CAD120(tfeat,train_sid,path);
     trainData = corruptLabels(trainData,corruptPercentage);
     
     % learning
