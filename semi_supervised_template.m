@@ -4,6 +4,8 @@ clc
 % clear all
 diary off
 
+profile on
+
 addpath graphical_model/
 addpath inference/
 addpath learning
@@ -20,7 +22,7 @@ corruptPercentage = inf; % change only transition label
 % corruptPercentage = 0; 
 
 %%% parameters %%%
-numStateZ = 1;
+numStateZ = 4;
 C = 0.3; % normalization constant
 % E = 0.25; % epsilon
 E = 1.7; % epsilon
@@ -70,8 +72,11 @@ for c = 1 : length(eval_set)
     learning_option = sprintf('-c %.2f -e %.2f -w %d',C,E,W); % ssvm learning parameters
     
     % split training and test data
-    [trainData,testData] = load_CAD120('parse_off',tfeat,train_sid,path);
+    [trainData,testData] = load_CAD120(tfeat,train_sid,path);
     trainData = corruptLabels(trainData,corruptPercentage);
+    profile viewer
+    profile off
+    return
     
     % learning
     [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initStrategy,C);
