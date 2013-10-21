@@ -12,6 +12,7 @@ addpath tools/
 addpath evaluation/
 
 addpath test_data/
+addpath test_data/CAD120/
 
 save_on = 1;
 
