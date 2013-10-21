@@ -14,7 +14,7 @@ for i = 1 : length(trainData.patterns)
   x = reshape(x,trainData.DimX,K);
   XX = [XX,x];
 %   y(isnan(y)) = randsample(params.numStateY,sum(isnan(y)),true); % randomly initialize y
-  if hasInfNaN(y)
+  if hasInfNan(y)
     y = initFromNeighbor(y,params); % init y with left and right neighbors
   end
   YY = [YY;y];
@@ -32,15 +32,15 @@ XX = XX';
 %     continue
 %   end
 % end
-  
+
 IDX = kmeans(XX,params.numStateZ,'Replicates',params.numStateY,'distance','Hamming','emptyaction','singleton'); % TODO
-   
+
 
 YZ = sub2indYZ(params,YY,IDX);
 
 c = 0;
 for i = 1 : length(params.patterns)
-    
+
     labels{i} = YZ(c+1:c+NUM(i));
     c = c+NUM(i);
 
