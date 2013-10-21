@@ -77,7 +77,7 @@ if E1 ~= 0
         affordance2 = s(2);
         obj1_id = s(3);
         obj2_id = s(4);
-        [~,interobj_idx] = ismember(indice,[obj1_id,obj2_id],'rows');
+        [temppp,interobj_idx] = ismember(indice,[obj1_id,obj2_id],'rows');
 
         assert(affordance(obj1_id) == affordance1)
         assert(affordance(obj2_id) == affordance2)
