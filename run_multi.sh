@@ -9,7 +9,7 @@ do
         echo $cmd
         #echo nohup matlab -nojvm -nodisplay -nosplash -r $cmd \> $E$C.log
         echo matlab -nojvm -nodisplay -nosplash -r $cmd
-        matlab -nojvm -nodisplay -nosplash -r "evaluation_template($C,$E,$thres,$baseFile,$corruptPercentage)"
+        nohup matlab -nojvm -nodisplay -nosplash -r "evaluation_template($C,$E,$thres,$baseFile,$corruptPercentage)" > $E$C.log &
 
     done
 done
