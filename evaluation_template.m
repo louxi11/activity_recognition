@@ -1,4 +1,4 @@
-function evaluation_template(Z,C,E,thres,baseFile,corruptPercentage)
+function evaluation_template(C,E,thres,baseFile,corruptPercentage)
 
 clc
 % clear all
@@ -16,11 +16,13 @@ addpath test_data/CAD120/
 
 save_on = 1;
 
+for numStateZ = 1 : 4
+
 % corruptPercentage = inf; % change only transition label
 % corruptPercentage = 0;
 
 %%% parameters %%%
-numStateZ = Z;
+% numStateZ = Z;
 % C = 0.3; % normalization constant
 % E = 0.25; % epsilon
 % E = 1.7; % epsilon
@@ -155,5 +157,7 @@ for c = 1 : length(eval_set)
     save([filebase,'.mat'],...
       'trainRate','testRate','results','prec','recall','fscore','confmat');
   end
+
+end
 
 end
