@@ -27,6 +27,7 @@ do
     cd ../
 done
 
+echo ALL DONE
 # use groundtruth
 #cp groundtruth/segments_svm_format/* ../segmentation_lists/groundtruth/
 #p=`pwd`/groundtruth
