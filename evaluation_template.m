@@ -1,4 +1,4 @@
-function evaluation_template(Z)
+function evaluation_template(Z,C,E,thres,baseFile,corruptPercentage)
 
 clc
 % clear all
@@ -16,24 +16,24 @@ addpath test_data/CAD120/
 
 save_on = 1;
 
-corruptPercentage = inf; % change only transition label
+% corruptPercentage = inf; % change only transition label
 % corruptPercentage = 0;
 
 %%% parameters %%%
 numStateZ = Z;
-C = 0.3; % normalization constant
+% C = 0.3; % normalization constant
 % E = 0.25; % epsilon
-E = 1.7; % epsilon
+% E = 1.7; % epsilon
 W = 3; % optimization strategy
 tfeat = 'tfeat_on';
-thres = 7; % threshold to stop iteration TODO
+% thres = 7; % threshold to stop iteration TODO
 % thres = C * E; % threshold to stop iteration TODO
 initStrategy = 'semi'; % semi supervised
 
 eval_set = 1:3;
 baseFolder = fullfile(pwd,'CAD120/segmentation_lists');
 % baseFile = 'groundtruth';
-baseFile = 'm2_500';
+% baseFile = 'm2_500';
 path = fullfile(baseFolder,baseFile);
 
 
@@ -48,6 +48,10 @@ confmat = cell(4,length(eval_set));
 % 4 fold cross-validation
 combos = combntns(1:4,3);
 
+dirResults = sprintf('%s_cp_%.2f_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s',...
+  baseFile,corruptPercentage,C,E,W,tfeat,thres,initStrategy);
+mkdir(dirResults);
+
 for c = 1 : length(eval_set)
 
   iter = eval_set(c);
@@ -60,7 +64,9 @@ for c = 1 : length(eval_set)
     all_sid = 1 : 4;
     test_sid = all_sid(~ismember(all_sid,train_sid));
 
-    filebase = sprintf('%s_Z%d_cp_%.2f_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d',baseFile,numStateZ,corruptPercentage,C,E,W,tfeat,thres,initStrategy,iter);
+    filebase = sprintf('%s_Z%d_cp_%.2f_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d'...
+      ,baseFile,numStateZ,corruptPercentage,C,E,W,tfeat,thres,initStrategy,iter);
+    filebase = fullfile(dirResults,filebase);
     if save_on
       logfile = sprintf([filebase,'_Test%d'],test_sid);
       make_log(logfile); % LOG file and SAVE MODEL
@@ -89,8 +95,8 @@ for c = 1 : length(eval_set)
     D = 0;
     data = trainData;
     for j = 1 : length(data.patterns)
-      X_test = data.patterns{j};
-      yhat = ssvm_classify(params, model, X_test); % TODO bugs for classification
+      X_train = data.patterns{j};
+      yhat = ssvm_classify(params, model, X_train); % TODO bugs for classification
       D = D + sum( int32(data.labels{j}) == int32(yhat));
       CNT = CNT + length(data.labels{j});
     end
@@ -112,7 +118,7 @@ for c = 1 : length(eval_set)
     testRate(i,c) = D/CNT;
 
 
-    [confmat0, prec0, recall0, fscore0] = prec_recall(GT,PRED);
+    [confmat0, prec0, recall0, temp] = prec_recall(GT,PRED);
     prec(i,c) = mean(prec0);
     recall(i,c) = mean(recall0);
     fscore(i,c) = 2 * prec(i,c) * recall(i,c) / (prec(i,c) + recall(i,c));
