@@ -66,9 +66,8 @@ for c = 1 : length(eval_set)
 
     filebase = sprintf('%s_Z%d_cp_%.2f_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d'...
       ,baseFile,numStateZ,corruptPercentage,C,E,W,tfeat,thres,initStrategy,iter);
-    filebase = fullfile(dirResults,filebase);
     if save_on
-      logfile = sprintf([filebase,'_Test%d'],test_sid);
+      logfile = fullfile(dirResults,sprintf([filebase,'_Test%d'],test_sid));
       make_log(logfile); % LOG file and SAVE MODEL
     end
 
@@ -84,9 +83,9 @@ for c = 1 : length(eval_set)
 
     % save model to file
     if save_on
-      save(['model_',logfile,'.mat'],'model','params','trainData','testData')
+      save(fullfile(dirResults,['model_',sprintf([filebase,'_Test%d'],test_sid),'.mat']),'model','params','trainData','testData')
     end
-    load(['model_',logfile,'.mat'],'model','params','trainData','testData')
+%     load(['model_',logfile,'.mat'],'model','params','trainData','testData')
 
 
     %%% classification %%%
