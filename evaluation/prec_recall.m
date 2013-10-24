@@ -18,6 +18,6 @@ for i = 1:size(M,1)
   recall(i) = M(i,i) / N(i);
 end
 fscore = 2 * prec.*recall./(prec + recall);
-confmat = normr(M);
+confmat = bsxfun(@times, M, 1./(sum(M, 2)));
 
 end
