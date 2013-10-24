@@ -16,7 +16,7 @@ do
             echo "#PBS -lwalltime=100:00:00" >> ./job_$E\_$C\_$numStateZ
             echo "module load mcr" >> ./job_$E\_$C\_$numStateZ
             echo "cd ~/workspace/activity_recognition" >> ./job_$E\_$C\_$numStateZ
-            echo "$1 $numStateZ $C $E $thres $baseFile $corruptPercentage" >> ./job_$E\_$C\_$numStateZ
+            echo "./semi_supervised_template $numStateZ $C $E $thres $baseFile $corruptPercentage" >> ./job_$E\_$C\_$numStateZ
         done
     done
 done
