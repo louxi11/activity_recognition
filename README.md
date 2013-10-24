@@ -21,14 +21,20 @@ Change log
  added semi-supervised learning
  fixed bugs for computing cccp error
 
+========================
+* add MATLAB bin to $PATH
+
+make
+=========================
+
 Install libDAI Dependencies (TODO)
 ===========================
 
-  sudo apt-get install g++ make doxygen graphviz libboost-dev libboost-graph-dev libboost-program-options-dev libboost-test-dev libgmp-dev cimg-dev
+  sudo apt-get install g++ make doxygen graphviz libboost-dev libboost-graph-dev libboost-program-options-dev libboost-test-dev libgmp-dev
 
 Download CAD120 dataset
 =======================
 
    ./scripts/downloadCAD120.sh
-   
+
 
