@@ -22,6 +22,9 @@ save_on = 1;
 W = 3; % optimization strategy
 tfeat = 'tfeat_on';
 initStrategy = 'semi'; % semi supervised
+if ischar(corruptPercentage)
+  corruptPercentage = eval(corruptPercentage); % mcc binary functions takes inf as string
+end
 
 eval_set = 1:3;
 baseFolder = fullfile(pwd,'CAD120/segmentation_lists');
