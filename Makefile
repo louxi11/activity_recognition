@@ -6,7 +6,7 @@ TARGETS:= semi_supervised_template
 all	:
 	cd svm-struct-matlab-1.2/; make
 	cd inference/libdai; make
-	ln -sf inference/libdai/build/doinference.mexa64 inference/doinference.mexa64
+	ln -sf libdai/build/doinference.mexa64 inference/doinference.mexa64
 
 clean	:
 	rm -f ${TARGETS}
