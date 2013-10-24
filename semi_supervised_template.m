@@ -4,15 +4,17 @@ clc
 % clear all
 diary off
 
-addpath graphical_model/
-addpath inference/
-addpath learning
-addpath svm-struct-matlab-1.2/
-addpath tools/
-addpath evaluation/
+if (~isdeployed)
+    addpath graphical_model/
+    addpath inference/
+    addpath learning
+    addpath svm-struct-matlab-1.2/
+    addpath tools/
+    addpath evaluation/
 
-addpath test_data/
-addpath test_data/CAD120/
+    addpath test_data/
+    addpath test_data/CAD120/
+end
 
 save_on = 1;
 
