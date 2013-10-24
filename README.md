@@ -43,5 +43,11 @@ Lisa Users
 
  mcc
 
+TODO
+====
+
+  reduce for loops
+  check debug options
+
 
 
