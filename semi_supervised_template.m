@@ -1,4 +1,4 @@
-% function evaluation_template
+function semi_supervised_template(numStateZ,C,E,thres,baseFile,corruptPercentage)
 
 clc
 % clear all
@@ -18,24 +18,13 @@ end
 
 save_on = 1;
 
-corruptPercentage = inf; % change only transition label
-% corruptPercentage = 0;
-
-%%% parameters %%%
-numStateZ = 4;
-C = 0.3; % normalization constant
-% E = 0.25; % epsilon
-E = 1.7; % epsilon
+% SVM^struct parameters
 W = 3; % optimization strategy
 tfeat = 'tfeat_on';
-thres = 7; % threshold to stop iteration TODO
-% thres = C * E; % threshold to stop iteration TODO
 initStrategy = 'semi'; % semi supervised
 
 eval_set = 1:3;
 baseFolder = fullfile(pwd,'CAD120/segmentation_lists');
-% baseFile = 'groundtruth';
-baseFile = 'm2_500';
 path = fullfile(baseFolder,baseFile);
 
 
@@ -153,8 +142,10 @@ for c = 1 : length(eval_set)
   results.stdFscore = std(fscore(:));
 
   if save_on
-    save([filebase,'.mat'],...
+    save(fullfile(dirResults,[filebase,'.mat']),...
       'trainRate','testRate','results','prec','recall','fscore','confmat');
   end
+
+end
 
 end

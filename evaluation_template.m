@@ -1,28 +1,30 @@
 function evaluation_template(C,E,thres,baseFile,corruptPercentage)
 
+% function evaluation_template
+
 clc
 % clear all
 diary off
 
-addpath graphical_model/
-addpath inference/
-addpath learning
-addpath svm-struct-matlab-1.2/
-addpath tools/
-addpath evaluation/
+if (~isdeployed)
+    addpath graphical_model/
+    addpath inference/
+    addpath learning
+    addpath svm-struct-matlab-1.2/
+    addpath tools/
+    addpath evaluation/
 
-addpath test_data/
-addpath test_data/CAD120/
+    addpath test_data/
+    addpath test_data/CAD120/
+end
 
 save_on = 1;
-
-for numStateZ = 1 : 4
 
 % corruptPercentage = inf; % change only transition label
 % corruptPercentage = 0;
 
 %%% parameters %%%
-% numStateZ = Z;
+numStateZ = 4;
 % C = 0.3; % normalization constant
 % E = 0.25; % epsilon
 % E = 1.7; % epsilon
@@ -156,7 +158,5 @@ for c = 1 : length(eval_set)
     save([filebase,'.mat'],...
       'trainRate','testRate','results','prec','recall','fscore','confmat');
   end
-
-end
 
 end
