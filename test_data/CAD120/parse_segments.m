@@ -58,7 +58,7 @@ skel_id = s(2);
 
 s = textscan(fid,'%f:%f',num_skeleton_features);
 data.features.skel = s{2};
-assert(~hasInfNaN(data.features.skel))
+assert(sum(isnan(data.features.skel)) == 0)
 
 
 % Parse inter-object features (E1 x 200)

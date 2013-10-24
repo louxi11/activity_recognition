@@ -14,7 +14,7 @@ for i = 1 : length(trainData.patterns)
   x = reshape(x,trainData.DimX,K);
   XX = [XX,x];
 %   y(isnan(y)) = randsample(params.numStateY,sum(isnan(y)),true); % randomly initialize y
-  if hasInfNaN(y)
+  if sum(isnan(y)) > 0
     y = initFromNeighbor(y,params); % init y with left and right neighbors
   end
   YY = [YY;y];
