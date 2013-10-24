@@ -21,6 +21,12 @@ Change log
  added semi-supervised learning
  fixed bugs for computing cccp error
 
+========================
+* add MATLAB bin to $PATH
+
+make
+=========================
+
 Install libDAI Dependencies (TODO)
 ===========================
 
@@ -30,5 +36,5 @@ Download CAD120 dataset
 =======================
 
    ./scripts/downloadCAD120.sh
-   
+
 
