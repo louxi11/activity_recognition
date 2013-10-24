@@ -24,6 +24,10 @@ tfeat = 'tfeat_on';
 initStrategy = 'semi'; % semi supervised
 if ischar(corruptPercentage)
   corruptPercentage = eval(corruptPercentage); % mcc binary functions takes inf as string
+  C = str2double(C);
+  E = str2double(E);
+  numStateZ = str2double(numStateZ);
+  thres = str2double(thres);
 end
 
 eval_set = 1:3;
