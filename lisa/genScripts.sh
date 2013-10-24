@@ -1,6 +1,6 @@
 thres=7
 corruptPercentage=inf
-baseFile=groundtruth
+baseFile=m2_500
 
 mkdir -p jobs
 cd jobs
