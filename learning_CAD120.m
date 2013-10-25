@@ -25,10 +25,10 @@ while true
     fprintf('******************************\n')
     
     % stop iteration -TODO sometimes decrement < 0!!!!!
-    decrement = params.cumErrorPrev - params.cumError;    
-    cooling_eps = -decrement*0.01;
-    cooling_eps = max(cooling_eps, 0.5 * thres);
+    decrement = params.cumErrorPrev - params.cumError; 
     
+%     cooling_eps = -decrement*0.01;
+%     cooling_eps = max(cooling_eps, 0.5 * thres); 
 %     if params.numStateZ == 1 % linear chain CRF
 %       break
 %     if decrement < thres && cooling_eps < 0.5*thres+1E-8

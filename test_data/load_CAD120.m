@@ -40,8 +40,10 @@ else
     test_videos = [subjects{test_sid}];
     test_videos = test_videos(:);
     
-    [temp1,trainidx,temp2] = intersect(vid_id,train_videos);
-    [temp1,testidx,temp2] = intersect(vid_id,test_videos);
+    [~,trainidx,~] = intersect(vid_id,train_videos);
+    [~,testidx,~] = intersect(vid_id,test_videos);
+    
+    % make sure no intersection between training and test set
     assert(isempty(intersect(trainidx,testidx)))
 end
 

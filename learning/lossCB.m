@@ -3,8 +3,8 @@ function delta = lossCB(params, YZ, YZhat)
 %   get Y and Ybar
 % TODO
 
-[Y,temp] = ind2subYZ(params,YZ);
-[Yhat,temp] = ind2subYZ(params,YZhat);
+[Y,~] = ind2subYZ(params,YZ);
+[Yhat,~] = ind2subYZ(params,YZhat);
 
 % the loss function is defined as the number of mis-classified items
 % make sure Y and Yhat is int when comparing

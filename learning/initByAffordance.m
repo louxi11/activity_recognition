@@ -16,19 +16,9 @@ end
 
 XX = XX';
 
-% while true
-%   try
-%     IDX = kmeans(XX,params.numStateZ);
-%     break;
-%   catch
-%     warning('something wrong with kmeans')
-%     continue
-%   end
-% end
-  
+% initialize latent variables Z
 IDX = kmeans(XX,params.numStateZ,'Replicates',10,'emptyaction','drop');
    
-
 YZ = sub2indYZ(params,YY,IDX);
 
 c = 0;

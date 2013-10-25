@@ -4,28 +4,36 @@ function cumError = cccp_error(params,trainData,model,C)
 
 %%% TODO USE MEX FUNCTION TO GET CUMERROR< NOT DO INFERENCE AGAIN
 
+% score of convex term
 F = zeros(1,length(params.labels));
-for i = 1 : length(params.labels)
+patterns = params.patterns;
+labels = trainData.labels;
+sz = params.szYZ;
+parfor i = 1 : length(params.labels)
 
-    X = params.patterns{i};
-    Y = trainData.labels{i};
-    YZ = sub2ind(params.szYZ, Y, ones(size(Y))); % assign an arbitrary Z because Y will be recoverd when compute loss factor
+    X = patterns{i};
+    Y = labels{i};
+    YZ = sub2ind(sz, Y, ones(size(Y))); % assign an arbitrary Z because Y will be recoverd when compute loss factor
 
     % max_yz (delta(yzi, yz) + <psi(xi,yz), w>)
-    [temp,F(i)] = constraintCB(params, model, X, YZ,i);
+    [~,F(i)] = constraintCB(params, model, X, YZ,i);
 end
 Fsum = (norm(model.w)^2)/2 + C * sum(F);
 
+% score of concave term
 G = zeros(1,length(params.labels));
-for i = 1 : length(params.labels)
-    X = params.patterns{i};
-    Y = trainData.labels{i}; % groundtruth labels
+patterns = params.patterns;
+labels = trainData.labels;
+parfor i = 1 : length(params.labels)
+    X = patterns{i};
+    Y = labels{i}; % groundtruth labels
 
     % argmax_z <phi(xi,yi,z), w>
-    [temp,G(i)] = inferLatentVariable(params, model, X, Y);
+    [~,G(i)] = inferLatentVariable(params, model, X, Y);
 end
 Gsum = C * sum(G);
 
-cumError = Fsum - Gsum; % don't forget the regularization...
+% final score
+cumError = Fsum - Gsum;
 
 end

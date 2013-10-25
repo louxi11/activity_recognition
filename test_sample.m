@@ -1,11 +1,14 @@
 % test sample
 
 %%% parameters %%%
-numStateZ = '4';
+numStateZ = '1';
 C = '0.3'; % normalization constant
-E = '1.7'; % epsilon
-thres = '7'; % threshold to stop iteration TODO
-baseFile = 'm2_500';
-corruptPercentage = 'inf'; % change only transition label
+E = '0.25'; % epsilon
+thres = '1'; % threshold to stop iteration TODO
+baseFile = 'groundtruth';
+corruptPercentage = '0'; % change only transition label
 
+% turn on parrallel computing
+matlabpool('open','local',4);
+fprintf('Using %d cores',matlabpool('size'));
 semi_supervised_template(numStateZ,C,E,thres,baseFile,corruptPercentage)

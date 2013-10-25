@@ -1,5 +1,5 @@
 function labels = initByClustering(trainData,params)
-% labels is a cell array
+% labels is a cell array DEPRECATED
 
 X = trainData.patterns;
 Y = trainData.labels;
