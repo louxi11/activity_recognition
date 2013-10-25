@@ -1,8 +1,13 @@
-function semi_supervised_template(numStateZ,C,E,thres,baseFile,corruptPercentage)
+function semi_supervised_template(numStateZ,C,E,thres,baseFile,corruptPercentage,par_on)
 
 clc
 % clear all
 diary off
+
+if strcmp(par_on,'true')
+  matlabpool open;
+  fprintf('Using %d cores\n',matlabpool('size'));
+end
 
 if (~isdeployed)
   addpath graphical_model/
@@ -156,6 +161,10 @@ for c = 1 : length(eval_set)
       'trainRate','testRate','results','prec','recall','fscore','confmat');
   end
   
+end
+
+if strcmp(par_on,'true')
+  matlabpool close;
 end
 
 end

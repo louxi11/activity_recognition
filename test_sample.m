@@ -9,6 +9,5 @@ baseFile = 'groundtruth';
 corruptPercentage = '0'; % change only transition label
 
 % turn on parrallel computing
-matlabpool('open','local',4);
-fprintf('Using %d cores\n',matlabpool('size'));
-semi_supervised_template(numStateZ,C,E,thres,baseFile,corruptPercentage)
+par_on = 'true';
+semi_supervised_template(numStateZ,C,E,thres,baseFile,corruptPercentage,par_on)
