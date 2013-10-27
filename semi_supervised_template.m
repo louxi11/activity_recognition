@@ -5,7 +5,7 @@ clc
 diary off
 
 if strcmp(par_on,'true')
-  matlabpool open;
+  matlabpool open 4;
   fprintf('Using %d cores\n',matlabpool('size'));
 end
 
@@ -16,7 +16,7 @@ if (~isdeployed)
   addpath svm-struct-matlab-1.2/
   addpath tools/
   addpath evaluation/
-  
+
   addpath test_data/
   addpath test_data/CAD120/
 end
@@ -57,43 +57,43 @@ mkdir(dirResults);
 
 % replicate cross-validation
 for c = 1 : length(eval_set)
-  
+
   iter = eval_set(c);
   filebase = sprintf('%s_Z%d_cp_%.2f_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d'...
       ,baseFile,numStateZ,corruptPercentage,C,E,W,tfeat,thres,initStrategy,iter);
-    
+
   %%% cross-validation in parallel %%%
   parfor i = 1 : size(combos,1)
-    
+
     % select video for training set
     train_sid = combos(i,:);
     all_sid = 1 : 4;
     test_sid = all_sid(~ismember(all_sid,train_sid));
-    
+
 
     if save_on
       logfile = fullfile(dirResults,sprintf([filebase,'_Test%d'],test_sid));
       make_log(logfile); % LOG file and SAVE MODEL
     end
-    
+
     % load structured svm options
     learning_option = sprintf('-c %.2f -e %.2f -w %d',C,E,W); % ssvm learning parameters
-    
+
     % split training and test data
     [trainData,testData] = load_CAD120(tfeat,train_sid,path);
     trainData = corruptLabels(trainData,corruptPercentage);
-    
+
     % learning
     [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initStrategy,C);
-    
+
     % save model to file
 %     if save_on
 %       save(fullfile(dirResults,['model_',sprintf([filebase,'_Test%d'],test_sid),'.mat']),'model','params','trainData','testData')
 %     end
     %     load(['model_',logfile,'.mat'],'model','params','trainData','testData')
 
-    
-    
+
+
     %%% classification %%%
 
     data = trainData;
@@ -107,7 +107,7 @@ for c = 1 : length(eval_set)
     labels = [labels{:}];
     CNT = sum(~isnan(labels));
     trainRate(i,c) = sum(D)/CNT;
-    
+
     D = zeros(size(data.patterns));
     PRED = cell(size(data.patterns));
     data = testData;
@@ -121,46 +121,46 @@ for c = 1 : length(eval_set)
     GT = [labels{:}]';
     CNT = sum(~isnan(GT));
     PRED = [PRED{:}]';
-    testRate(i,c) = sum(D)/CNT;    
-    
+    testRate(i,c) = sum(D)/CNT;
+
     [~, prec0, recall0, confmat0] = prec_recall(GT,PRED);
     prec(i,c) = mean(prec0);
     recall(i,c) = mean(recall0);
     fscore(i,c) = 2 * prec(i,c) * recall(i,c) / (prec(i,c) + recall(i,c));
     confmat{i,c} = confmat0;
-    
+
     fprintf('******************************\n')
     fprintf('Training set: %d, %d, %d\n',train_sid(1),train_sid(2),train_sid(3));
     fprintf('Training rate: %.4f\n\n',trainRate(i,c));
-    
+
     fprintf('Test set: %d\n',test_sid);
     fprintf('Test rate: %.4f\n',testRate(i,c));
     fprintf('Test precision: %.4f\n',prec(i,c));
     fprintf('Test recall: %.4f\n',recall(i,c));
     fprintf('Test Fscore: %.4f\n',fscore(i,c));
     fprintf('******************************\n\n')
-    
+
     diary off
-    
+
   end
-  
+
   results.meanTrain = mean(trainRate(:));
   results.stdTrain = std(trainRate(:));
   results.meanTest = mean(testRate(:));
   results.stdTest = std(testRate(:));
-  
+
   results.meanPrec = mean(prec(:));
   results.stdPrec = std(prec(:));
   results.meanRecall = mean(recall(:));
   results.stdRecall = std(recall(:));
   results.meanFscore = mean(fscore(:));
   results.stdFscore = std(fscore(:));
-  
+
   if save_on
     save(fullfile(dirResults,[filebase,'.mat']),...
       'trainRate','testRate','results','prec','recall','fscore','confmat');
   end
-  
+
 end
 
 if strcmp(par_on,'true')
