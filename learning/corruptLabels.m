@@ -17,10 +17,19 @@ else
     c = SplitVec(label);
     len = cellfun('length',c);
     cumlen = cumsum(len);
-    mask = len >= 5;
-    mask(end) = 0; % make sure not the end label is chozen % TODO (begining nodes?)
-    idx = cumlen(mask);
-    label(idx) = nan;
+    mask = len >= 4;
+    if sum(mask)
+      frontLabel = cumlen(mask) - len(mask) + 1;
+      endLabel = cumlen(mask);
+      if frontLabel(1) == 1
+        frontLabel(1) = [];
+      end
+      if endLabel(end) == cumlen(end)
+        endLabel(end) = [];
+      end
+      idx = [frontLabel;endLabel];
+      label(idx) = nan;
+    end
     data.labels{i} = label;
   end
 end
