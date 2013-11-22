@@ -5,7 +5,7 @@ function params = init_params( trainData, DimX, numStateY, numStateZ, initStrate
 % 2. bias(prior) parameters for each state: numY*numZ
 % 3. transition parameters for pairwise states: (numY*numZ)*(numY*numZ)
 
-strategy = {'random','clustering','affordance','semi'};
+strategy = {'random','clustering','affordance','semi','learning'};
 if sum(strcmp(initStrategy,strategy)) == 0
   error('init_params: Unknown initStrategy, Possible options are "random","clustering","affordance","semi"\n')
 end

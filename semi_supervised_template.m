@@ -5,7 +5,7 @@ clc
 diary off
 
 if strcmp(par_on,'true')
-  matlabpool open 4;
+  matlabpool open;
   fprintf('Using %d cores\n',matlabpool('size'));
 end
 
@@ -26,7 +26,7 @@ save_on = 1;
 % SVM^struct parameters
 W = 3; % optimization strategy
 tfeat = 'tfeat_on';
-initStrategy = 'semi'; % semi supervised
+initStrategy = 'learning'; % semi supervised
 if ischar(corruptPercentage)
   corruptPercentage = eval(corruptPercentage); % mcc binary functions takes inf as string
   C = str2double(C);
@@ -83,8 +83,15 @@ for c = 1 : length(eval_set)
     [trainData,testData] = load_CAD120(tfeat,train_sid,path);
     trainData = corruptLabels(trainData,corruptPercentage);
 
+    %%% initilize unknown labels by learning with known data
+    model = [];
+    if strcmp(initStrategy,'learning')
+      splitData = splitDataAtNan(trainData);
+      [model,~] = learning_CAD120(splitData,numStateZ,learning_option,thres,initStrategy,C,model);
+    end
+
     % learning
-    [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initStrategy,C);
+    [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initStrategy,C,model);
 
     % save model to file
 %     if save_on

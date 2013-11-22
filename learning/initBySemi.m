@@ -10,7 +10,7 @@ YY = cell(size(trainData.patterns));
 dim = trainData.DimX;
 
 % init missing target labels (Y==nan)
-parfor i = 1 : length(trainData.patterns)
+for i = 1 : length(trainData.patterns)
   x = X{i};
   y = Y{i};
   K = length(x) / dim;

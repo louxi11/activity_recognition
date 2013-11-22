@@ -1,4 +1,4 @@
-function [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initStrategy,C)
+function [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initStrategy,C,model)
 % iterate until convergence
 
 DimX = trainData.DimX;
@@ -8,8 +8,6 @@ numStateY = 10;
 params = init_params(trainData, DimX, numStateY, numStateZ,initStrategy);
 params.trainData = trainData;
 % tic
-
-model = [];
 
 while true
     
