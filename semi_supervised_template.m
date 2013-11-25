@@ -81,7 +81,8 @@ for c = 1 : length(eval_set)
 
     % split training and test data
     [trainData,testData] = load_CAD120(tfeat,train_sid,path);
-    trainData = corruptLabels(trainData,corruptPercentage);
+%     trainData = corruptLabels(trainData,corruptPercentage);
+    trainData = flipLabels(trainData,corruptPercentage); %% TODO
 
     %%% initilize unknown labels by learning with known data
     model = [];
