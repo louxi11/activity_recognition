@@ -17,7 +17,7 @@ else
     c = SplitVec(label);
     len = cellfun('length',c);
     cumlen = cumsum(len);
-    mask = len >= 4;
+    mask = len >= 5;
     if sum(mask)
       frontLabel = cumlen(mask) - len(mask) + 1;
       endLabel = cumlen(mask);
