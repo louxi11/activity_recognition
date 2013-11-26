@@ -1,4 +1,4 @@
-function data = corruptLabels(data,percentage)
+function [data, partialLabelFlag] = corruptLabels(data,percentage)
 
 labels = data.labels;
 
@@ -32,6 +32,12 @@ else
     end
     data.labels{i} = label;
   end
+end
+
+if percentage == 0
+  partialLabelFlag = false;
+else
+  partialLabelFlag = true;
 end
 
 end

@@ -1,4 +1,4 @@
-function [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initStrategy,C,model)
+function [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initStrategy,C,model,partialLabelFlag)
 % iterate until convergence
 
 DimX = trainData.DimX;
@@ -7,6 +7,8 @@ numStateY = 10;
 
 params = init_params(trainData, DimX, numStateY, numStateZ,initStrategy);
 params.trainData = trainData;
+params.partialLabelFlag = partialLabelFlag;
+
 % tic
 
 while true
@@ -33,7 +35,7 @@ while true
 %       break
 %     end
     
-    if decrement < thres
+    if decrement < thres || (params.numStateZ == 1 && ~params.partialLabelFlag)
       break
     end
       
