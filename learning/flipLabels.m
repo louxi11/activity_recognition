@@ -1,4 +1,4 @@
-function [data, partialLabelFlag] = flipLabels(data,lenThres)
+function data = flipLabels(data,lenThres)
 
 labels = data.labels;
 
@@ -10,21 +10,19 @@ for i = 1 : length(data.labels)
   cumlen = cumsum(len);
   mask = len >= lenThres;
   if sum(mask)
-    frontLabel = cumlen(mask) - len(mask) + 1;
+%     frontLabel = cumlen(mask) - len(mask) + 1;
     endLabel = cumlen(mask);
-    if frontLabel(1) == 1
-      frontLabel(1) = [];
-    end
+%     if frontLabel(1) == 1
+%       frontLabel(1) = [];
+%     end
     if endLabel(end) == cumlen(end)
       endLabel(end) = [];
     end
     %       idx = [frontLabel;endLabel];
-    label(frontLabel) = label(frontLabel-1);
+%     label(frontLabel) = label(frontLabel-1);
     label(endLabel) = label(endLabel+1);
   end
   data.labels{i} = label;
 end
-
-partialLabelFlag = false;
 
 end

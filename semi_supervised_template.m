@@ -5,6 +5,7 @@ clc
 diary off
 
 options = 'flip';
+flipThre = 4;
 
 if strcmp(par_on,'true')
   if matlabpool('size') == 0
@@ -91,9 +92,9 @@ for c = 1 : length(eval_set)
     
     % options for corruptLabels and FlipLabels
     if strcmp(options,'corrupt')
-      trainData = corruptLabels(trainData,corruptPercentage);
+      trainData = corruptLabels(trainData,corruptPercentage,flipThre);
     elseif strcmp(options,'flip')
-      trainData = flipLabels(trainData,4); %% TODO
+      trainData = flipLabels(trainData,flipThre); %% TODO
     end
 
     %%% initilize unknown labels by learning with known data

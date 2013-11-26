@@ -1,4 +1,4 @@
-function [data, partialLabelFlag] = corruptLabels(data,percentage)
+function data = corruptLabels(data,percentage,flipThre)
 
 labels = data.labels;
 
@@ -17,27 +17,20 @@ else
     c = SplitVec(label);
     len = cellfun('length',c);
     cumlen = cumsum(len);
-    mask = len >= 5;
+    mask = len >= flipThre;
     if sum(mask)
-      frontLabel = cumlen(mask) - len(mask) + 1;
+%       frontLabel = cumlen(mask) - len(mask) + 1;
       endLabel = cumlen(mask);
-      if frontLabel(1) == 1
-        frontLabel(1) = [];
-      end
+%       if frontLabel(1) == 1
+%         frontLabel(1) = [];
+%       end
       if endLabel(end) == cumlen(end)
         endLabel(end) = [];
       end
-      idx = [frontLabel;endLabel];
-      label(idx) = nan;
+      label(endLabel) = nan;
     end
     data.labels{i} = label;
   end
-end
-
-if percentage == 0
-  partialLabelFlag = false;
-else
-  partialLabelFlag = true;
 end
 
 end
