@@ -59,8 +59,8 @@ confmat = cell(4,length(eval_set));
 % 4 fold cross-validation - leave one subject out
 combos = combntns(1:4,3);
 
-dirResults = sprintf('%s_cp_%.2f_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s',...
-  baseFile,corruptPercentage,C,E,W,tfeat,thres,initStrategy);
+dirResults = sprintf('opt_%s_fThre_%d_%s_cp_%.2f_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s',...
+  options,flipThre,baseFile,corruptPercentage,C,E,W,tfeat,thres,initStrategy);
 mkdir(dirResults);
 
 % replicate cross-validation
