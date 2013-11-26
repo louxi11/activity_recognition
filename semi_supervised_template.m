@@ -4,6 +4,8 @@ clc
 % clear all
 diary off
 
+options = 'flip';
+
 if strcmp(par_on,'true')
   matlabpool open;
   fprintf('Using %d cores\n',matlabpool('size'));
@@ -81,12 +83,17 @@ for c = 1 : length(eval_set)
 
     % split training and test data
     [trainData,testData] = load_CAD120(tfeat,train_sid,path);
-%     [trainData, partialLabelFlag] = corruptLabels(trainData,corruptPercentage);
-    [trainData,partialLabelFlag] = flipLabels(trainData,5); %% TODO
+    
+    % options for corruptLabels and FlipLabels
+    if strcmp(options,'corrupt')
+      [trainData, partialLabelFlag] = corruptLabels(trainData,corruptPercentage);
+    elseif strcmp(options,'flip')
+      [trainData, partialLabelFlag] = flipLabels(trainData,5); %% TODO
+    end
 
     %%% initilize unknown labels by learning with known data
     model = [];
-    if strcmp(initStrategy,'learning')
+    if strcmp(initStrategy,'learning') && (numStateZ > 1 || partialLabelFlag)
       splitData = splitDataAtNan(trainData);
       [model,~] = learning_CAD120(splitData,numStateZ,learning_option,thres,initStrategy,C,model,partialLabelFlag);
     end
@@ -150,8 +157,8 @@ for c = 1 : length(eval_set)
 
     diary off
 
-  end
-
+  end    
+    
   results.meanTrain = mean(trainRate(:));
   results.stdTrain = std(trainRate(:));
   results.meanTest = mean(testRate(:));
@@ -169,6 +176,10 @@ for c = 1 : length(eval_set)
       'trainRate','testRate','results','prec','recall','fscore','confmat');
   end
 
+  if numStateZ == 1 && ((strcmp(options,'corrupt') && corruptPercentage == 0) || strcmp(options,'flip'))
+    break
+  end
+  
 end
 
 if strcmp(par_on,'true')
