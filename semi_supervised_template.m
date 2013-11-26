@@ -5,12 +5,11 @@ clc
 diary off
 
 options = 'flip';
-hasPartialLabel = strcmp(options,'corrupt') && corruptPercentage > 0;
-hasLatent = hasPartialLabel || numStateZ > 1 ;
-
 
 if strcmp(par_on,'true')
-  matlabpool open;
+  if matlabpool('size') == 0
+    matlabpool open
+  end
   fprintf('Using %d cores\n',matlabpool('size'));
 end
 
@@ -39,6 +38,9 @@ if ischar(corruptPercentage)
   numStateZ = str2double(numStateZ);
   thres = str2double(thres);
 end
+
+hasPartialLabel = strcmp(options,'corrupt') && corruptPercentage > 0;
+hasLatent = hasPartialLabel || numStateZ > 1 ;
 
 eval_set = 1:3;
 baseFolder = fullfile(pwd,'CAD120/segmentation_lists');
