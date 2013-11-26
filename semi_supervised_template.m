@@ -88,11 +88,11 @@ for c = 1 : length(eval_set)
     model = [];
     if strcmp(initStrategy,'learning')
       splitData = splitDataAtNan(trainData);
-      [model,~] = learning_CAD120(splitData,numStateZ,learning_option,thres,initStrategy,C,model);
+      [model,~] = learning_CAD120(splitData,numStateZ,learning_option,thres,initStrategy,C,model,partialLabelFlag);
     end
 
     % learning
-    [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initStrategy,C,model);
+    [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initStrategy,C,model,partialLabelFlag);
 
     % save model to file
 %     if save_on
