@@ -93,7 +93,7 @@ for c = 1 : length(eval_set)
     if strcmp(options,'corrupt')
       trainData = corruptLabels(trainData,corruptPercentage);
     elseif strcmp(options,'flip')
-      trainData = flipLabels(trainData,5); %% TODO
+      trainData = flipLabels(trainData,4); %% TODO
     end
 
     %%% initilize unknown labels by learning with known data
@@ -193,6 +193,9 @@ for c = 1 : length(eval_set)
     results.stdRecall = nanstd(recall(:));
     results.meanFscore = nanmean(fscore(:));
     results.stdFscore = nanstd(fscore(:));
+    
+    save(fullfile(dirResults,[filebase,'.mat']),...
+      'trainRate','testRate','results','prec','recall','fscore','confmat');
     break
   end
   
