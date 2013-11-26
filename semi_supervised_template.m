@@ -5,6 +5,9 @@ clc
 diary off
 
 options = 'flip';
+hasPartialLabel = strcmp(options,'corrupt') && corruptPercentage > 0;
+hasLatent = hasPartialLabel || numStateZ > 1 ;
+
 
 if strcmp(par_on,'true')
   matlabpool open;
@@ -86,20 +89,20 @@ for c = 1 : length(eval_set)
     
     % options for corruptLabels and FlipLabels
     if strcmp(options,'corrupt')
-      [trainData, partialLabelFlag] = corruptLabels(trainData,corruptPercentage);
+      trainData = corruptLabels(trainData,corruptPercentage);
     elseif strcmp(options,'flip')
-      [trainData, partialLabelFlag] = flipLabels(trainData,5); %% TODO
+      trainData = flipLabels(trainData,5); %% TODO
     end
 
     %%% initilize unknown labels by learning with known data
     model = [];
-    if strcmp(initStrategy,'learning') && (numStateZ > 1 || partialLabelFlag)
+    if strcmp(initStrategy,'learning') && hasPartialLabel
       splitData = splitDataAtNan(trainData);
-      [model,~] = learning_CAD120(splitData,numStateZ,learning_option,thres,initStrategy,C,model,partialLabelFlag);
+      [model,~] = learning_CAD120(splitData,numStateZ,learning_option,thres,initStrategy,C,model,hasPartialLabel,hasLatent);
     end
 
     % learning
-    [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initStrategy,C,model,partialLabelFlag);
+    [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initStrategy,C,model,hasPartialLabel,hasLatent);
 
     % save model to file
 %     if save_on
@@ -176,7 +179,18 @@ for c = 1 : length(eval_set)
       'trainRate','testRate','results','prec','recall','fscore','confmat');
   end
 
-  if numStateZ == 1 && ((strcmp(options,'corrupt') && corruptPercentage == 0) || strcmp(options,'flip'))
+  if ~hasLatent
+    results.meanTrain = nanmean(trainRate(:));
+    results.stdTrain = nanstd(trainRate(:));
+    results.meanTest = nanmean(testRate(:));
+    results.stdTest = nanstd(testRate(:));
+    
+    results.meanPrec = nanmean(prec(:));
+    results.stdPrec = nanstd(prec(:));
+    results.meanRecall = nanmean(recall(:));
+    results.stdRecall = nanstd(recall(:));
+    results.meanFscore = nanmean(fscore(:));
+    results.stdFscore = nanstd(fscore(:));
     break
   end
   
