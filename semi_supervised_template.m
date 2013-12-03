@@ -1,11 +1,8 @@
-function semi_supervised_template(numStateZ,C,E,thres,baseFile,corruptPercentage,par_on)
+function semi_supervised_template(numStateZ,C,E,thres,baseFile,corruptPercentage,par_on,options,flipThre)
 
 clc
 % clear all
 diary off
-
-options = 'flip';
-flipThre = 4;
 
 if strcmp(par_on,'true')
   if matlabpool('size') == 0
@@ -71,7 +68,7 @@ for c = 1 : length(eval_set)
       ,baseFile,numStateZ,corruptPercentage,C,E,W,tfeat,thres,initStrategy,iter);
 
   %%% cross-validation in parallel %%%
-  parfor i = 1 : size(combos,1)
+  for i = 1 : size(combos,1)
 
     % select video for training set
     train_sid = combos(i,:);
