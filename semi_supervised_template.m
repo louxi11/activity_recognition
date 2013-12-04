@@ -9,7 +9,11 @@ if strcmp(par_on,'true')
     numCores = str2double(numCores);
   end
   if matlabpool('size') == 0
+    if numCores == 0
+      matlabpool open
+    else
       matlabpool('open',numCores)
+    end
   end
   fprintf('Using %d cores\n',matlabpool('size'));
 end
