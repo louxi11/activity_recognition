@@ -4,6 +4,7 @@ baseFile=uniform_20_10
 isparallel=false
 options=corrupt
 flipThre=3
+numCores=4
 
 mkdir -p jobs
 cd jobs
@@ -19,7 +20,7 @@ do
             echo "#PBS -lwalltime=15:00:00" >> ./job\_$baseFile\_CP$corruptPercentage\_E$E\_C$C\_Z$numStateZ\_options$options\_flipThre$flipThre
             echo "module load mcr" >> ./job\_$baseFile\_CP$corruptPercentage\_E$E\_C$C\_Z$numStateZ\_options$options\_flipThre$flipThre
             echo "cd ~/workspace/activity_recognition" >> ./job\_$baseFile\_CP$corruptPercentage\_E$E\_C$C\_Z$numStateZ\_options$options\_flipThre$flipThre
-            echo "./semi_supervised_template $numStateZ $C $E $thres $baseFile $corruptPercentage $isparallel $options $flipThre " >> ./job\_$baseFile\_CP$corruptPercentage\_E$E\_C$C\_Z$numStateZ\_options$options\_flipThre$flipThre
+            echo "./semi_supervised_template $numStateZ $C $E $thres $baseFile $corruptPercentage $isparallel $options $flipThre $numCores" >> ./job\_$baseFile\_CP$corruptPercentage\_E$E\_C$C\_Z$numStateZ\_options$options\_flipThre$flipThre
         done
     done
 done
