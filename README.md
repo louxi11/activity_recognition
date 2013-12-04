@@ -36,12 +36,13 @@ Download CAD120 dataset
 =======================
 
    ./scripts/downloadCAD120.sh
-
+open Matlab
+    parseAllCAD
 
 Super Computers Lisa Users
 ==========================
 
- mcc
+  make mcc
 
 TODO
 ====

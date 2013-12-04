@@ -35,6 +35,7 @@ if ischar(corruptPercentage)
   E = str2double(E);
   numStateZ = str2double(numStateZ);
   thres = str2double(thres);
+  flipThre = str2double(flipThre);
 end
 
 hasPartialLabel = strcmp(options,'corrupt') && corruptPercentage > 0;
@@ -68,7 +69,7 @@ for c = 1 : length(eval_set)
       ,baseFile,numStateZ,corruptPercentage,C,E,W,tfeat,thres,initStrategy,iter);
 
   %%% cross-validation in parallel %%%
-  for i = 1 : size(combos,1)
+  parfor i = 1 : size(combos,1)
 
     % select video for training set
     train_sid = combos(i,:);
