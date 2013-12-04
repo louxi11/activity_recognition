@@ -1,12 +1,15 @@
-function semi_supervised_template(numStateZ,C,E,thres,baseFile,corruptPercentage,par_on,options,flipThre)
+function semi_supervised_template(numStateZ,C,E,thres,baseFile,corruptPercentage,par_on,options,flipThre,numCores)
 
 clc
 % clear all
 diary off
 
 if strcmp(par_on,'true')
+  if ischar(numCores)
+    numCores = str2double(numCores);
+  end
   if matlabpool('size') == 0
-    matlabpool open 4
+      matlabpool('open',numCores)
   end
   fprintf('Using %d cores\n',matlabpool('size'));
 end
@@ -18,7 +21,7 @@ if (~isdeployed)
   addpath svm-struct-matlab-1.2/
   addpath tools/
   addpath evaluation/
-
+  
   addpath test_data/
   addpath test_data/CAD120/
 end

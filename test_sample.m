@@ -12,4 +12,5 @@ corruptPercentage = 'inf'; % change only transition label
 par_on = 'true';
 options = 'flip';
 flipThre = '4';
-semi_supervised_template(numStateZ,C,E,thres,baseFile,corruptPercentage,par_on,options,flipThre)
+numCores = '2';
+semi_supervised_template(numStateZ,C,E,thres,baseFile,corruptPercentage,par_on,options,flipThre,numCores)
