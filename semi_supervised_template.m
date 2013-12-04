@@ -6,7 +6,7 @@ diary off
 
 if strcmp(par_on,'true')
   if matlabpool('size') == 0
-    matlabpool open
+    matlabpool open 4
   end
   fprintf('Using %d cores\n',matlabpool('size'));
 end
