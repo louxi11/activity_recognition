@@ -37,8 +37,8 @@ for i = 1 : len
   end
   
   len = cellfun(@length,yy);
-  xx(len<2) = [];
-  yy(len<2) = [];
+%   xx(len<2) = []; % removed data that has no transition features TODO
+%   yy(len<2) = []; % removed data that has no transition features TODO
   
   patterns = [patterns; xx];
   labels = [labels; yy];

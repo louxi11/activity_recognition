@@ -10,7 +10,7 @@ corruptPercentage = 'inf'; % change only transition label
 
 % turn on parrallel computing
 par_on = 'true';
-options = 'flip';
+options = 'corrupt';
 flipThre = '4';
-numCores = '2';
+numCores = '3';
 semi_supervised_template(numStateZ,C,E,thres,baseFile,corruptPercentage,par_on,options,flipThre,numCores)

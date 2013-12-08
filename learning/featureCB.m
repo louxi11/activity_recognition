@@ -19,11 +19,12 @@ B = accumarray(YZ,1,[params.numStateYZ,1],[],[],true);
 
 % transition features P(i->j) at (i,j)
 if length(YZ) > 1
-    C = accumarray([YZ(1:end-1),YZ(2:end)], 1,...
-        [params.numStateYZ,params.numStateYZ],[],[],true);
+  C = accumarray([YZ(1:end-1),YZ(2:end)], 1,...
+    [params.numStateYZ,params.numStateYZ],[],[],true);
 else
-    warning('training sequence only contain ONE observation!');
-    C = [];
+  % set trans features to zeros when sequence contains no transition
+%   warning('training sequence only contain ONE observation!');
+  C = zeros(params.numStateYZ,params.numStateYZ);
 end
 
 
