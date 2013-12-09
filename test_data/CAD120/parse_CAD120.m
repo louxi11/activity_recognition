@@ -108,7 +108,11 @@ Yt = Yt(mask); % remove empty cell in labels
 At = At(mask);
 TEMPORAL_FEATURE_LENGTH = numel(F);
 vid_id_t = vid_id(mask);
-save(fullfile(path,'CAD120.mat'),'X','Y','A','Xt','Yt','At','FEATURE_LENGTH','TEMPORAL_FEATURE_LENGTH','vid_id','vid_id_t');
 
-fprintf('Data saved to %s.\n\n',fullfile(path,'CAD120.mat'))
+subjects = parse_subject(fullfile(pwd,'CAD120'));
+Yhigh = parse_high_level_activity(fullfile(pwd,'CAD120'));
+
+save(fullfile(path,'CAD120.mat'),'X','Y','A','Xt','Yt','At','FEATURE_LENGTH','TEMPORAL_FEATURE_LENGTH','vid_id','vid_id_t','subjects','Yhigh');
+
+fprintf('Data saved to %s\n\n',fullfile(path,'CAD120.mat'))
 

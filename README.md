@@ -27,7 +27,7 @@ Go to the root folder
 
 open Matlab
 
-    parseAllCAD
+    parseAllCAD120
 
 Super Computers Lisa Users
 --------------------------

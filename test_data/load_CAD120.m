@@ -32,7 +32,6 @@ else
     test_sid = all_sid(~ismember(all_sid,train_sid));
     
 %     cd test_data/CAD120/
-    subjects = parse_subject(fullfile(pwd,'CAD120'));
 %     cd ../../
     
     train_videos = [subjects{train_sid}];
@@ -43,18 +42,28 @@ else
     [~,trainidx,~] = intersect(vid_id,train_videos);
     [~,testidx,~] = intersect(vid_id,test_videos);
     
+    % high level activities
+    train_hid = vid_id(trainidx);
+    [~,train_hidx] = ismember(train_hid,Yhigh.vidID);
+    test_hid = vid_id(testidx);
+    [~,test_hidx] = ismember(test_hid,Yhigh.vidID);
+    
     % make sure no intersection between training and test set
     assert(isempty(intersect(trainidx,testidx)))
 end
 
 
-% load final training set and test set
+% load final training set
 trainData.patterns = X(trainidx);
 trainData.labels = Y(trainidx);
 trainData.DimX = FEATURE_LENGTH;
 trainData.Affordance = A(trainidx);
+trainData.HighLabels = Yhigh.labels(train_hidx);
+
+% load final test set
 testData.patterns = X(testidx);
 testData.labels = Y(testidx);
 testData.DimX = FEATURE_LENGTH;
+testData.HighLabels = Yhigh.labels(test_hidx);
 
 end

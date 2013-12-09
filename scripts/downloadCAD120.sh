@@ -26,8 +26,12 @@ do
     ../../../scripts/parseFileName.sh ../../segmentation_lists/$folder
     cd ../
 done
+cd ..
 
-echo ALL DONE
+# collect subject labels for the whole dataset
+cat Subject*_annotations/*/activityLabel.txt > activityLabel.txt
+
+echo DOWNLOAD CAD120 DATASET - ALL DONE
 # use groundtruth
 #cp groundtruth/segments_svm_format/* ../segmentation_lists/groundtruth/
 #p=`pwd`/groundtruth

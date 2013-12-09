@@ -9,7 +9,7 @@ baseFile = 'uniform_20_10';
 corruptPercentage = 'inf'; % change only transition label
 
 % turn on parrallel computing
-par_on = 'true';
+par_on = 'false';
 options = 'corrupt';
 flipThre = '4';
 numCores = '3';
