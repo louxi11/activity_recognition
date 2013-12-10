@@ -1,4 +1,4 @@
-function semi_supervised_template(numStateZ,C,E,thres,baseFile,corruptPercentage,par_on,options,flipProp,numCores)
+function semi_supervised_template(numStateZ,C,E,thres,baseFile,par_on,options,flipProb,numCores)
 
 clc
 % clear all
@@ -36,17 +36,16 @@ save_on = 1;
 W = 3; % optimization strategy
 tfeat = 'tfeat_on';
 initStrategy = 'learning'; % semi supervised
-if ischar(corruptPercentage)
-  corruptPercentage = eval(corruptPercentage); % mcc binary functions takes inf as string
+if ischar(C)
   C = str2double(C);
   E = str2double(E);
   numStateZ = str2double(numStateZ);
   thres = str2double(thres);
-  flipProp = str2double(flipProp);
-  assert(flipProp <= 1 && flipProp >= 0)
+  flipProb = str2double(flipProb);
+  assert(flipProb <= 1 && flipProb >= 0)
 end
 
-hasPartialLabel = strcmp(options,'corrupt') && corruptPercentage > 0;
+hasPartialLabel = strcmp(options,'corrupt') && flipProb > 0;
 hasLatent = hasPartialLabel || numStateZ > 1 ;
 
 eval_set = 1:3;
@@ -65,16 +64,16 @@ confmat = cell(4,length(eval_set));
 % 4 fold cross-validation - leave one subject out
 combos = combntns(1:4,3);
 
-dirResults = sprintf('opt_%s_fThre_%.2f_%s_cp_%.2f_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s',...
-  options,flipProp,baseFile,corruptPercentage,C,E,W,tfeat,thres,initStrategy);
+dirResults = sprintf('opt_%s_Prob_%.2f_%s_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s',...
+  options,flipProb,baseFile,C,E,W,tfeat,thres,initStrategy);
 mkdir(dirResults);
 
 % replicate cross-validation
 for c = 1 : length(eval_set)
 
   iter = eval_set(c);
-  filebase = sprintf('%s_Z%d_cp_%.2f_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d'...
-      ,baseFile,numStateZ,corruptPercentage,C,E,W,tfeat,thres,initStrategy,iter);
+  filebase = sprintf('%s_Z%d_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d'...
+      ,baseFile,numStateZ,C,E,W,tfeat,thres,initStrategy,iter);
 
   %%% cross-validation in parallel %%%
   parfor i = 1 : size(combos,1)
@@ -98,9 +97,9 @@ for c = 1 : length(eval_set)
     
     % options for corruptLabels and FlipLabels
     if strcmp(options,'corrupt')
-      trainData = corruptLabels(trainData,corruptPercentage,flipProp);
+      trainData = corruptLabels(trainData,flipProb);
     elseif strcmp(options,'flip')
-      trainData = flipLabels(trainData,flipProp); %% TODO
+      trainData = flipLabels(trainData,flipProb); %% TODO
     end
 
     %%% initilize unknown labels by learning with known data
