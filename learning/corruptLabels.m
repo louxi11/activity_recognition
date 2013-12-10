@@ -1,4 +1,4 @@
-function data = corruptLabels(data,percentage,flipThre)
+function data = corruptLabels(data,percentage,nanProp)
 
 labels = data.labels;
 
@@ -14,21 +14,10 @@ else
   % set transition nodes to nan
   for i = 1 : length(data.labels)
     label = labels{i};
-    c = SplitVec(label);
-    len = cellfun('length',c);
-    cumlen = cumsum(len);
-    mask = len >= flipThre;
-    if sum(mask)
-%       frontLabel = cumlen(mask) - len(mask) + 1;
-      endLabel = cumlen(mask);
-%       if frontLabel(1) == 1
-%         frontLabel(1) = [];
-%       end
-      if endLabel(end) == cumlen(end)
-        endLabel(end) = [];
-      end
-      label(endLabel) = nan;
-    end
+    tLabels = find(diff(label)); % transition labels
+    tIdx = randsample([true,false],length(tLabels),true,[nanProp,1-nanProp]); % random sampled positions
+    fLabels = tLabels(tIdx);
+    label(fLabels) = nan;
     data.labels{i} = label;
   end
 end

@@ -1,4 +1,4 @@
-function semi_supervised_template(numStateZ,C,E,thres,baseFile,corruptPercentage,par_on,options,flipThre,numCores)
+function semi_supervised_template(numStateZ,C,E,thres,baseFile,corruptPercentage,par_on,options,flipProp,numCores)
 
 clc
 % clear all
@@ -42,7 +42,8 @@ if ischar(corruptPercentage)
   E = str2double(E);
   numStateZ = str2double(numStateZ);
   thres = str2double(thres);
-  flipThre = str2double(flipThre);
+  flipProp = str2double(flipProp);
+  assert(flipProp <= 1 && flipProp >= 0)
 end
 
 hasPartialLabel = strcmp(options,'corrupt') && corruptPercentage > 0;
@@ -64,8 +65,8 @@ confmat = cell(4,length(eval_set));
 % 4 fold cross-validation - leave one subject out
 combos = combntns(1:4,3);
 
-dirResults = sprintf('opt_%s_fThre_%d_%s_cp_%.2f_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s',...
-  options,flipThre,baseFile,corruptPercentage,C,E,W,tfeat,thres,initStrategy);
+dirResults = sprintf('opt_%s_fThre_%.2f_%s_cp_%.2f_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s',...
+  options,flipProp,baseFile,corruptPercentage,C,E,W,tfeat,thres,initStrategy);
 mkdir(dirResults);
 
 % replicate cross-validation
@@ -97,9 +98,9 @@ for c = 1 : length(eval_set)
     
     % options for corruptLabels and FlipLabels
     if strcmp(options,'corrupt')
-      trainData = corruptLabels(trainData,corruptPercentage,flipThre);
+      trainData = corruptLabels(trainData,corruptPercentage,flipProp);
     elseif strcmp(options,'flip')
-      trainData = flipLabels(trainData,flipThre); %% TODO
+      trainData = flipLabels(trainData,flipProp); %% TODO
     end
 
     %%% initilize unknown labels by learning with known data

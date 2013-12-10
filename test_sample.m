@@ -9,8 +9,8 @@ baseFile = 'uniform_20_10';
 corruptPercentage = 'inf'; % change only transition label
 
 % turn on parrallel computing
-par_on = 'false';
+par_on = 'true';
 options = 'corrupt';
-flipThre = '4';
+flipProp = '0.5';
 numCores = '3';
-semi_supervised_template(numStateZ,C,E,thres,baseFile,corruptPercentage,par_on,options,flipThre,numCores)
+semi_supervised_template(numStateZ,C,E,thres,baseFile,corruptPercentage,par_on,options,flipProp,numCores)

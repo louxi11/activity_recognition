@@ -1,27 +1,14 @@
-function data = flipLabels(data,lenThres)
+function data = flipLabels(data,flipProp)
 
 labels = data.labels;
 
 % set transition nodes to nan
 for i = 1 : length(data.labels)
   label = labels{i};
-  c = SplitVec(label);
-  len = cellfun('length',c);
-  cumlen = cumsum(len);
-  mask = len >= lenThres;
-  if sum(mask)
-%     frontLabel = cumlen(mask) - len(mask) + 1;
-    endLabel = cumlen(mask);
-%     if frontLabel(1) == 1
-%       frontLabel(1) = [];
-%     end
-    if endLabel(end) == cumlen(end)
-      endLabel(end) = [];
-    end
-    %       idx = [frontLabel;endLabel];
-%     label(frontLabel) = label(frontLabel-1);
-    label(endLabel) = label(endLabel+1);
-  end
+  tLabels = find(diff(label)); % transition labels
+  tIdx = randsample([true,false],length(tLabels),true,[nanProp,1-nanProp]); % random sampled positions
+  fLabels = tLabels(tIdx);
+  label(fLabels) = label(fLabels + 1);
   data.labels{i} = label;
 end
 
