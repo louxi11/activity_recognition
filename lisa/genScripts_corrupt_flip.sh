@@ -8,7 +8,7 @@ mkdir -p jobs
 cd jobs
 rm -f job*
 
-declare -a all_baseFile=(m1_100 m1_500 m1_1000 m2_100 m2_500 m2_1000 uniform_20_0 uniform_20_15 uniform_30_10 uniform_40_10)
+declare -a all_baseFile=(m1_100 m1_500 m1_1000 m2_100 m2_500 m2_1000 uniform_20_0 uniform_20_10 uniform_20_15 uniform_30_10 uniform_40_10)
 declare -a all_options=(corrupt flip)
 
 for flipProb in $(seq 0 0.1 1)
