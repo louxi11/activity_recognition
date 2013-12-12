@@ -1,10 +1,15 @@
 numStateZ = 1;
+
 C = 0.3;
-E = 0.25;
-W = 3;
+E = 0.4;
+corruptPercentage = inf;
+baseFiles = {'groundtruth' 'm1_1000' 'm1_500' 'm2_100' 'm2_1000' 'm2_500' 'uniform_20_0' 'uniform_20_15' 'uniform_30_10' 'uniform_40_10'};
+
+options = corrupt;
+flipThre=3;
 tfeat = 'tfeat_on';
 thres = 1;
-initStrategy = 'clustering';
+initStrategy = 'learning';
 iter = 3;
 
 Z1 = [];
