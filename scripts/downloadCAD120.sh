@@ -1,4 +1,4 @@
-mkdir CAD120
+mkdir -p CAD120
 cd CAD120
 
 # download dynamic segments
@@ -8,7 +8,7 @@ tar -xvzf segmentation_features.tgz
 # download ground-truth segments
 cd segmentation_features
 wget -nc http://pr.cs.cornell.edu/humanactivities/data/features.tar
-mkdir groundtruth
+mkdir -p groundtruth
 tar -xvf features.tar -C groundtruth --strip-components=1
 cd groundtruth
 tar -xvzf features_binary_svm_format.tar.gz --strip-components=1
@@ -16,13 +16,13 @@ tar -xvzf segments_svm_format.tar.gz
 cd ../../
 
 # parse segment names
-mkdir segmentation_lists
+mkdir -p segmentation_lists
 cd segmentation_features
 folders=`ls -d */`
 for folder in $folders
 do
     cd $folder
-    mkdir ../../segmentation_lists/$folder
+    mkdir -p ../../segmentation_lists/$folder
     ../../../scripts/parseFileName.sh ../../segmentation_lists/$folder
     cd ../
 done
