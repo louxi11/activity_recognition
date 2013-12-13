@@ -13,20 +13,33 @@ declare -a all_options=(corrupt flip)
 
 for flipProb in $(seq 0 0.1 1)
 do
-    for baseFile in ${all_baseFile[@]}
+    for options in ${all_options[@]}
     do
-        for options in ${all_options[@]}
+        for numStateZ in {1..2}
         do
-            for numStateZ in {1..2}
+            wt=$(($numStateZ * 5))
+            echo "#PBS -lnodes=1:ppn=8" > ./job\_data1\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
+            echo "#PBS -lwalltime=$wt:00:00" >> ./job\_data1\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
+            echo "module load mcr" >> ./job\_data1\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
+            echo "export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:\$LD_LIBRARY_PATH" >> ./job\_data1\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
+            echo "cd ~/workspace/activity_recognition" >> ./job\_data1\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
+            for baseFile in ${all_baseFile[@]:0:6}
             do
-                wt=$(($numStateZ * 5))
-                echo "#PBS -lnodes=1:ppn=8" > ./job\_$baseFile\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
-                echo "#PBS -lwalltime=$wt:00:00" >> ./job\_$baseFile\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
-                echo "module load mcr" >> ./job\_$baseFile\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
-                echo "export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:\$LD_LIBRARY_PATH" >> ./job\_$baseFile\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
-                echo "cd ~/workspace/activity_recognition" >> ./job\_$baseFile\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
-                echo "./semi_supervised_template $numStateZ $C $E $thres $baseFile $isparallel $options $flipProb $numCores" >> ./job\_$baseFile\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
+                echo "./semi_supervised_template $numStateZ $C $E $thres $baseFile $isparallel $options $flipProb $numCores &" >> ./job\_data1\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
             done
+            echo "wait" >> ./job\_data1\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
+
+            wt=$(($numStateZ * 5))
+            echo "#PBS -lnodes=1:ppn=8" > ./job\_data2\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
+            echo "#PBS -lwalltime=$wt:00:00" >> ./job\_data2\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
+            echo "module load mcr" >> ./job\_data2\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
+            echo "export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:\$LD_LIBRARY_PATH" >> ./job\_data2\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
+            echo "cd ~/workspace/activity_recognition" >> ./job\_data2\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
+            for baseFile in ${all_baseFile[@]:6:11}
+            do
+                echo "./semi_supervised_template $numStateZ $C $E $thres $baseFile $isparallel $options $flipProb $numCores &" >> ./job\_data2\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
+            done
+            echo "wait" >> ./job\_data2\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
         done
     done
 done
