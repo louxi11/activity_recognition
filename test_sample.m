@@ -5,12 +5,13 @@ numStateZ = '1';
 C = '0.3'; % normalization constant
 E = '0.4'; % epsilon
 thres = '1'; % threshold to stop iteration TODO
-baseFile = 'uniform_20_10';
-corruptPercentage = 'inf'; % change only transition label
+baseFile = 'groundtruth';
 
 % turn on parrallel computing
-par_on = 'false';
 options = 'corrupt';
-flipProp = '0.5';
-numCores = '3';
-semi_supervised_template(numStateZ,C,E,thres,baseFile,par_on,options,flipProp,numCores)
+flipProp = '0';
+tic
+numCores = '4'; % number of slaves
+
+semi_supervised_template(numStateZ,C,E,thres,baseFile,options,flipProp,numCores)
+toc

@@ -2,7 +2,7 @@ function [pred,score] = RunInference (factors)
 
 fg = cell(size(factors));
 
-parfor i = 1 : length(factors)
+for i = 1 : length(factors)
 
   fg{i}.Member = factors(i).var;
   if length(factors(i).var) == 1

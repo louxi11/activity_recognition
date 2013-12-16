@@ -9,7 +9,7 @@ F = zeros(1,length(params.labels));
 patterns = params.patterns;
 labels = trainData.labels;
 sz = params.szYZ;
-parfor i = 1 : length(params.labels)
+for i = 1 : length(params.labels)
 
     X = patterns{i};
     Y = labels{i};
@@ -24,7 +24,7 @@ Fsum = (norm(model.w)^2)/2 + C * sum(F);
 G = zeros(1,length(params.labels));
 patterns = params.patterns;
 labels = trainData.labels;
-parfor i = 1 : length(params.labels)
+for i = 1 : length(params.labels)
     X = patterns{i};
     Y = labels{i}; % groundtruth labels
 

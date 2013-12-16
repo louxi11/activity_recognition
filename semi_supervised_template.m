@@ -1,72 +1,51 @@
-function semi_supervised_template(numStateZ,C,E,thres,baseFile,par_on,options,flipProb,numCores)
-
-clc
-% clear all
-diary off
-
-if strcmp(par_on,'true')
-  if ischar(numCores)
-    numCores = str2double(numCores);
-  end
-  if matlabpool('size') == 0
-    if numCores == 0
-      matlabpool open
-    else
-      matlabpool('open',numCores)
-    end
-  end
-  fprintf('Using %d cores\n',matlabpool('size'));
-end
-
-if (~isdeployed)
-  addpath graphical_model/
-  addpath inference/
-  addpath learning
-  addpath svm-struct-matlab-1.2/
-  addpath tools/
-  addpath evaluation/
-  
-  addpath test_data/
-  addpath test_data/CAD120/
-end
+function semi_supervised_template(numStateZ,C,E,thres,baseFile,options,flipProb,numCores)
 
 save_on = 1;
 
-% SVM^struct parameters
-W = 3; % optimization strategy
-tfeat = 'tfeat_on';
-initStrategy = 'learning'; % semi supervised
 if ischar(C)
   C = str2double(C);
   E = str2double(E);
   numStateZ = str2double(numStateZ);
   thres = str2double(thres);
   flipProb = str2double(flipProb);
+  numCores = str2double(numCores);
   assert(flipProb <= 1 && flipProb >= 0)
 end
+
+start_matlabpool(numCores)
+set_global_path;
+
+% SVM^struct parameters
+W = 3; % optimization strategy
+tfeat = 'tfeat_on';
+initStrategy = 'learning'; % semi-supervised
+numFolds = 4; % 4-fold cross-validation
 
 hasPartialLabel = strcmp(options,'corrupt') && flipProb > 0;
 hasLatent = hasPartialLabel || numStateZ > 1 ;
 
-eval_set = 1:3;
+if hasLatent
+  eval_set = 1:3;
+else
+  eval_set = 1; % stop after 1 iteration if the process is deterministic
+end
+
 baseFolder = fullfile(pwd,'CAD120/segmentation_lists');
 path = fullfile(baseFolder,baseFile);
-
-
-%%% allocate buffer %%%
-trainRate = nan(4,length(eval_set));
-testRate = nan(4,length(eval_set));
-prec = nan(4,length(eval_set));
-recall = nan(4,length(eval_set));
-fscore = nan(4,length(eval_set));
-confmat = cell(4,length(eval_set));
-
-% 4 fold cross-validation - leave one subject out
-combos = combntns(1:4,3);
-
 dirResults = sprintf('opt_%s_Prob_%.2f_%s_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s',...
   options,flipProb,baseFile,C,E,W,tfeat,thres,initStrategy);
 mkdir(dirResults);
+
+%%% allocate buffer %%%
+trainRate = nan(numFolds,length(eval_set));
+testRate = nan(numFolds,length(eval_set));
+prec = nan(numFolds,length(eval_set));
+recall = nan(numFolds,length(eval_set));
+fscore = nan(numFolds,length(eval_set));
+confmat = cell(numFolds,length(eval_set));
+
+% 4 fold cross-validation - leave-one-subject out
+combos = combntns(1:numFolds,3);
 
 % replicate cross-validation
 for c = 1 : length(eval_set)
@@ -82,7 +61,6 @@ for c = 1 : length(eval_set)
     train_sid = combos(i,:);
     all_sid = 1 : 4;
     test_sid = all_sid(~ismember(all_sid,train_sid));
-
 
     if save_on
       logfile = fullfile(dirResults,sprintf([filebase,'_Test%d'],test_sid));
@@ -114,47 +92,23 @@ for c = 1 : length(eval_set)
 
     % save model to file
 %     if save_on
-%       save(fullfile(dirResults,['model_',sprintf([filebase,'_Test%d'],test_sid),'.mat']),'model','params','trainData','testData')
+%       parsave(fullfile(dirResults,['model_',sprintf([filebase,'_Test%d'],test_sid),'.mat']),'model','params','trainData','testData')
 %     end
-    %     load(['model_',logfile,'.mat'],'model','params','trainData','testData')
+%     load(['model_',logfile,'.mat'],'model','params','trainData','testData')
+
 
 
 
     %%% classification %%%
+    
+    % training data
+    [~,~,trainRate(i,c)] = evaluate_model(trainData, model, params);
+    
+    % test data
+    [gt_labels,pred_labels,testRate(i,c)] = evaluate_model(testData, model, params);
+    [confmat{i,c}, prec(i,c), recall(i,c), fscore(i,c)] = prec_recall(gt_labels,pred_labels);
 
-    data = trainData;
-    D = zeros(size(data.patterns));
-    for j = 1 : length(data.patterns)
-      X_train = data.patterns{j};
-      yhat = ssvm_classify(params, model, X_train); % TODO bugs for classification
-      D(j) = sum( int32(data.labels{j}) == int32(yhat));
-    end
-    labels = cellfun(@transpose,data.labels,'UniformOutput',false);
-    labels = [labels{:}];
-    CNT = sum(~isnan(labels));
-    trainRate(i,c) = sum(D)/CNT;
-
-    D = zeros(size(data.patterns));
-    PRED = cell(size(data.patterns));
-    data = testData;
-    for j = 1 : length(data.patterns)
-      X_test = data.patterns{j};
-      yhat = ssvm_classify(params, model, X_test);
-      PRED{j} = yhat';
-      D(j) = sum( int32(data.labels{j}) == int32(yhat));
-    end
-    labels = cellfun(@transpose,data.labels,'UniformOutput',false);
-    GT = [labels{:}]';
-    CNT = sum(~isnan(GT));
-    PRED = [PRED{:}]';
-    testRate(i,c) = sum(D)/CNT;
-
-    [~, prec0, recall0, confmat0] = prec_recall(GT,PRED);
-    prec(i,c) = mean(prec0);
-    recall(i,c) = mean(recall0);
-    fscore(i,c) = 2 * prec(i,c) * recall(i,c) / (prec(i,c) + recall(i,c));
-    confmat{i,c} = confmat0;
-
+    % output results
     fprintf('******************************\n')
     fprintf('Training set: %d, %d, %d\n',train_sid(1),train_sid(2),train_sid(3));
     fprintf('Training rate: %.4f\n\n',trainRate(i,c));
@@ -170,45 +124,15 @@ for c = 1 : length(eval_set)
 
   end    
     
-  results.meanTrain = mean(trainRate(:));
-  results.stdTrain = std(trainRate(:));
-  results.meanTest = mean(testRate(:));
-  results.stdTest = std(testRate(:));
-
-  results.meanPrec = mean(prec(:));
-  results.stdPrec = std(prec(:));
-  results.meanRecall = mean(recall(:));
-  results.stdRecall = std(recall(:));
-  results.meanFscore = mean(fscore(:));
-  results.stdFscore = std(fscore(:));
-
+  results = collect_results(trainRate,testRate,prec,recall,fscore,hasLatent);
   if save_on
-    save(fullfile(dirResults,[filebase,'.mat']),...
-      'trainRate','testRate','results','prec','recall','fscore','confmat');
+    save(fullfile(dirResults,[filebase,'.mat']),'results');
   end
 
-  if ~hasLatent
-    results.meanTrain = nanmean(trainRate(:));
-    results.stdTrain = nanstd(trainRate(:));
-    results.meanTest = nanmean(testRate(:));
-    results.stdTest = nanstd(testRate(:));
-    
-    results.meanPrec = nanmean(prec(:));
-    results.stdPrec = nanstd(prec(:));
-    results.meanRecall = nanmean(recall(:));
-    results.stdRecall = nanstd(recall(:));
-    results.meanFscore = nanmean(fscore(:));
-    results.stdFscore = nanstd(fscore(:));
-    
-    save(fullfile(dirResults,[filebase,'.mat']),...
-      'trainRate','testRate','results','prec','recall','fscore','confmat');
-    break
-  end
-  
 end
 
-if strcmp(par_on,'true')
+if numCores > 1
   matlabpool close;
 end
-
+  
 end
