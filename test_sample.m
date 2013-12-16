@@ -10,8 +10,6 @@ baseFile = 'groundtruth';
 % turn on parrallel computing
 options = 'corrupt';
 flipProp = '0';
-tic
-numCores = '4'; % number of slaves
+numCores = '1'; % number of slaves
 
-semi_supervised_template(numStateZ,C,E,thres,baseFile,options,flipProp,numCores)
-toc
+semi_supervised_template(numStateZ,C,E,thres,baseFile,options,flipProp,numCores);

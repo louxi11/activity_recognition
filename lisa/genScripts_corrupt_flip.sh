@@ -1,9 +1,8 @@
 thres=1
-isparallel=false
 E=0.4
 C=0.3
 
-numCores=4
+numCores=1
 mkdir -p jobs
 cd jobs
 rm -f job*
@@ -37,7 +36,7 @@ do
             echo "cd ~/workspace/activity_recognition" >> ./job\_data2\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
             for baseFile in ${all_baseFile[@]:6:11}
             do
-                echo "./semi_supervised_template $numStateZ $C $E $thres $baseFile $isparallel $options $flipProb $numCores &" >> ./job\_data2\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
+                echo "./semi_supervised_template $numStateZ $C $E $thres $baseFile $options $flipProb $numCores &" >> ./job\_data2\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
             done
             echo "wait" >> ./job\_data2\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
         done
