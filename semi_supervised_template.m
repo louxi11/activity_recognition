@@ -12,8 +12,8 @@ if ischar(C)
   assert(flipProb <= 1 && flipProb >= 0)
 end
 
-start_matlabpool(numCores)
 set_global_path;
+start_matlabpool(numCores)
 
 % SVM^struct parameters
 W = 3; % optimization strategy
