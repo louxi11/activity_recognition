@@ -16,11 +16,11 @@ for i = 1 : length(trainData.patterns)
   K = length(x) / dim;
   x = reshape(x,dim,K);
   XX{i} = x;
-  
+
   % init y with left and right neighbors
-  y = initFromNeighbor(y,params); 
+  y = initFromNeighbor(y,params);
   % y(isnan(y)) = randsample(params.numStateY,sum(isnan(y)),true); % randomly initialize y
-  
+
   YY{i} = y';
 end
 
@@ -30,12 +30,15 @@ YY = [YY{:}]';
 
 % init latent variables Z
 opts = statset('UseParallel','always');
-IDX = kmeans(XX,params.numStateZ,'Replicates',10,...
-  'distance','Hamming','emptyaction','singleton',...
-  'Options',opts); % TODO
-
-% data is complete, compute joint state YZ
-YZ = sub2indYZ(params,YY,IDX);
+if params.numStateZ > 1
+  IDX = kmeans(XX,params.numStateZ,'Replicates',10,...
+    'emptyaction','singleton',...
+    'Options',opts); % TODO
+  % data is complete, compute joint state YZ
+  YZ = sub2indYZ(params,YY,IDX);
+else
+  YZ = YY;
+end
 
 % split labels into videos
 labels = mat2cell(YZ,NUM);
