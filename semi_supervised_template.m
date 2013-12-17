@@ -55,7 +55,7 @@ for c = 1 : length(eval_set)
       ,baseFile,numStateZ,C,E,W,tfeat,thres,initStrategy,iter);
 
   %%% cross-validation in parallel %%%
-  parfor i = 1 : size(combos,1)
+  for i = 1 : size(combos,1)
 
     % select video for training set
     train_sid = combos(i,:);
@@ -77,7 +77,7 @@ for c = 1 : length(eval_set)
     if strcmp(options,'corrupt')
       trainData = corruptLabels(trainData,flipProb);
     elseif strcmp(options,'flip')
-      trainData = flipLabels(trainData,flipProb); %% TODO
+      trainData = flipLabels(trainData,flipProb);
     end
 
     %%% initilize unknown labels by learning with known data
@@ -92,11 +92,9 @@ for c = 1 : length(eval_set)
 
     % save model to file
 %     if save_on
-%       parsave(fullfile(dirResults,['model_',sprintf([filebase,'_Test%d'],test_sid),'.mat']),'model','params','trainData','testData')
+%       save(fullfile(dirResults,['model_',sprintf([filebase,'_Test%d'],test_sid),'.mat']),'model','params','trainData','testData')
 %     end
-%     load(['model_',logfile,'.mat'],'model','params','trainData','testData')
-
-
+%     load(fullfile(dirResults,['model_',sprintf([filebase,'_Test%d'],test_sid),'.mat']),'model','params','trainData','testData')
 
 
     %%% classification %%%
@@ -124,7 +122,7 @@ for c = 1 : length(eval_set)
 
   end    
     
-  results = collect_results(trainRate,testRate,prec,recall,fscore,hasLatent);
+  results = collect_results(trainRate,testRate,prec,recall,fscore);
   if save_on
     save(fullfile(dirResults,[filebase,'.mat']),'results');
   end
