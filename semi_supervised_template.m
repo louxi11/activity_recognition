@@ -43,6 +43,8 @@ prec = nan(numFolds,length(eval_set));
 recall = nan(numFolds,length(eval_set));
 fscore = nan(numFolds,length(eval_set));
 confmat = cell(numFolds,length(eval_set));
+trainRateUpper = nan(numFolds,length(eval_set));
+testRateUpper = nan(numFolds,length(eval_set));
 
 % 4 fold cross-validation - leave-one-subject out
 combos = combntns(1:numFolds,3);
@@ -106,6 +108,8 @@ for c = 1 : length(eval_set)
     [gt_labels,pred_labels,testRate(i,c)] = evaluate_model(testData, model, params);
     [confmat{i,c}, prec(i,c), recall(i,c), fscore(i,c)] = prec_recall(gt_labels,pred_labels);
 
+    [trainRateUpper(i,c),testRateUpper(i,c)] = multi_class_svm(model,params,trainData,testData)
+    
     % output results
     fprintf('******************************\n')
     fprintf('Training set: %d, %d, %d\n',train_sid(1),train_sid(2),train_sid(3));
@@ -116,6 +120,7 @@ for c = 1 : length(eval_set)
     fprintf('Test precision: %.4f\n',prec(i,c));
     fprintf('Test recall: %.4f\n',recall(i,c));
     fprintf('Test Fscore: %.4f\n',fscore(i,c));
+    
     fprintf('******************************\n\n')
 
     diary off
@@ -123,6 +128,12 @@ for c = 1 : length(eval_set)
   end    
     
   results = collect_results(trainRate,testRate,prec,recall,fscore);
+  
+  results.meanTrainUpper = mean2(trainRateUpper);
+  results.trainRateUpper = trainRateUpper;
+  results.meanTestUpper = mean2(testRateUpper);
+  results.testRateUpper = testRateUpper;
+  
   if save_on
     save(fullfile(dirResults,[filebase,'.mat']),'results');
   end
