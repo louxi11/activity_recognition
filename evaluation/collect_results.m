@@ -1,4 +1,4 @@
-function results = collect_results(trainRate,testRate,prec,recall,fscore,hasLatent)
+function results = collect_results(trainRate,testRate,prec,recall,fscore)
 
 % training accuracy
 results.meanTrain = mean2(trainRate);
