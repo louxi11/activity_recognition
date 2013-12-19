@@ -7,7 +7,7 @@ load matlab
 Xtrain = cell(size(trainData.HighLabels));
 for i = 1 : length(Xtrain)
   % compute histogram as features
-  Xtrain{i} = histc(trainData.labels{i},1:params.numStateY);
+  Xtrain{i} = [histc(trainData.labels{i},1:params.numStateY);trainData.occlusion_features(i,:)'];
 end
 trainDataUpper.patterns = Xtrain;
 trainDataUpper.labels = num2cell(trainData.HighLabels);
@@ -18,10 +18,10 @@ Xtest = cell(size(testData.HighLabels)); % predicted labels
 for j = 1 : length(testData.patterns)
   x = testData.patterns{j};
   yhat = ssvm_classify(params, model, x);
-  Xtest{j} = histc(yhat,1:params.numStateY);
+  Xtest{j} = [histc(yhat,1:params.numStateY);testData.occlusion_features(j,:)'];
 end
-testDataHigh.patterns = Xtest;
-testDataHigh.labels = num2cell(testData.HighLabels);
+testDataUpper.patterns = Xtest;
+testDataUpper.labels = num2cell(testData.HighLabels);
 
 %%% Multi-class SVM %%%
 numStateZ = 1;
@@ -37,8 +37,8 @@ learning_option = sprintf('-c %.2f -e %.2f -w %d',C,E,W); % ssvm learning parame
 
 %
 [model_upper,params_upper] = learning_CAD120(trainDataUpper,numStateZ,learning_option,thres,initStrategy,C,model,hasPartialLabel,hasLatent);
-[~,~,trainAccuracy] = evaluate_model(trainDataUpper, model_upper, params_upper)
+[~,~,trainAccuracy] = evaluate_model(trainDataUpper, model_upper, params_upper);
 
-[~,~,testAccuracy] = evaluate_model(testDataHigh, model_upper, params_upper)
+[~,~,testAccuracy] = evaluate_model(testDataUpper, model_upper, params_upper);
 
 end
