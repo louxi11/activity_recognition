@@ -31,6 +31,9 @@ cd ..
 # collect subject labels for the whole dataset
 cat Subject*_annotations/*/activityLabel.txt > activityLabel.txt
 
+# download occlusion features
+wget -nc http://basterwijn.nl/ninghang/data/CAD120/occlusion_features.txt
+
 echo DOWNLOAD CAD120 DATASET - ALL DONE
 # use groundtruth
 #cp groundtruth/segments_svm_format/* ../segmentation_lists/groundtruth/

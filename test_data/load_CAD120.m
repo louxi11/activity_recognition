@@ -48,6 +48,12 @@ else
     test_hid = vid_id(testidx);
     [~,test_hidx] = ismember(test_hid,Yhigh.vidID);
     
+    % occlusion features
+    [~,trainidxOF,~] = intersect(occlusion_features.vidID,train_videos);
+    [~,testidxOF,~] = intersect(occlusion_features.vidID,test_videos);
+    assert(length(trainidxOF) == length(train_videos));
+    assert(length(testidxOF) == length(test_videos));
+    
     % make sure no intersection between training and test set
     assert(isempty(intersect(trainidx,testidx)))
 end
@@ -59,11 +65,13 @@ trainData.labels = Y(trainidx);
 trainData.DimX = FEATURE_LENGTH;
 trainData.Affordance = A(trainidx);
 trainData.HighLabels = Yhigh.labels(train_hidx);
+trainData.occlusion_features = occlusion_features.features(trainidxOF,:);
 
 % load final test set
 testData.patterns = X(testidx);
 testData.labels = Y(testidx);
 testData.DimX = FEATURE_LENGTH;
 testData.HighLabels = Yhigh.labels(test_hidx);
+testData.occlusion_features = occlusion_features.features(testidxOF,:);
 
 end

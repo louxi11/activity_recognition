@@ -111,8 +111,9 @@ vid_id_t = vid_id(mask);
 
 subjects = parse_subject(fullfile(pwd,'CAD120'));
 Yhigh = parse_high_level_activity(fullfile(pwd,'CAD120'));
+occlusion_features = parse_occlusion_features(fullfile(pwd,'CAD120'));
 
-save(fullfile(path,'CAD120.mat'),'X','Y','A','Xt','Yt','At','FEATURE_LENGTH','TEMPORAL_FEATURE_LENGTH','vid_id','vid_id_t','subjects','Yhigh');
+save(fullfile(path,'CAD120.mat'),'X','Y','A','Xt','Yt','At','FEATURE_LENGTH','TEMPORAL_FEATURE_LENGTH','vid_id','vid_id_t','subjects','Yhigh','occlusion_features');
 
 fprintf('Data saved to %s\n\n',fullfile(path,'CAD120.mat'))
 
