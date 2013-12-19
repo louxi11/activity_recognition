@@ -1,8 +1,6 @@
 function [trainAccuracy,testAccuracy] = multi_class_svm(model,params,trainData,testData)
 % Multi-class SVM: sub-level activity as X, high-level activity as Y
 
-load matlab
-
 % compute input X and output Y for both training
 Xtrain = cell(size(trainData.HighLabels));
 for i = 1 : length(Xtrain)
@@ -11,7 +9,7 @@ for i = 1 : length(Xtrain)
 end
 trainDataUpper.patterns = Xtrain;
 trainDataUpper.labels = num2cell(trainData.HighLabels);
-trainDataUpper.DimX = params.numStateY;
+trainDataUpper.DimX = length(Xtrain{1});
 
 % compute input X and output Y for both training
 Xtest = cell(size(testData.HighLabels)); % predicted labels
