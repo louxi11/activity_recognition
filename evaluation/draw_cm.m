@@ -1,4 +1,4 @@
-function draw_cm(mat,tickx,ticky,dim)
+function draw_cm(mat,tickx,ticky,dim,CLimit)
 %
 %  Matlab code for visualization of confusion matrix;
 %  mat: confusion matrix;
@@ -11,10 +11,13 @@ function draw_cm(mat,tickx,ticky,dim)
 %
 assert(size(mat,1)==dim(1));
 assert(size(mat,2)==dim(2));
-% assert()
 
-imagesc(1:dim(2),1:dim(1),mat);            %# in color
-colormap(gray);  %# for gray; black for large value.
+if nargin < 5
+  imagesc(1:dim(2),1:dim(1),mat); % table in color
+else 
+  imagesc(1:dim(2),1:dim(1),mat,CLimit); % table in color
+end
+% colormap(gray);  %# for gray; black for large value.
 
 textStrings = num2str(mat(:),'%0.3f');  
 textStrings = strtrim(cellstr(textStrings)); 
@@ -31,5 +34,3 @@ set(gca,'xticklabel',tickx,'XAxisLocation','top');
 set(gca, 'XTick', 1:dim(2), 'YTick', 1:dim(1));
 set(gca,'yticklabel',ticky);
 xticklabel_rotate([],45,[],'Fontsize',10);% rotate the x tick
-
-
