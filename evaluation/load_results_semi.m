@@ -1,13 +1,16 @@
 % function loadResults
 
-clear all; close all
+close all
 
 BaseFolder = 'results_semi_supervised';
+
 flipProb = 0;
-options = 'corrupt'; % flip | corrupt
+options = 'flip'; % flip | corrupt
 C = 0.3;
 E = 0.4;
 initStrategy = 'learning';
+flipProbSet = 0 : 0.1 : 1;
+StateZSet = 1 : 8;
 
 tfeat = 'tfeat_on';
 thres = 1;
@@ -17,54 +20,99 @@ baseFiles = {'groundtruth' ...
   'uniform_20_0' 'uniform_20_15' 'uniform_30_10' 'uniform_40_10' ...
   'm1_100' 'm1_500' 'm1_1000' 'm2_100' 'm2_500' 'm2_1000'};
 
-FSCORE = nan(8,length(baseFiles));
-ACCURACY = FSCORE;
-PRECISION = FSCORE;
-RECALL = FSCORE;
+ACCURACY_CURVE = nan(length(flipProbSet),length(baseFiles));
 
-for i = 1 : length(baseFiles)
+for j = 1 : length(flipProbSet)
   
-  baseFile = baseFiles{i};
+  flipProb = flipProbSet(j);
   
-  dirResults = sprintf('opt_%s_Prob_%.2f_%s_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s',...
-    options,flipProb,baseFile,C,E,W,tfeat,thres,initStrategy);
-
-  for numStateZ = 1 : 8
-    if numStateZ > 1
-      iter = 3;
-    else
-      iter = 1;
-    end
+  FSCORE = nan(8,length(baseFiles));
+  ACCURACY = nan(8,length(baseFiles));
+  PRECISION = nan(8,length(baseFiles));
+  RECALL = nan(8,length(baseFiles));
+  
+  for i = 1 : length(baseFiles)
     
-    fscore = [];
-    testRate = [];
-    prec = [];
-    recall = [];
+    baseFile = baseFiles{i};
     
-    while iter > 0
-      filebase = sprintf('%s_Z%d_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d',...
-        baseFile,numStateZ,C,E,W,tfeat,thres,initStrategy,iter);
-      file = fullfile(BaseFolder,dirResults,[filebase,'.mat']);
-      if exist(file, 'file')
-        load(file)
-        FSCORE(numStateZ,i) = mean2(fscore(:,1:iter));
-        ACCURACY(numStateZ,i) = mean2(testRate(:,1:iter));
-        PRECISION(numStateZ,i) = mean2(prec(:,1:iter));
-        RECALL(numStateZ,i) = mean2(recall(:,1:iter));
-        break;
+    dirResults = sprintf('opt_%s_Prob_%.2f_%s_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s',...
+      options,flipProb,baseFile,C,E,W,tfeat,thres,initStrategy);
+    
+    for numStateZ = 1 : 8
+      if numStateZ > 1
+        iter = 3;
       else
-        iter = iter - 1;
+        iter = 1;
       end
-      if iter == 0
-        warning([file,' no exist'])
+      
+      fscore = [];
+      testRate = [];
+      prec = [];
+      recall = [];
+      
+      while iter > 0
+        filebase = sprintf('%s_Z%d_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d',...
+          baseFile,numStateZ,C,E,W,tfeat,thres,initStrategy,iter);
+        file = fullfile(BaseFolder,dirResults,[filebase,'.mat']);
+        if exist(file, 'file')
+          load(file)
+          FSCORE(numStateZ,i) = mean2(fscore(:,1:iter));
+          ACCURACY(numStateZ,i) = mean2(testRate(:,1:iter));
+          PRECISION(numStateZ,i) = mean2(prec(:,1:iter));
+          RECALL(numStateZ,i) = mean2(recall(:,1:iter));
+          break;
+        else
+          iter = iter - 1;
+        end
+        if iter == 0
+          FSCORE(numStateZ,i) = nan;
+          ACCURACY(numStateZ,i) = nan;
+          PRECISION(numStateZ,i) = nan;
+          RECALL(numStateZ,i) = nan;
+          warning([file,' not exist'])
+        end
+        
       end
-
+      
     end
     
   end
-  
+% flipProb*10+1
+  ACCURACY_CURVE(int32(flipProb*10+1),:) = max(ACCURACY);
+  FSCORE_CURVE(int32(flipProb*10+1),:) = max(FSCORE);
 end
 
+UniformACC1 = mean(ACCURACY_CURVE(:,2:5),2);
+AutoSegACC1 = mean(ACCURACY_CURVE(:,6:end),2);
+UniformFSCORE1 = mean(FSCORE_CURVE(:,2:5),2);
+AutoSegFSCORE1 = mean(FSCORE_CURVE(:,6:end),2);
+
+%%
+plot(0:0.1:1,AutoSegACC,'r','linewidth',2)
+hold on
+plot(0:0.1:1,AutoSegACC1,'r--','linewidth',2)
+plot(0:0.1:1,UniformACC,'b','linewidth',2)
+plot(0:0.1:1,UniformACC1,'b--','linewidth',2)
+hold off
+axis([0,1,0,0.8])
+legend('AutoSeg Semi','AutoSeg ICRA','UniformSeg Semi','UniformSeg ICRA')
+xlabel('Probability of noisy labels at transition')
+ylabel('Average classfication rate')
+
+%%
+figure
+plot(0:0.1:1,AutoSegFSCORE,'r','linewidth',2)
+hold on
+plot(0:0.1:1,AutoSegFSCORE1,'r--','linewidth',2)
+plot(0:0.1:1,UniformFSCORE,'b','linewidth',2)
+plot(0:0.1:1,UniformFSCORE1,'b--','linewidth',2)
+hold off
+axis([0,1,0,0.8])
+legend('AutoSeg Semi','AutoSeg ICRA','UniformSeg Semi','UniformSeg ICRA')
+xlabel('Probability of noisy labels at transition')
+ylabel('Average classfication rate')
+
+%%
 close all
 str = BaseFolder;
 draw_cm(ACCURACY,baseFiles,1:8,[8,11],[0.6,0.9]);
