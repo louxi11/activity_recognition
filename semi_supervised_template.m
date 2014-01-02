@@ -94,7 +94,8 @@ for c = 1 : length(eval_set)
 
     % save model to file
 %     if save_on
-%       save(fullfile(dirResults,['model_',sprintf([filebase,'_Test%d'],test_sid),'.mat']),'model','params','trainData','testData')
+%       fsave = fullfile(dirResults,['model_',sprintf([filebase,'_Test%d'],test_sid),'.mat']);
+%       isave(fsave,model,params,trainData,testData)
 %     end
 %     load(fullfile(dirResults,['model_',sprintf([filebase,'_Test%d'],test_sid),'.mat']),'model','params','trainData','testData')
 

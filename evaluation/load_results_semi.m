@@ -5,6 +5,95 @@ close all
 BaseFolder = 'results_semi_supervised';
 
 flipProb = 0;
+options = 'corrupt'; % flip | corrupt
+C = 0.3;
+E = 0.4;
+initStrategy = 'learning';
+flipProbSet = 0 : 0.1 : 1;
+StateZSet = 1 : 8;
+
+tfeat = 'tfeat_on';
+thres = 1;
+W = 3;
+
+baseFiles = {'groundtruth' ...
+  'uniform_20_0' 'uniform_20_15' 'uniform_30_10' 'uniform_40_10' ...
+  'm1_100' 'm1_500' 'm1_1000' 'm2_100' 'm2_500' 'm2_1000'};
+
+ACCURACY_CURVE = nan(length(flipProbSet),length(baseFiles));
+
+for j = 1 : length(flipProbSet)
+  
+  flipProb = flipProbSet(j);
+  
+  FSCORE = nan(8,length(baseFiles));
+  ACCURACY = nan(8,length(baseFiles));
+  PRECISION = nan(8,length(baseFiles));
+  RECALL = nan(8,length(baseFiles));
+  
+  for i = 1 : length(baseFiles)
+    
+    baseFile = baseFiles{i};
+    
+    dirResults = sprintf('opt_%s_Prob_%.2f_%s_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s',...
+      options,flipProb,baseFile,C,E,W,tfeat,thres,initStrategy);
+    
+    for numStateZ = 1 : 8
+      if numStateZ > 1
+        iter = 3;
+      else
+        iter = 1;
+      end
+      
+      fscore = [];
+      testRate = [];
+      prec = [];
+      recall = [];
+      
+      while iter > 0
+        filebase = sprintf('%s_Z%d_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d',...
+          baseFile,numStateZ,C,E,W,tfeat,thres,initStrategy,iter);
+        file = fullfile(BaseFolder,dirResults,[filebase,'.mat']);
+        if exist(file, 'file')
+          load(file)
+          FSCORE(numStateZ,i) = mean2(fscore(:,1:iter));
+          ACCURACY(numStateZ,i) = mean2(testRate(:,1:iter));
+          PRECISION(numStateZ,i) = mean2(prec(:,1:iter));
+          RECALL(numStateZ,i) = mean2(recall(:,1:iter));
+          break;
+        else
+          iter = iter - 1;
+        end
+        if iter == 0
+          FSCORE(numStateZ,i) = nan;
+          ACCURACY(numStateZ,i) = nan;
+          PRECISION(numStateZ,i) = nan;
+          RECALL(numStateZ,i) = nan;
+          warning([file,' not exist'])
+        end
+        
+      end
+      
+    end
+    
+  end
+% flipProb*10+1
+  ACCURACY_CURVE(int32(flipProb*10+1),:) = max(ACCURACY);
+  FSCORE_CURVE(int32(flipProb*10+1),:) = max(FSCORE);
+end
+
+UniformACC = mean(ACCURACY_CURVE(:,2:5),2);
+AutoSegACC = mean(ACCURACY_CURVE(:,6:end),2);
+UniformFSCORE = mean(FSCORE_CURVE(:,2:5),2);
+AutoSegFSCORE = mean(FSCORE_CURVE(:,6:end),2);
+
+% function loadResults
+
+close all
+
+BaseFolder = 'results_semi_supervised';
+
+flipProb = 0;
 options = 'flip'; % flip | corrupt
 C = 0.3;
 E = 0.4;
