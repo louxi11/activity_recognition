@@ -1,5 +1,5 @@
 baseFile=uniform_20_0
-flipProb=0.1
+flipProb=0
 options=corrupt
 
 thres=50
