@@ -1,8 +1,8 @@
-baseFile=uniform_20_10
-flipProb=0.5
+baseFile=uniform_20_0
+flipProb=0.1
 options=corrupt
 
-thres=1
+thres=50
 E=0.4
 C=0.3
 
@@ -13,7 +13,7 @@ rm -f job*
 
 for numStateZ in {1..8}
 do
-    wt=$(($numStateZ * 5))
+    wt=$(($numStateZ * 8))
     echo "#PBS -lnodes=1:ppn=8" > ./job\_$baseFile\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
     echo "#PBS -lwalltime=$wt:00:00" >> ./job\_$baseFile\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
     echo "module load mcr" >> ./job\_$baseFile\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb

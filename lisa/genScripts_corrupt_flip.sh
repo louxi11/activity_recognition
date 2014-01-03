@@ -16,7 +16,7 @@ do
     do
         for numStateZ in {1..2}
         do
-            wt=$(($numStateZ * 5))
+            wt=$(($numStateZ * 8))
             echo "#PBS -lnodes=1:ppn=8" > ./job\_data1\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
             echo "#PBS -lwalltime=$wt:00:00" >> ./job\_data1\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
             echo "module load mcr" >> ./job\_data1\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
