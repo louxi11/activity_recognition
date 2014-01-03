@@ -1,5 +1,5 @@
-function isave(file,model,params,trainData,testData)
+function isave(file,model,params,train_sid,test_sid,nanIdxTrain)
 
-save(file,'model','params','trainData','testData')
+save(file,'model','params','train_sid','test_sid','nanIdxTrain')
 
 end

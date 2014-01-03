@@ -93,10 +93,10 @@ for c = 1 : length(eval_set)
     [model,params] = learning_CAD120(trainData,numStateZ,learning_option,thres,initStrategy,C,model,hasPartialLabel,hasLatent);
 
     % save model to file
-%     if save_on
-%       fsave = fullfile(dirResults,['model_',sprintf([filebase,'_Test%d'],test_sid),'.mat']);
-%       isave(fsave,model,params,trainData,testData)
-%     end
+    if save_on
+      fsave = fullfile(dirResults,['model_',sprintf([filebase,'_Test%d'],test_sid),'.mat']);
+      isave(fsave,model,params,train_sid,test_sid,trainData.nanIdx);
+    end
 %     load(fullfile(dirResults,['model_',sprintf([filebase,'_Test%d'],test_sid),'.mat']),'model','params','trainData','testData')
 
 

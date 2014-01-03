@@ -1,6 +1,7 @@
 function data = corruptLabels(data,nanProb)
 
 labels = data.labels;
+data.nanIdx = cell(size(labels));
 
 % set transition nodes to nan with probability nanProb
 for i = 1 : length(data.labels)
@@ -10,6 +11,7 @@ for i = 1 : length(data.labels)
   fLabels = tLabels(tIdx);
   label(fLabels) = nan;
   data.labels{i} = label;
+  data.nanIdx{i} = fLabels;
 end
 
 end
