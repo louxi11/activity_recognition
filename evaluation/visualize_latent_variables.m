@@ -17,41 +17,61 @@ for j = 1 : length(data.patterns)
   [yhat,zhat] = ssvm_classify(params, model, x);
   pred_labels{j} = yhat';
   pred_Zlabels{j} = zhat';
+  if sum(zhat' == 1) > 0
+    disp('')
+  end
 end
 
 %%
-v = 28;
 
-vid = data.vidID(v);
-gtlabels = data.labels{v};
-labels = pred_labels{v};
-zlabels = pred_Zlabels{v};
-numSegments = length(labels);
+numImage = 10;
+numStateZ = 2;
+numSubAct = 10;
 
-imDir = '~/Downloads';
-cmd = sprintf('ls -v %s/Subject*/*/%010d/RGB*.png',imDir,vid);
-[~,str] = system(cmd);
-images = textscan(str,'%s');
-images = images{1};
-len = length(images);
-
-sampledFrame = images(segShift + round(segWidth / 2) : segWidth : end);
-sampledFrame{end+1} = images{end};
-
-% activity string for uniform segmentation
-strLabels = {'reaching', 'moving', 'pouring', 'eating', 'drinking', 'opening', 'placing', 'closing', 'null', 'scrubbing'};
-
-numSegments 
-length(sampledFrame)
-
-for i = 1 : length(labels)
+for v = 1 : length(data.vidID)
+  % v = 28;
   
-  imshow(sampledFrame{i})
-  title([strLabels{labels(i)},' ',num2str(zlabels(i)),' ',strLabels{gtlabels(i)}])
-  drawnow
-  waitforbuttonpress
+  vid = data.vidID(v);
+  gtlabels = data.labels{v};
+  labels = pred_labels{v};
+  zlabels = pred_Zlabels{v};
+  numSegments = length(labels);
+  
+  imDir = '~/Downloads';
+  cmd = sprintf('ls -v %s/Subject*/*/%010d/RGB*.png',imDir,vid);
+  [~,str] = system(cmd);
+  images = textscan(str,'%s');
+  images = images{1};
+  len = length(images);
+  
+  sampledFrame = images(segShift + round(segWidth / 2) : segWidth : end);
+  
+  % activity string for uniform segmentation
+  strLabels = {'reaching', 'moving', 'pouring', 'eating', 'drinking', 'opening', 'placing', 'closing', 'null', 'scrubbing'};
+  
+  s1 = 1;
+  s2 = 1;
+  actid = 10;
+  sz = ones(numSubAct,numStateZ);
+  for i = 1 : length(labels)
+    if labels(i) == actid && zlabels(i) == 1 && s1 <= 5
+      subplot(2,5,s1);
+      imshow(sampledFrame{i})
+      title([strLabels{labels(i)},' ',num2str(zlabels(i)),' ',strLabels{gtlabels(i)}])
+      drawnow
+      s1 = s1 + 1;
+    elseif labels(i) == actid && zlabels(i) == 2 && s2 <= 5
+      subplot(2,5,s2 + 5);
+      imshow(sampledFrame{i})
+      title([strLabels{labels(i)},' ',num2str(zlabels(i)),' ',strLabels{gtlabels(i)}])
+      drawnow
+      s2 = s2 + 1;
+    end  
+    
+  end
   
 end
 
+disp('=====')
 
 
