@@ -1,15 +1,19 @@
 
 segShift = 0;
 segWidth = 20;
-
 v = 90;
 
-data = trainData;
+baseFile = 'uniform_20_0';
+baseFolder = fullfile(pwd,'CAD120/segmentation_lists');
+path = fullfile(baseFolder,baseFile);
+[trainData,testData] = load_CAD120('tfeat_on',train_sid,path);
 
+data = trainData;
 vid = data.vidID(v);
 labels = data.labels{v};
 numSegments = length(labels);
 
+%%
 imDir = '~/Downloads';
 cmd = sprintf('ls -v %s/Subject*/*/%010d/RGB*.png',imDir,vid);
 [~,str] = system(cmd);
