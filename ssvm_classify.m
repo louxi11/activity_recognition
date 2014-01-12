@@ -1,4 +1,4 @@
-function Yhat = ssvm_classify(params, model, X)
+function [Yhat,Zhat] = ssvm_classify(params, model, X)
 %CONSTRAINCB Summary of this function goes here
 %  compute the augmented inference problem
 %  Yhat = argmax_y(delta(y,yhat),psi(x,y;w))
@@ -15,6 +15,6 @@ factors = build_graphical_factors(X,params,model,[]);
 % argmax_y <psi(x,y), w>
 YZhat = RunInference(factors);
 
-Yhat = ind2subYZ(params,YZhat);
+[Yhat,Zhat] = ind2subYZ(params,YZhat);
 
 end
