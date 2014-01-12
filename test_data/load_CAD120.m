@@ -66,6 +66,7 @@ trainData.DimX = FEATURE_LENGTH;
 trainData.Affordance = A(trainidx);
 trainData.HighLabels = Yhigh.labels(train_hidx);
 trainData.occlusion_features = occlusion_features.features(trainidxOF,:);
+trainData.vidID = train_hid;
 
 % load final test set
 testData.patterns = X(testidx);
@@ -73,5 +74,6 @@ testData.labels = Y(testidx);
 testData.DimX = FEATURE_LENGTH;
 testData.HighLabels = Yhigh.labels(test_hidx);
 testData.occlusion_features = occlusion_features.features(testidxOF,:);
+testData.vidID = test_hid;
 
 end
