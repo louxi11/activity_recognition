@@ -4,7 +4,7 @@
 numStateZ = '2';
 C = '0.3'; % normalization constant
 E = '0.4'; % epsilon
-thres = '50'; % threshold to stop iteration TODO
+thres = '1'; % threshold to stop iteration TODO
 baseFile = 'groundtruth';
 
 % turn on parrallel computing

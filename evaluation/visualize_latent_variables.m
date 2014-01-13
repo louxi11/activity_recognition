@@ -1,4 +1,4 @@
-
+set_global_path
 segShift = 0;
 segWidth = 20;
 
@@ -28,6 +28,9 @@ numImage = 10;
 numStateZ = 2;
 numSubAct = 10;
 
+
+actid = 1;
+
 for v = 1 : length(data.vidID)
   % v = 28;
   
@@ -37,9 +40,13 @@ for v = 1 : length(data.vidID)
   zlabels = pred_Zlabels{v};
   numSegments = length(labels);
   
-  imDir = '~/Downloads';
+  imDir = '/media/Hitachi/CAD120/rgbd_images';
   cmd = sprintf('ls -v %s/Subject*/*/%010d/RGB*.png',imDir,vid);
-  [~,str] = system(cmd);
+  [r,str] = system(cmd);
+  if r > 0
+    disp('no file exist')
+    break
+  end
   images = textscan(str,'%s');
   images = images{1};
   len = length(images);
@@ -51,7 +58,6 @@ for v = 1 : length(data.vidID)
   
   s1 = 1;
   s2 = 1;
-  actid = 10;
   sz = ones(numSubAct,numStateZ);
   for i = 1 : length(labels)
     if labels(i) == actid && zlabels(i) == 1 && s1 <= 5
