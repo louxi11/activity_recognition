@@ -1,17 +1,17 @@
-% function loadResults
+%%% load results corrupt
 
 close all
 
+% BaseFolder = 'results_semi_supervised';
 BaseFolder = 'results_semi_supervised';
 
-flipProb = 0;
+
 options = 'corrupt'; % flip | corrupt
 C = 0.3;
 E = 0.4;
 initStrategy = 'learning';
 flipProbSet = 0 : 0.1 : 1;
-StateZSet = 1 : 8;
-
+Zset = 1:8;
 tfeat = 'tfeat_on';
 thres = 1;
 W = 3;
@@ -21,15 +21,18 @@ baseFiles = {'groundtruth' ...
   'm1_100' 'm1_500' 'm1_1000' 'm2_100' 'm2_500' 'm2_1000'};
 
 ACCURACY_CURVE = nan(length(flipProbSet),length(baseFiles));
-
+FSCORE_CURVE = ACCURACY_CURVE;
+PREC_CURVE = ACCURACY_CURVE;
+RECALL_CURVE = ACCURACY_CURVE;
+  
 for j = 1 : length(flipProbSet)
   
   flipProb = flipProbSet(j);
   
-  FSCORE = nan(8,length(baseFiles));
-  ACCURACY = nan(8,length(baseFiles));
-  PRECISION = nan(8,length(baseFiles));
-  RECALL = nan(8,length(baseFiles));
+  FSCORE = nan(length(Zset),length(baseFiles));
+  ACCURACY = nan(length(Zset),length(baseFiles));
+  PRECISION = nan(length(Zset),length(baseFiles));
+  RECALL = nan(length(Zset),length(baseFiles));
   
   for i = 1 : length(baseFiles)
     
@@ -38,28 +41,34 @@ for j = 1 : length(flipProbSet)
     dirResults = sprintf('opt_%s_Prob_%.2f_%s_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s',...
       options,flipProb,baseFile,C,E,W,tfeat,thres,initStrategy);
     
-    for numStateZ = 1 : 8
+    for numStateZ = 1 : length(Zset)
       if numStateZ > 1
         iter = 3;
       else
         iter = 1;
       end
       
-      fscore = [];
-      testRate = [];
-      prec = [];
-      recall = [];
-      
       while iter > 0
+        fscore = [];
+        testRate = [];
+        prec = [];
+        recall = [];
         filebase = sprintf('%s_Z%d_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d',...
           baseFile,numStateZ,C,E,W,tfeat,thres,initStrategy,iter);
         file = fullfile(BaseFolder,dirResults,[filebase,'.mat']);
         if exist(file, 'file')
           load(file)
-          FSCORE(numStateZ,i) = mean2(fscore(:,1:iter));
-          ACCURACY(numStateZ,i) = mean2(testRate(:,1:iter));
-          PRECISION(numStateZ,i) = mean2(prec(:,1:iter));
-          RECALL(numStateZ,i) = mean2(recall(:,1:iter));
+          if isempty(fscore)
+            FSCORE(numStateZ,i) = mean2(results.fscore(:,1:iter));
+            ACCURACY(numStateZ,i) = mean2(results.testRate(:,1:iter));
+            PRECISION(numStateZ,i) = mean2(results.prec(:,1:iter));
+            RECALL(numStateZ,i) = mean2(results.recall(:,1:iter));
+          else
+            FSCORE(numStateZ,i) = mean2(fscore(:,1:iter));
+            ACCURACY(numStateZ,i) = mean2(testRate(:,1:iter));
+            PRECISION(numStateZ,i) = mean2(prec(:,1:iter));
+            RECALL(numStateZ,i) = mean2(recall(:,1:iter));
+          end
           break;
         else
           iter = iter - 1;
@@ -80,6 +89,8 @@ for j = 1 : length(flipProbSet)
 % flipProb*10+1
   ACCURACY_CURVE(int32(flipProb*10+1),:) = max(ACCURACY);
   FSCORE_CURVE(int32(flipProb*10+1),:) = max(FSCORE);
+  PREC_CURVE(int32(flipProb*10+1),:) = max(PRECISION);
+  RECALL_CURVE(int32(flipProb*10+1),:) = max(RECALL);
 end
 
 UniformACC = mean(ACCURACY_CURVE(:,2:5),2);
@@ -87,7 +98,13 @@ AutoSegACC = mean(ACCURACY_CURVE(:,6:end),2);
 UniformFSCORE = mean(FSCORE_CURVE(:,2:5),2);
 AutoSegFSCORE = mean(FSCORE_CURVE(:,6:end),2);
 
-% function loadResults
+UniformPREC = mean(PREC_CURVE(:,2:5),2);
+AutoSegPREC = mean(PREC_CURVE(:,6:end),2);
+UniformRECALL = mean(RECALL_CURVE(:,2:5),2);
+AutoSegRECALL = mean(RECALL_CURVE(:,6:end),2);
+
+%%
+%%% load results flip
 
 close all
 
@@ -99,7 +116,7 @@ C = 0.3;
 E = 0.4;
 initStrategy = 'learning';
 flipProbSet = 0 : 0.1 : 1;
-StateZSet = 1 : 8;
+Zset = 1 : 8;
 
 tfeat = 'tfeat_on';
 thres = 1;
@@ -110,15 +127,18 @@ baseFiles = {'groundtruth' ...
   'm1_100' 'm1_500' 'm1_1000' 'm2_100' 'm2_500' 'm2_1000'};
 
 ACCURACY_CURVE = nan(length(flipProbSet),length(baseFiles));
+FSCORE_CURVE = ACCURACY_CURVE;
+PREC_CURVE = ACCURACY_CURVE;
+RECALL_CURVE = ACCURACY_CURVE;
 
 for j = 1 : length(flipProbSet)
   
   flipProb = flipProbSet(j);
   
-  FSCORE = nan(8,length(baseFiles));
-  ACCURACY = nan(8,length(baseFiles));
-  PRECISION = nan(8,length(baseFiles));
-  RECALL = nan(8,length(baseFiles));
+  FSCORE = nan(length(Zset),length(baseFiles));
+  ACCURACY = nan(length(Zset),length(baseFiles));
+  PRECISION = nan(length(Zset),length(baseFiles));
+  RECALL = nan(length(Zset),length(baseFiles));
   
   for i = 1 : length(baseFiles)
     
@@ -127,19 +147,19 @@ for j = 1 : length(flipProbSet)
     dirResults = sprintf('opt_%s_Prob_%.2f_%s_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s',...
       options,flipProb,baseFile,C,E,W,tfeat,thres,initStrategy);
     
-    for numStateZ = 1 : 8
+    for numStateZ = 1 : length(Zset)
       if numStateZ > 1
         iter = 3;
       else
         iter = 1;
       end
       
-      fscore = [];
-      testRate = [];
-      prec = [];
-      recall = [];
-      
       while iter > 0
+              
+        fscore = [];
+        testRate = [];
+        prec = [];
+        recall = [];
         filebase = sprintf('%s_Z%d_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d',...
           baseFile,numStateZ,C,E,W,tfeat,thres,initStrategy,iter);
         file = fullfile(BaseFolder,dirResults,[filebase,'.mat']);
@@ -169,6 +189,9 @@ for j = 1 : length(flipProbSet)
 % flipProb*10+1
   ACCURACY_CURVE(int32(flipProb*10+1),:) = max(ACCURACY);
   FSCORE_CURVE(int32(flipProb*10+1),:) = max(FSCORE);
+  PREC_CURVE(int32(flipProb*10+1),:) = max(PRECISION);
+  RECALL_CURVE(int32(flipProb*10+1),:) = max(RECALL);
+  
 end
 
 UniformACC1 = mean(ACCURACY_CURVE(:,2:5),2);
@@ -176,30 +199,64 @@ AutoSegACC1 = mean(ACCURACY_CURVE(:,6:end),2);
 UniformFSCORE1 = mean(FSCORE_CURVE(:,2:5),2);
 AutoSegFSCORE1 = mean(FSCORE_CURVE(:,6:end),2);
 
-%%
-plot(0:0.1:1,AutoSegACC,'r','linewidth',2)
-hold on
-plot(0:0.1:1,AutoSegACC1,'r--','linewidth',2)
-plot(0:0.1:1,UniformACC,'b','linewidth',2)
-plot(0:0.1:1,UniformACC1,'b--','linewidth',2)
-hold off
-axis([0,1,0,0.8])
-legend('AutoSeg Semi','AutoSeg ICRA','UniformSeg Semi','UniformSeg ICRA')
-xlabel('Probability of noisy labels at transition')
-ylabel('Average classfication rate')
+
+UniformPREC1 = mean(PREC_CURVE(:,2:5),2);
+AutoSegPREC1 = mean(PREC_CURVE(:,6:end),2);
+UniformRECALL1 = mean(RECALL_CURVE(:,2:5),2);
+AutoSegRECALL1 = mean(RECALL_CURVE(:,6:end),2);
 
 %%
+close all
+
 figure
-plot(0:0.1:1,AutoSegFSCORE,'r','linewidth',2)
+plot(0:0.1:1,AutoSegACC,'b','linewidth',2)
 hold on
-plot(0:0.1:1,AutoSegFSCORE1,'r--','linewidth',2)
-plot(0:0.1:1,UniformFSCORE,'b','linewidth',2)
-plot(0:0.1:1,UniformFSCORE1,'b--','linewidth',2)
+plot(0:0.1:1,AutoSegACC1,'m','linewidth',2)
+plot(0:0.1:1,UniformACC,'b--','linewidth',2)
+plot(0:0.1:1,UniformACC1,'m--','linewidth',2)
 hold off
-axis([0,1,0,0.8])
-legend('AutoSeg Semi','AutoSeg ICRA','UniformSeg Semi','UniformSeg ICRA')
-xlabel('Probability of noisy labels at transition')
-ylabel('Average classfication rate')
+axis([0,1,0.4,0.8])
+legend('AutoSeg, our model','AutoSeg, Hu et al.[cite]','UniformSeg, our model','UniformSeg, Hu et al.[cite]','FontSize',13)
+xlabel('Noise level at activity transition','FontSize',13)
+ylabel('Avg. classfication rate','FontSize',13)
+% subplot(2,2,2)
+
+% figure
+% plot(0:0.1:1,AutoSegFSCORE,'b','linewidth',2)
+% hold on
+% plot(0:0.1:1,AutoSegFSCORE1,'m','linewidth',2)
+% % plot(0:0.1:1,UniformFSCORE,'b','linewidth',2)
+% % plot(0:0.1:1,UniformFSCORE1,'b--','linewidth',2)
+% hold off
+% axis([0,1,0.4,0.8])
+% % legend('AutoSeg, our model','AutoSeg, Hu et al.[cite]','UniformSeg, our model','UniformSeg, Hu et al.[cite]','FontSize',13)
+% xlabel('Noise level at activity transition','FontSize',13)
+% ylabel('Avg. F-score','FontSize',13)
+
+figure
+plot(0:0.1:1,AutoSegPREC,'b','linewidth',2)
+hold on
+plot(0:0.1:1,AutoSegPREC1,'m','linewidth',2)
+plot(0:0.1:1,UniformPREC,'b--','linewidth',2)
+plot(0:0.1:1,UniformPREC1,'m--','linewidth',2)
+hold off
+axis([0,1,0.4,0.8])
+legend('AutoSeg, our model','AutoSeg, Hu et al.[cite]','UniformSeg, our model','UniformSeg, Hu et al.[cite]','FontSize',13)
+xlabel('Noise level at activity transition','FontSize',13)
+ylabel('Avg. precision','FontSize',13)
+
+% subplot(2,2,4)
+figure
+plot(0:0.1:1,AutoSegRECALL,'b','linewidth',2)
+hold on
+plot(0:0.1:1,AutoSegRECALL1,'m','linewidth',2)
+% plot(0:0.1:1,UniformRECALL,'b','linewidth',2)
+% plot(0:0.1:1,UniformRECALL1,'b--','linewidth',2)
+hold off
+axis([0,1,0.4,0.8])
+legend('AutoSeg, our model','AutoSeg, Hu et al.[cite]','UniformSeg, our model','UniformSeg, Hu et al.[cite]','FontSize',13)
+xlabel('Noise level at activity transition','FontSize',13)
+ylabel('Avg. recall','FontSize',13)
 
 %%
 close all
