@@ -2,6 +2,7 @@ function activity_recognition_demo(numStateZ,C,E,thres,baseFile,options,flipProb
 
 save_on = 1;
 
+% convert input string to real numbers
 if ischar(C)
   C = str2double(C);
   E = str2double(E);
@@ -18,7 +19,7 @@ start_matlabpool(numCores)
 % SVM^struct parameters
 W = 3; % optimization strategy
 tfeat = 'tfeat_on';
-initStrategy = 'learning'; % semi-supervised
+initStrategy = 'learning'; % initialization strategy
 numFolds = 4; % 4-fold cross-validation
 
 hasPartialLabel = strcmp(options,'corrupt') && flipProb > 0;
@@ -57,7 +58,7 @@ for c = 1 : length(eval_set)
       ,baseFile,numStateZ,C,E,W,tfeat,thres,initStrategy,iter);
 
   %%% cross-validation in parallel %%%
-  for i = 1 : size(combos,1)
+  for i = 1 : size(combos,1) % change for to parfor if parallel computing
 
     % select video for training set
     train_sid = combos(i,:);
@@ -66,7 +67,7 @@ for c = 1 : length(eval_set)
 
     if save_on
       logfile = fullfile(dirResults,sprintf([filebase,'_Test%d'],test_sid));
-      make_log(logfile); % LOG file and SAVE MODEL
+      make_log(logfile); % LOG file
     end
 
     % load structured svm options
