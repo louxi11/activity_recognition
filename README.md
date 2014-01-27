@@ -1,16 +1,20 @@
 This is a free & open source software for human activity recognition. If using this code please cite:
 
-*Learning Latent Structure for Activity Recognition*
-*Ninghang Hu, Gwenn Englebienne, Zhongyu Lou, Ben Kröse*
+*Learning Latent Structure for Activity Recognition.*
+*Ninghang Hu, Gwenn Englebienne, Zhongyu Lou, Ben Kröse.*
 *International Conference on Robotics and Automation (ICRA), 2014*
+
+    @inproceedings{Hu2014,
+      author = {Hu, Ninghang and Englebienne, Gwenn and Lou, Zhongyu and Kr\"{o}se, Ben},
+      booktitle = {Proc. IEEE International Conference on Robotics and Automation (ICRA)},
+      title = {Learning Latent Structure for Activity Recognition},
+      year = {2014}
+      }
+
 
 More information can be found at:
 
 https://sites.google.com/site/ninghanghu/activity_recognition
-
-Git repository:
-
-https://github.com/ninghang/activity_recognition
 
 
 Prerequisites
@@ -46,16 +50,16 @@ Go to the activity_recognition folder and run
 
     make
 
-This compiles two required packages: [libDAI](http://staff.science.uva.nl/~jmooij1/libDAI/) and [Struct^SVM](http://www.robots.ox.ac.uk/~vedaldi/code/svm-struct-matlab.html), and generates two mex functions from C/C++ code
+This compiles two required packages: [libDAI](http://staff.science.uva.nl/~jmooij1/libDAI/) and [SVM^Struct](http://www.robots.ox.ac.uk/~vedaldi/code/svm-struct-matlab.html), and generates two mex functions from C/C++ code
 
 * libDAI generates `inference/libdai/doinference.mexa64`. The file is used as the inference engine, which predicts the states of nodes based on a given factor graph.
-* Struct^SVM generates `svm-struct-matlab-1.2/svm_struct_learn.mexa64`. The file is used to learn parameters of the graphical model using Structured SVM.
+* SVM^Struct generates `svm-struct-matlab-1.2/svm_struct_learn.mexa64`. The file is used to learn parameters of the graphical model using Structured SVM.
 
 
 Download CAD120 dataset
 -----------------------
 
-Go to the root folder, use the script to download CAD-120 data. This will gnerate two folders: `CAD120/segmentation_lists` and `segmentation_features`. For more details about the data format, see [http://pr.cs.cornell.edu/humanactivities/data.php].
+Go to the root folder, use the script to download CAD-120 data. This will gnerate two folders: `CAD120/segmentation_lists` and `segmentation_features`. For more details about the data format, see [CAD120 dataset](http://pr.cs.cornell.edu/humanactivities/data.php).
 
     ./scripts/downloadCAD120.sh
 
@@ -63,7 +67,7 @@ Open Matlab and run
 
     parseAllCAD120
 
-This Matlab script will parse the data and then convert the data into the format that is required by Struct^SVM. The data is stored into the file `CAD120.mat`.
+This Matlab script will parse the data and then convert the data into the format that is required by SVM^Struct. The data is stored into the file `CAD120.mat`.
 
 To see a list of the generated data, run
 
