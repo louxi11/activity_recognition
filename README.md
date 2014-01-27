@@ -6,43 +6,81 @@ This is a free & open source software for human activity recognition. If using t
 
 More information can be found at:
 
-    https://sites.google.com/site/ninghanghu/activity_recognition
+https://sites.google.com/site/ninghanghu/activity_recognition
+
+Git repository:
+
+https://github.com/ninghang/activity_recognition
 
 
 Prerequisites
 -------------
 
-* Ubuntu 12.04 LTS
+* Ubuntu 12.04 LTS (64bit)
 * Matlab 2012a
 
 
-Setup Matlab
+Matlab Setup
 ------------
-* add MATLAB bin to $PATH
+
+To compile the software, we assume Matlab bin folder can be found in the system path. If not, you can open a terminal and run
+
+    echo "export PATH=/MATLAB_ROOT_FOLDER/bin:$PATH" >> ~/.bashrc
+    source ~/.bashrc
+
+Remember to replace MATLAB_ROOT_FOLDER by your Matlab installation path. The default path is '/usr/local/MATLAB/R2012a'. Then you test whether the path is correctly added
+
+    mex -help
+
+You should see the help messages of the mex function if the path is correct.
 
 
 Compile Software
 ----------------
 
+Install software dependencies (for libDAI)
 
+    sudo apt-get install g++ make doxygen graphviz libboost-dev libboost-graph-dev libboost-program-options-dev libboost-test-dev libgmp-dev
+
+Go to the activity_recognition folder and run
 
     make
 
-Install libDAI Dependencies (TODO)
-----------------------------------
+This compiles two required packages: [libDAI](http://staff.science.uva.nl/~jmooij1/libDAI/) and [Struct^SVM](http://www.robots.ox.ac.uk/~vedaldi/code/svm-struct-matlab.html), and generates two mex functions from C/C++ code
 
-    sudo apt-get install g++ make doxygen graphviz libboost-dev libboost-graph-dev libboost-program-options-dev libboost-test-dev libgmp-dev
+* libDAI generates `inference/libdai/doinference.mexa64`. The file is used as the inference engine, which predicts the states of nodes based on a given factor graph.
+* Struct^SVM generates `svm-struct-matlab-1.2/svm_struct_learn.mexa64`. The file is used to learn parameters of the graphical model using Structured SVM.
+
 
 Download CAD120 dataset
 -----------------------
 
-Go to the root folder
+Go to the root folder, use the script to download CAD-120 data. This will gnerate two folders: `CAD120/segmentation_lists` and `segmentation_features`. For more details about the data format, see [http://pr.cs.cornell.edu/humanactivities/data.php].
 
     ./scripts/downloadCAD120.sh
 
-open Matlab
+Open Matlab and run
 
     parseAllCAD120
+
+This Matlab script will parse the data and then convert the data into the format that is required by Struct^SVM. The data is stored into the file `CAD120.mat`.
+
+To see a list of the generated data, run
+
+    ls CAD120/segmentation_lists/*/CAD120.mat
+
+There are 12 data files because the data is generated using different segmentation methods.
+
+
+Run DEMO on CAD-120
+-------------------
+
+Open Matlab and run `test_sample.m`. You can find more descriptions in the source code.
+
+
+Run on Other Dataset
+--------------------
+
 
 Super Computers Lisa Users
 --------------------------
@@ -54,7 +92,6 @@ Super Computers Lisa Users
 
     export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6:$LD_PRELOAD
     matlab -nodisplay
-
 
 TODO
 ----

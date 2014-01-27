@@ -1,8 +1,40 @@
 function activity_recognition_demo(numStateZ,C,E,thres,baseFile,options,flipProb,numCores)
+%ACTIVITY_RECOGNITION_DEMO  an example for running this software
+%   numStateZ  number of latent varibles, N_z in the paper
+%    
+%   C          SVM parameter, C serves as the normalization constant
+%
+%   E          SVM parameter, \epsilon
+%
+%   thres      Stop threshold for CCCP    
+%
+%   baseFile   Segmentation method of the dataset. The video needs to 
+%              discretized so that each segment is a node in the graphical 
+%              model. Three segmentation strategies are used. Groundtruth 
+%              segmentation is annotated by hand. Uniform segmentation
+%              divide videos into clips with fixed length. Graph-based 
+%              segmentation segments video based on frame similarity.
+%
+%              GROUNDTRUTH SEGMENTAION:
+%              'groundtruth'
+%              
+%              UNIFORM SEGMENTAION: Uniformly segment videos into 
+%              'uniform_20_0', 'uniform_20_10', 'uniform_20_15',
+%              'uniform_30_10', 'uniform_40_10'
+%              
+%              GRAPH BASED SEGMENTAION:
+%              'm1_100', 'm1_500', 'm1_1000', 'm2_100', 'm2_500', 'm2_1000'
+%
+%   options    TBD, use 'corrupt' by default
+%   flipProb   TBD, use '0' by default
+%   numCores   TBD, use '1' by default
+%
 
 save_on = 1;
 
-% convert input string to real numbers
+% convert input string to real numbers. For super computer users, the
+% matlab script may need to be compile into binary files, which only accept
+% strings as input. This part is to convert from input string to numbers
 if ischar(C)
   C = str2double(C);
   E = str2double(E);
@@ -13,7 +45,10 @@ if ischar(C)
   assert(flipProb <= 1 && flipProb >= 0)
 end
 
+% add required scripts to path
 set_global_path;
+
+% start matlab parallel computing if more than 1 core is specified
 start_matlabpool(numCores)
 
 % SVM^struct parameters
@@ -22,7 +57,10 @@ tfeat = 'tfeat_on';
 initStrategy = 'learning'; % initialization strategy
 numFolds = 4; % 4-fold cross-validation
 
+% any missing label?
 hasPartialLabel = strcmp(options,'corrupt') && flipProb > 0;
+
+% any latent value? (either missing label or latent variable)
 hasLatent = hasPartialLabel || numStateZ > 1 ;
 
 if hasLatent
@@ -31,33 +69,38 @@ else
   eval_set = 1; % stop after 1 iteration if the process is deterministic
 end
 
-baseFolder = fullfile(pwd,'CAD120/segmentation_lists');
+baseFolder = fullfile(pwd,'CAD120','segmentation_lists');
 path = fullfile(baseFolder,baseFile);
 dirResults = sprintf('opt_%s_Prob_%.2f_%s_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s',...
-  options,flipProb,baseFile,C,E,W,tfeat,thres,initStrategy);
+  options,flipProb,baseFile,C,E,W,tfeat,thres,initStrategy); % folder to save results
 mkdir(dirResults);
 
 %%% allocate buffer %%%
-trainRate = nan(numFolds,length(eval_set));
-testRate = nan(numFolds,length(eval_set));
-prec = nan(numFolds,length(eval_set));
-recall = nan(numFolds,length(eval_set));
-fscore = nan(numFolds,length(eval_set));
-confmat = cell(numFolds,length(eval_set));
-trainRateUpper = nan(numFolds,length(eval_set));
-testRateUpper = nan(numFolds,length(eval_set));
+% evaluation is iterated for length(eval_set) times.
+trainRate = nan(numFolds,length(eval_set)); % accuracy on training
+testRate = nan(numFolds,length(eval_set)); % accuracy on testing
+prec = nan(numFolds,length(eval_set)); % precision on testing
+recall = nan(numFolds,length(eval_set)); % recall on testing
+fscore = nan(numFolds,length(eval_set)); % f1-score on testing
+confmat = cell(numFolds,length(eval_set)); % confusion matrix
+trainRateUpper = nan(numFolds,length(eval_set)); % high-level accuracy on training
+testRateUpper = nan(numFolds,length(eval_set)); % high-level accuracy on testing
 
 % 4 fold cross-validation - leave-one-subject out
 combos = combntns(1:numFolds,3);
 
-% replicate cross-validation
+%%  MAIN LOOP
+%   We use 4-fold cross validation and each cross validation is repeated
+%   for length(eval_set) times
+
 for c = 1 : length(eval_set)
 
   iter = eval_set(c);
   filebase = sprintf('%s_Z%d_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d'...
       ,baseFile,numStateZ,C,E,W,tfeat,thres,initStrategy,iter);
 
-  %%% cross-validation in parallel %%%
+  %%% 4-fold cross-validation %%%
+  % each fold trains on three human actors and test on the other
   for i = 1 : size(combos,1) % change for to parfor if parallel computing
 
     % select video for training set
@@ -130,7 +173,6 @@ for c = 1 : length(eval_set)
   end
 
   results = collect_results(trainRate,testRate,prec,recall,fscore);
-
   results.meanTrainUpper = mean2(trainRateUpper);
   results.trainRateUpper = trainRateUpper;
   results.meanTestUpper = mean2(testRateUpper);

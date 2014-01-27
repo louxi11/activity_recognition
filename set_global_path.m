@@ -8,8 +8,6 @@ if (~isdeployed)
   addpath tools/
   addpath evaluation/
   
-  addpath test_data/
-  addpath test_data/CAD120/
 end
 
 end
