@@ -12,4 +12,4 @@ options = 'corrupt';
 flipProp = '0';
 numCores = '4'; % number of slaves
 
-semi_supervised_template(numStateZ,C,E,thres,baseFile,options,flipProp,numCores);
+activity_recognition_demo(numStateZ,C,E,thres,baseFile,options,flipProp,numCores);
