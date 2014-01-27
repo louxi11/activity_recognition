@@ -1,15 +1,30 @@
-activity_recognition
-====================
+This is a free & open source software for human activity recognition. If using this code please cite:
 
-Platform
---------
+*Learning Latent Structure for Activity Recognition*
+*Ninghang Hu, Gwenn Englebienne, Zhongyu Lou, Ben Kröse*
+*International Conference on Robotics and Automation (ICRA), 2014*
 
-* Ubuntu 12.04
-* Matlab 2012a TODO
+More information can be found at:
+
+    https://sites.google.com/site/ninghanghu/activity_recognition
+
+
+Prerequisites
+-------------
+
+* Ubuntu 12.04 LTS
+* Matlab 2012a
+
+
+Setup Matlab
+------------
 * add MATLAB bin to $PATH
+
 
 Compile Software
 ----------------
+
+
 
     make
 
