@@ -32,13 +32,12 @@ YY = [YY{:}]';
 
 % init latent variables Z
 YZ = zeros(size(YY));
-opts = statset('UseParallel','always');
+% opts = statset('UseParallel','true');
 if params.numStateZ > 1
   for yidx = 1 : params.numStateY
     mask = YY == yidx;
     IDX = kmeans(XX(mask,:),params.numStateZ,'Replicates',10,...
-      'emptyaction','singleton',...
-      'Options',opts); % TODO
+      'emptyaction','singleton'); % TODO
     % data is complete, compute joint state YZ
     YZ(mask) = sub2indYZ(params,YY(mask),IDX);
   end
