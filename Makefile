@@ -1,7 +1,7 @@
 
-DEPS:= graphical_model/*.m inference/*.m learning/*.m svm-struct-matlab-1.2/*.m tools/*.m evaluation/*.m test_data/*.m test_data/CAD120/*.m
+DEPS:= graphical_model/*.m inference/*.m learning/*.m tools/*.m evaluation/*.m CAD120/*.m
 
-TARGETS:= semi_supervised_template
+TARGETS:= activity_recognition_demo
 
 all	:
 	cd svm-struct-matlab-1.2/; make
@@ -16,5 +16,5 @@ clean	:
 
 mcc	: all ${TARGETS}
 
-semi_supervised_template : semi_supervised_template.m ${DEPS}
-	mcc -m semi_supervised_template.m ${DEPS}
+activity_recognition_demo : activity_recognition_demo.m ${DEPS}
+	mcc -m activity_recognition_demo.m
