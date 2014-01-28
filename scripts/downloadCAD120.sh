@@ -2,8 +2,8 @@ mkdir -p CAD120
 cd CAD120
 
 # download dynamic segments
-wget -nc http://basterwijn.nl/ninghang/data/CAD120/segmentation_features.tgz
-tar -xvzf segmentation_features.tgz
+#wget -nc http://basterwijn.nl/ninghang/data/CAD120/segmentation_features.tgz
+#tar -xvzf segmentation_features.tgz
 
 # download ground-truth segments
 cd segmentation_features
