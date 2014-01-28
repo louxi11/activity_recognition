@@ -44,7 +44,7 @@ Compile Software
 
 Install software dependencies (for libDAI)
 
-    sudo apt-get install g++ make doxygen graphviz libboost-dev libboost-graph-dev libboost-program-options-dev libboost-test-dev libgmp-dev
+    sudo apt-get install g++ make graphviz libboost-dev libboost-graph-dev libboost-program-options-dev libboost-test-dev libgmp-dev
 
 Go to the activity_recognition folder and run
 
