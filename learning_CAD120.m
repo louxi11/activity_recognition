@@ -3,7 +3,11 @@ function [model,params] = learning_CAD120(trainData,numStateZ,learning_option,th
 
 DimX = trainData.DimX;
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% THIS CONSTANT DEFINES THE TOTAL NUMBER OF ACTIVITIES
+% CHANGE THIS VALUE IF USING OTHER DATASET
 numStateY = 10;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 params = init_params(trainData, DimX, numStateY, numStateZ,initStrategy);
 params.trainData = trainData;

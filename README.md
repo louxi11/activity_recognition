@@ -94,7 +94,7 @@ Argument descriptions can be found in the script `test_sample.m`.
 Using Other Dataset
 -------------------
 
-The script `CAD120/load_CAD120.m` is a interface function that loads data from the CAD-120 dataset and converts the data format in order to be used in the learning framework. The function is called inside the main loop of `activity_recognition_demo.m`. You can replace the infereface `load_CAD120.m` by any customized function that can load your own data.
+The script `CAD120/load_CAD120.m` is a interface function that loads data from the CAD-120 dataset and converts the data format in order to be used in the learning framework. The function is called inside the main loop of `activity_recognition_demo.m`. You can replace the infereface `load_CAD120.m` by any customized function that can load your own data. See more detailed description on formatting data in `CAD120/load_CAD120.m`.
 
 The other thing you need to do is to change the value of `numStateY` in the script `learning_CAD120.m`. `numStateY` specifies the total number of activities in your dataset. The default dataset assumes there are 10 activities to be recognized.
 
@@ -113,6 +113,7 @@ Super Computers Users (LISA)
 TODO
 ----
 
+- [ ] inference algorithm showing the results
 - [ ] reduce for loops
 - [ ] check debug options
 - [ ] speed up training, remove assert? remove debug flag?

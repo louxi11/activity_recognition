@@ -1,4 +1,27 @@
 function [trainData,testData] = load_CAD120(tfeat,train_sid,path)
+% LOAD_CAD120 is a interface function that converts the CAD-120 dataset
+% If you want to use a new dataset, customize it to your own function. The
+% output of the function needs to keep the same format.
+%
+% Description of the output structure:
+%
+%     Data.patterns: input features
+%
+%     Data.labels: output labels (activitie sequence)
+%
+%     Data.DimX: Dimensionality of the input features
+%
+%     Data.Affordance: affordance labels (not necessary for other dataset)
+%
+%     Data.HighLabels: high-level activity labels (not necessary for other dataset)
+%
+%     Data.occlusion_features: global input features (not necessary for other dataset)
+%
+%     Data.vidID: identity of the data object
+%
+%
+
+
 
 tfeat_opts = {'tfeat_on','tfeat_off'};
 

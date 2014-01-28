@@ -57,7 +57,7 @@ tfeat = 'tfeat_on';
 initStrategy = 'learning'; % initialization strategy
 numFolds = 4; % 4-fold cross-validation
 
-% any missing label?
+% Flag indicate any missing label
 hasPartialLabel = strcmp(options,'corrupt') && flipProb > 0;
 
 % any latent value? (either missing label or latent variable)
@@ -116,8 +116,11 @@ for c = 1 : length(eval_set)
     % load structured svm options
     learning_option = sprintf('-c %.2f -e %.2f -w %d',C,E,W); % ssvm learning parameters
 
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % split training and test data
+    % REPLACE THIS FUNCTION IF YOU WANT TO USE OTHER DATASET
     [trainData,testData] = load_CAD120(tfeat,train_sid,path);
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % options for corruptLabels and FlipLabels
     if strcmp(options,'corrupt')
