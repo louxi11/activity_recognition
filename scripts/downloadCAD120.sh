@@ -6,6 +6,7 @@ cd CAD120
 #tar -xvzf segmentation_features.tgz
 
 # download ground-truth segments
+mkdir -p segmentation_features
 cd segmentation_features
 wget -nc http://pr.cs.cornell.edu/humanactivities/data/features.tar
 mkdir -p groundtruth
