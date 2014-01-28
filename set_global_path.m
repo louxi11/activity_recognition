@@ -7,6 +7,8 @@ if (~isdeployed)
   addpath svm-struct-matlab-1.2/
   addpath tools/
   addpath evaluation/
+
+  addpath CAD120/
   
 end
 

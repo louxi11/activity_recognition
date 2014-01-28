@@ -65,6 +65,7 @@ Go to the root folder, use the script to download CAD-120 data. This will gnerat
 
 Open Matlab and run
 
+    set_global_path
     parseAllCAD120
 
 This Matlab script will parse the data and then convert the data into the format that is required by SVM^Struct. The data is stored into the file `CAD120.mat`.
