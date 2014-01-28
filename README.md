@@ -1,4 +1,4 @@
-This is a free & open source software for human activity recognition. If using this code please cite:
+This is a free & open source software for human activity recognition using RGB-D sensors. If using this code please cite:
 
 *Learning Latent Structure for Activity Recognition.*
 *Ninghang Hu, Gwenn Englebienne, Zhongyu Lou, Ben Kröse.*
@@ -15,6 +15,10 @@ This is a free & open source software for human activity recognition. If using t
 More information can be found at:
 
 https://sites.google.com/site/ninghanghu/activity_recognition
+
+For questions, you can post on the Q/A forum:
+
+https://groups.google.com/forum/#!forum/activity_recognition
 
 
 Prerequisites
@@ -50,7 +54,7 @@ Go to the activity_recognition folder and run
 
     make
 
-This compiles two required packages: [libDAI](http://staff.science.uva.nl/~jmooij1/libDAI/) and [SVM^Struct](http://www.robots.ox.ac.uk/~vedaldi/code/svm-struct-matlab.html), and generates two mex functions from C/C++ code
+This compiles two required packages: [libDAI](http://staff.science.uva.nl/~jmooij1/libDAI/) and [SVM^Struct](http://www.robots.ox.ac.uk/~vedaldi/code/svm-struct-matlab.html), and generates two mex functions from C/C++ code:
 
 * libDAI generates `inference/libdai/doinference.mexa64`. The file is used as the inference engine, which predicts the states of nodes based on a given factor graph.
 * SVM^Struct generates `svm-struct-matlab-1.2/svm_struct_learn.mexa64`. The file is used to learn parameters of the graphical model using Structured SVM.
@@ -74,21 +78,28 @@ To see a list of the generated data, run
 
     ls CAD120/segmentation_lists/*/CAD120.mat
 
-There are 12 data files because the data is generated using different segmentation methods.
+There are 12 data files in total because the data is generated using different segmentation methods. The current version support only the groundtruth segmentation. Please contact n.hu@uva.nl if you need features with other segmentation methods (i.e. graph-based and uniform).
 
 
 Run DEMO on CAD-120
 -------------------
 
-Open Matlab and run `test_sample.m`. You can find more descriptions in the source code.
+You can run a demo by running the following in Matlab command line
+
+    test_sample
+
+Argument descriptions can be found in the script `test_sample.m`.
 
 
-Run on Other Dataset
---------------------
+Using Other Dataset
+-------------------
 
+The script `CAD120/load_CAD120.m` is a interface function that loads data from the CAD-120 dataset and converts the data format in order to be used in the learning framework. The function is called inside the main loop of `activity_recognition_demo.m`. You can replace the infereface `load_CAD120.m` by any customized function that can load your own data.
 
-Super Computers Lisa Users
---------------------------
+The other thing you need to do is to change the value of `numStateY` in the script `learning_CAD120.m`. `numStateY` specifies the total number of activities in your dataset. The default dataset assumes there are 10 activities to be recognized.
+
+Super Computers Users (LISA)
+----------------------------
 
     module load matlab
     module load mcr
@@ -98,21 +109,16 @@ Super Computers Lisa Users
     export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6:$LD_PRELOAD
     matlab -nodisplay
 
+
 TODO
 ----
 
 - [ ] reduce for loops
 - [ ] check debug options
 - [ ] speed up training, remove assert? remove debug flag?
-- [ ] added -g for debugging mex functiosn, DO CHANGE IT BACK LATER
+- [x] added -g for debugging mex functiosn, DO CHANGE IT BACK LATER
 - [x] add latent variables DONE.
 - [x] RunInference save to files. No disk read/write
 - [x] learn latent variables directly from X
 - [ ] verbose messages
 - [ ] loss function - evaluation criteria
-
-Change log
-----------
-* added semi-supervised learning
-* fixed bugs for computing cccp error
-
