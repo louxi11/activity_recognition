@@ -114,7 +114,8 @@ TODO
 ----
 
 - [ ] inference algorithm showing the results
-- [ ] reduce for loops
+- [ ] remove rss files
+- [ ] training get new results
 - [ ] check debug options
 - [ ] speed up training, remove assert? remove debug flag?
 - [x] added -g for debugging mex functiosn, DO CHANGE IT BACK LATER
