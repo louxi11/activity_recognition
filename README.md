@@ -98,16 +98,28 @@ The script `CAD120/load_CAD120.m` is a interface function that loads data from t
 
 The other thing you need to do is to change the value of `numStateY` in the script `learning_CAD120.m`. `numStateY` specifies the total number of activities in your dataset. The default dataset assumes there are 10 activities to be recognized.
 
+
 Super Computers Users (LISA)
 ----------------------------
 
+Export Matlab binaries into system path
+
     module load matlab
     module load mcr
+
+Solve the glic not found problem
+
     export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+
+Compile Matlab scripts to binary executables to avoid using multiple licenses for running experiments
+
     make mcc
+
+Run Matlab
 
     export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6:$LD_PRELOAD
     matlab -nodisplay
+
 
 
 TODO

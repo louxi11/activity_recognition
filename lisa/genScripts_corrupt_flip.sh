@@ -1,4 +1,4 @@
-thres=50
+thres=1
 E=0.4
 C=0.3
 
@@ -16,7 +16,7 @@ do
     do
         for numStateZ in 1 2 4 6 8 10 12 14
         do
-            wt=$(($numStateZ * 10))
+            wt=$(($numStateZ * 7))
             echo "#PBS -lnodes=1:ppn=8" > ./job\_data1\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
             echo "#PBS -lwalltime=$wt:00:00" >> ./job\_data1\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
             echo "module load mcr" >> ./job\_data1\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
@@ -28,7 +28,7 @@ do
             done
             echo "wait" >> ./job\_data1\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
 
-            wt=$(($numStateZ * 10))
+            wt=$(($numStateZ * 7))
             echo "#PBS -lnodes=1:ppn=8" > ./job\_data2\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
             echo "#PBS -lwalltime=$wt:00:00" >> ./job\_data2\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
             echo "module load mcr" >> ./job\_data2\_E$E\_C$C\_Z$numStateZ\_options$options\_flipProb$flipProb
