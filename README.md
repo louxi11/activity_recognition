@@ -84,11 +84,15 @@ There are 12 data files in total because the data is generated using different s
 Run DEMO on CAD-120
 -------------------
 
-You can run a demo by running the following in Matlab command line
+Matlab script for a quick testing demo:
 
-    test_sample
+    example_test
 
-Argument descriptions can be found in the script `test_sample.m`.
+Demo of learning the model:
+
+    example_training
+
+More description about the arguments can be found in the script `example_training.m`.
 
 
 Using Other Dataset
@@ -125,9 +129,6 @@ Run Matlab
 TODO
 ----
 
-- [ ] inference algorithm showing the results
-- [ ] remove rss files
-- [ ] training get new results
 - [ ] check debug options
 - [ ] speed up training, remove assert? remove debug flag?
 - [x] added -g for debugging mex functiosn, DO CHANGE IT BACK LATER
@@ -135,4 +136,3 @@ TODO
 - [x] RunInference save to files. No disk read/write
 - [x] learn latent variables directly from X
 - [ ] verbose messages
-- [ ] loss function - evaluation criteria
