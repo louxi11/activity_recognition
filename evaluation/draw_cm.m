@@ -17,18 +17,18 @@ if nargin < 5
 else 
   imagesc(1:dim(2),1:dim(1),mat,CLimit); % table in color
 end
-% colormap(gray);  %# for gray; black for large value.
+colormap(flipud(gray));  %# for gray; black for large value.
 
 textStrings = num2str(mat(:),'%0.3f');  
 textStrings = strtrim(cellstr(textStrings)); 
 [x,y] = meshgrid(1:dim(2),1:dim(1));
 hStrings = text(x(:),y(:),textStrings(:), 'HorizontalAlignment','center','FontSize',10);
 midValue = mean(get(gca,'CLim')); 
-textColors = repmat(mat(:) < midValue,1,3);
+textColors = repmat(mat(:) > midValue,1,3);
 nanIND = isnan(mat(:));
 textColors(nanIND,:) = 1;
-zeroIND = mat(:) == 0;
-textColors(zeroIND,:) = 0;
+zeroIND = mat(:) == 1;
+textColors(zeroIND,:) = 1;
 set(hStrings,{'Color'},num2cell(textColors,2));  %# Change the text colors
 set(gca,'xticklabel',tickx,'XAxisLocation','top');
 set(gca, 'XTick', 1:dim(2), 'YTick', 1:dim(1));
