@@ -1,19 +1,22 @@
 function activity_recognition_demo(numStateZ,C,E,thres,baseFile,options,flipProb,numCores)
 %ACTIVITY_RECOGNITION_DEMO  an example for running this software
+%
+% INPUT PARAMETERS:
+%
 %   numStateZ  number of latent varibles, N_z in the paper
 %    
 %   C          SVM parameter, C serves as the normalization constant
 %
 %   E          SVM parameter, \epsilon
 %
-%   thres      Stop threshold for CCCP    
+%   thres      Stop threshold for Concave Convex Procedure (CCCP)    
 %
-%   baseFile   Segmentation method of the dataset. The video needs to 
-%              discretized so that each segment is a node in the graphical 
-%              model. Three segmentation strategies are used. Groundtruth 
-%              segmentation is annotated by hand. Uniform segmentation
-%              divide videos into clips with fixed length. Graph-based 
-%              segmentation segments video based on frame similarity.
+%   baseFile   Name of the dataset to be used. The video is discretized
+%              and each segment is represents as a node in the graphical 
+%              model. Three segmentation strategies are used. GROUNDTRUTH 
+%              SEGMENTAION is annotated by hand. UNIFORM SEGMENTAION
+%              creates segments with fixed length. GRAPH-BASED 
+%              SEGMENTAION segments the video based on frame similarity.
 %
 %              GROUNDTRUTH SEGMENTAION:
 %              'groundtruth'
@@ -22,19 +25,27 @@ function activity_recognition_demo(numStateZ,C,E,thres,baseFile,options,flipProb
 %              'uniform_20_0', 'uniform_20_10', 'uniform_20_15',
 %              'uniform_30_10', 'uniform_40_10'
 %              
-%              GRAPH BASED SEGMENTAION:
+%              GRAPH-BASED SEGMENTAION:
 %              'm1_100', 'm1_500', 'm1_1000', 'm2_100', 'm2_500', 'm2_1000'
 %
 %   options    TBD, use 'corrupt' by default
 %   flipProb   TBD, use '0' by default
 %   numCores   TBD, use '1' by default
 %
+% OUTPUT FILES:
+%
+%   learned model    model_<baseFile>_<List of parameters>.mat"
+%
+%   log file         <baseFile>_<List of parameters>.log"
+%
+%   results          <baseFile>_<List of parameters>_<iteration No.>.mat  
+%
 
 save_on = 1;
 
 % convert input string to real numbers. For super computer users, the
 % matlab script may need to be compile into binary files, which only accept
-% strings as input. This part is to convert from input string to numbers
+% strings as input. This part is to convert them from input string to numbers
 if ischar(C)
   C = str2double(C);
   E = str2double(E);
@@ -45,7 +56,7 @@ if ischar(C)
   assert(flipProb <= 1 && flipProb >= 0)
 end
 
-% add required scripts to path
+% add global path
 set_global_path;
 
 % start matlab parallel computing if more than 1 core is specified
@@ -75,7 +86,7 @@ dirResults = sprintf('opt_%s_Prob_%.2f_%s_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s',...
   options,flipProb,baseFile,C,E,W,tfeat,thres,initStrategy); % folder to save results
 mkdir(dirResults);
 
-%%% allocate buffer %%%
+%%% allocate buffer for storing results %%%
 % evaluation is iterated for length(eval_set) times.
 trainRate = nan(numFolds,length(eval_set)); % accuracy on training
 testRate = nan(numFolds,length(eval_set)); % accuracy on testing
