@@ -30,14 +30,14 @@ if params.need_init
       params.labels = initByClustering(trainData,params);
     case 'semi'
       fprintf('initilizing latent variables by clustering (semi-supervised)\n')
-      params.labels = initBySemi(trainData,params);
+      params.labels = initBySemi2(trainData,params);
     case 'affordance'
       fprintf('initilizing latent variables by Object Affordance\n')
       params.labels = initByAffordance(trainData,params);
     case 'learning'
       fprintf('initilizing latent variables from data\n')
       if isempty(model)
-        params.labels = initBySemi(trainData,params);
+        params.labels = initBySemi2(trainData,params);
       else
         params.labels = initByLearning(trainData,params,model);
       end
