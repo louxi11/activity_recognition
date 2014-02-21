@@ -1,4 +1,4 @@
-function [trainAccuracy,testAccuracy] = multi_class_svm(model,params,trainData,testData)
+function [trainAccuracy,testAccuracy, prec, recall, fscore] = multi_class_svm(model,params,trainData,testData,numStateZ)
 % Multi-class SVM: sub-level activity as X, high-level activity as Y
 
 % compute input X and output Y for both training
@@ -22,7 +22,7 @@ testDataUpper.patterns = Xtest;
 testDataUpper.labels = num2cell(testData.HighLabels);
 
 %%% Multi-class SVM %%%
-numStateZ = 1;
+% numStateZ = 1;
 thres = 1;
 initStrategy = 'learning';
 C = 15;
@@ -37,6 +37,9 @@ learning_option = sprintf('-c %.2f -e %.2f -w %d',C,E,W); % ssvm learning parame
 [model_upper,params_upper] = learning_CAD120(trainDataUpper,numStateZ,learning_option,thres,initStrategy,C,model,hasPartialLabel,hasLatent);
 [~,~,trainAccuracy] = evaluate_model(trainDataUpper, model_upper, params_upper);
 
-[~,~,testAccuracy] = evaluate_model(testDataUpper, model_upper, params_upper);
+[gt_labels,pred_labels,testAccuracy] = evaluate_model(testDataUpper, model_upper, params_upper);
+
+[~, prec, recall, fscore] = prec_recall(gt_labels,pred_labels);
+
 
 end

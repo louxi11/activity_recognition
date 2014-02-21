@@ -167,7 +167,8 @@ for c = 1 : length(eval_set)
     [gt_labels,pred_labels,testRate(i,c)] = evaluate_model(testData, model, params);
     [confmat{i,c}, prec(i,c), recall(i,c), fscore(i,c)] = prec_recall(gt_labels,pred_labels);
 
-    [trainRateUpper(i,c),testRateUpper(i,c)] = multi_class_svm(model,params,trainData,testData);
+    numStateZmulti = 1;
+    [trainRateUpper(i,c),testRateUpper(i,c)] = multi_class_svm(model,params,trainData,testData,numStateZmulti);
 
     % output results
     fprintf('******************************\n')
