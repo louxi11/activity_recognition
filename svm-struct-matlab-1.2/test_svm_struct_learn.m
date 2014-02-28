@@ -33,7 +33,7 @@ function test_svm_struct_learn
   parm.constraintFn  = @constraintCB ;
   parm.featureFn = @featureCB ;
   parm.dimension = 2 ;
-  parm.verbose = 0 ;
+  parm.verbose = 1 ;
   model = svm_struct_learn(' -c 1.0 -o 1 -v 1', parm) ;
   w = model.w ;
 
