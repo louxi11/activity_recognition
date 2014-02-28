@@ -84,7 +84,7 @@ svm_struct_learn.$(MEXEXT) : svm_struct_learn_mex.c \
   $(svm_custom_objs) \
   $(svm_light_objs) \
   $(svm_struct_objs)
-	$(MEX) $(MEXFLAGS) -g $^ -output "$@"
+	$(MEX) $(MEXFLAGS) $^ -output "$@"
 
 .PHONY: clean
 clean:
