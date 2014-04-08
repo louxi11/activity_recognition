@@ -16,7 +16,7 @@ for tid = 1 : 4
     
     
     % write training data list to file
-    fileID = fopen(sprintf('training_%s_cv%d',baseFile,tid),'w');
+    fileID = fopen(sprintf('training_%s_cv%d.txt',baseFile,tid),'w');
     for i = 1 : length(trainData.vidID)
       filepath = fullfile(...
         '/home/ninghang/workspace/activity_recognition/CAD120/segmentation_lists',...
@@ -27,7 +27,7 @@ for tid = 1 : 4
     fclose(fileID);
     
     % write test data list to file
-    fileID = fopen(sprintf('test_%s_cv%d',baseFile,tid),'w');
+    fileID = fopen(sprintf('test_%s_cv%d.txt',baseFile,tid),'w');
     for i = 1 : length(testData.vidID)
       filepath = fullfile(...
         '/home/ninghang/workspace/activity_recognition/CAD120/segmentation_lists',...
