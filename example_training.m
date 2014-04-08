@@ -1,7 +1,7 @@
 % test sample
 
 %%% parameters %%%
-numStateZ = '2';          % number of latent states
+numStateZ = '1';          % number of latent states
 C = '0.3';                % normalization constant - SVM parameter
 E = '0.4';                % epsilon - SVM parameter
 thres = '1';              % threshold to stop CCCP iteration
