@@ -123,8 +123,9 @@ Run Matlab
 
 TODO
 ----
-
-- [ ] check debug options
+- [ ] add L1-norm
+- [ ] add option to save model for every 100 iteration
+- [x] check debug options
 - [ ] speed up training, remove assert? remove debug flag?
 - [x] added -g for debugging mex functiosn, DO CHANGE IT BACK LATER
 - [x] add latent variables DONE.
