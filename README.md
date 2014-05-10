@@ -11,11 +11,6 @@ This is a free & open source software for human activity recognition using RGB-D
       year = {2014}
       }
 
-For questions, you can post on the Q/A forum:
-
-https://groups.google.com/forum/#!forum/activity_recognition
-
-
 Prerequisites
 -------------
 
