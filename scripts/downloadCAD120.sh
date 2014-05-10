@@ -1,3 +1,7 @@
+#!/bin/bash
+set -e
+
+
 mkdir -p CAD120
 cd CAD120
 
