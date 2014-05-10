@@ -2,13 +2,13 @@ mkdir -p CAD120
 cd CAD120
 
 # download dynamic segments
-#wget -nc http://basterwijn.nl/ninghang/data/CAD120/segmentation_features.tgz
-#tar -xvzf segmentation_features.tgz
+wget -nc http://ninghanghu.eu/data/CAD120/segmentation_features.tgz
+tar -xvzf segmentation_features.tgz
 
 # download ground-truth segments
 mkdir -p segmentation_features
 cd segmentation_features
-wget -nc http://pr.cs.cornell.edu/humanactivities/data/features.tar
+wget -nc http://ninghanghu.eu/data/CAD120/features.tar
 mkdir -p groundtruth
 tar -xvf features.tar -C groundtruth --strip-components=1
 cd groundtruth
@@ -33,7 +33,7 @@ cd ..
 cat Subject*_annotations/*/activityLabel.txt > activityLabel.txt
 
 # download occlusion features
-wget -nc http://basterwijn.nl/ninghang/data/CAD120/occlusion_features.txt
+wget -nc http://ninghanghu.eu/data/CAD120/occlusion_features.txt
 
 echo DOWNLOAD CAD120 DATASET - ALL DONE
 # use groundtruth

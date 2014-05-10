@@ -1,22 +1,39 @@
-This is a free & open source software for human activity recognition using RGB-D sensors. If using this code please cite:
+This is a free & open source software for human activity recognition using RGB-D sensors. For any questions/suggestions, please contact the author.
 
-*Learning Latent Structure for Activity Recognition.*
-*Ninghang Hu, Gwenn Englebienne, Zhongyu Lou, Ben Kröse.*
-*International Conference on Robotics and Automation (ICRA), 2014*
+Overview
+--------
 
-    @inproceedings{Hu2014,
+The software has integrated the work of three publications:
+
+The first paper introduced the graphical model for recognizing a sequence of activities.
+
+    @inproceedings{Hu2014activity,
       author = {Hu, Ninghang and Englebienne, Gwenn and Lou, Zhongyu and Kr\"{o}se, Ben},
       booktitle = {Proc. IEEE International Conference on Robotics and Automation (ICRA)},
       title = {Learning Latent Structure for Activity Recognition},
       year = {2014}
       }
 
-Prerequisites
--------------
+The second paper proposed the idea of *soft labeling*, where the uncertainty of labeling is considered during training.
 
-* Ubuntu 12.04 LTS (64bit)
-* Matlab 2012a+ (older version may work too)
-test
+    @inproceedings{Hu2014softlabeling,
+      author = {Hu, Ninghang and Englebienne, Gwenn and Lou, Zhongyu and Kr\"{o}se, Ben},
+      booktitle = {Robotics: Science and Systems (RSS)},
+      title = {{Learning to Recognize Human Activities from Soft Labeled Data}},
+      year = {2014}
+      }
+
+The third paper extends the first work for recognizing high-level activities.
+
+    @inproceedings{Hu2014highlevel,
+      author = {Hu, Ninghang and Englebienne, Gwenn and Kr\"{o}se, Ben},
+      booktitle = {Proceedings of the IEEE International Symposium on Robot and Human Interactive Communication (ROMAN)},
+      title = {{A Two-layered Approach to Recognize High-level Human Activities}},
+      year = {2014}
+      }
+
+The source code is developped and tested based on Ubuntu 12.04 LTS (64bit) platform with Matlab 2012a. Other platforms and Matlab versions may work upon minor changes.
+
 
 Matlab Setup
 ------------
@@ -26,7 +43,7 @@ To compile the software, we assume Matlab bin folder can be found in the system 
     echo "export PATH=/MATLAB_ROOT_FOLDER/bin:$PATH" >> ~/.bashrc
     source ~/.bashrc
 
-Remember to replace MATLAB_ROOT_FOLDER by your Matlab installation path. The default path is '/usr/local/MATLAB/R2012a'. Then you test whether the path is correctly added
+Remember to replace MATLAB\_ROOT\_FOLDER by your Matlab installation path. The default path is `/usr/local/MATLAB/R2012a`. Then you test whether the path is correctly added
 
     mex -help
 
@@ -68,7 +85,7 @@ To see a list of the generated data, run
 
     ls CAD120/segmentation_lists/*/CAD120.mat
 
-There are 12 data files in total because the data is generated using different segmentation methods. The current version support only the groundtruth segmentation. Please contact n.hu@uva.nl if you need features with other segmentation methods (i.e. graph-based and uniform).
+There are 12 data files in total because the data is generated using different segmentation methods.
 
 
 Run DEMO on CAD-120
