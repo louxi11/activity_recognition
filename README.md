@@ -1,5 +1,5 @@
 This is a free & open source software for human activity recognition using RGB-D sensors. For any questions/suggestions, please contact the author.
-test2
+
 Overview
 --------
 
@@ -43,7 +43,7 @@ To compile the software, we assume Matlab bin folder can be found in the system 
     echo "export PATH=/MATLAB_ROOT_FOLDER/bin:$PATH" >> ~/.bashrc
     source ~/.bashrc
 
-Remember to replace MATLAB\_ROOT\_FOLDER by your Matlab installation path. The default path is `/usr/local/MATLAB/R2012a`. Then you test whether the path is correctly added
+Remember to replace MATLAB_ROOT_FOLDER by your Matlab installation path. The default path is `/usr/local/MATLAB/R2012a`. Then you test whether the path is correctly added
 
     mex -help
 
