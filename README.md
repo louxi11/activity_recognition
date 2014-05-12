@@ -132,7 +132,6 @@ Run Matlab
     matlab -nodisplay
 
 
-
 TODO
 ----
 - [ ] add L1-norm
