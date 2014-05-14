@@ -134,6 +134,7 @@ Run Matlab
 
 TODO
 ----
+- [ ] test
 - [ ] add L1-norm
 - [ ] add option to save model for every 100 iteration
 - [x] check debug options
