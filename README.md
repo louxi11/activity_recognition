@@ -34,6 +34,8 @@ The third paper extends the first work for recognizing high-level activities.
 
 The source code is developped and tested based on Ubuntu 12.04 LTS (64bit) platform with Matlab 2012a. Other platforms and Matlab versions may work upon minor changes.
 
+For more information, please visit http://ninghanghu.eu
+
 
 Matlab Setup
 ------------
