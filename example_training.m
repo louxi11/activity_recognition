@@ -13,7 +13,7 @@
 %    IEEE International Symposium on Robot and Human Interactive Communication (RO-MAN), 2014
 %
 % Following is the parameters that are used to generate the results in [1-3]
-% 
+%
 % soft labeling [1]:  numStateZ: from '1' to '8'
 %                     options = 'corrupt'
 %                     flipProb = from '0.0' to '1.0' with step size '0.1'
@@ -42,19 +42,19 @@ numCores = '1';           % number of slaves in parrallel computing
 % groundtruth segmentation: 'groundtruth'
 % uniform segmentation: 'uniform_20_0' 'uniform_20_15' 'uniform_30_10' 'uniform_40_10'
 % graph-based segmentation: 'm1_100' 'm1_500' 'm1_1000' 'm2_100' 'm2_500' 'm2_1000'
-baseFile = 'groundtruth'; 
+baseFile = 'groundtruth';
 
 % options is a flag to switch between [1,2,3]. It can be either 'flip' or 'corrupt'.
 % 'flip' corresponds with hard labeling [2]
 % 'corrupt' corresponds with soft labeling [1]
 % both options will compute the high-level activities, i.e. [3]
-options = 'flip';         
+options = 'flip';
 
 % flipProb defines the amount of noise that is added to the data. When
 % flipProb=0, the groundtruth labels are used. When flipProb=0.5, labels at
-% the transition segments are either fliped [2] or treated as soft labels [1] 
+% the transition segments are either fliped [2] or treated as soft labels [1]
 % based on the option.
-flipProb = '0.1';
+flipProb = '0';
 
 %
 activity_recognition_demo(numStateZ,C,E,thres,baseFile,options,flipProb,numCores);
