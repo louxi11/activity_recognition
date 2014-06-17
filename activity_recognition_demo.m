@@ -28,9 +28,9 @@ function activity_recognition_demo(numStateZ,C,E,thres,baseFile,options,alterPro
 %              GRAPH-BASED SEGMENTAION:
 %              'm1_100', 'm1_500', 'm1_1000', 'm2_100', 'm2_500', 'm2_1000'
 %
-%   options    use 'corrupt' by default
-%   alterProb   TBD, use '0' by default
-%   numCores   TBD, use '1' by default
+%   options    'corrupt' or 'flip'
+%   alterProb  amount of noise in labels, real number from 0 to 1
+%   numCores   number of cores used
 %
 % OUTPUT FILES:
 %

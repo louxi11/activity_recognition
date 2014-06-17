@@ -26,12 +26,14 @@
 %                             options = 'flip'
 %                             alterProb = '0'
 %
+% recognize high-level activities [3]
+%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PLEASE NOTE THAT ALL PARAMETERS NEEDS TO BE STRING
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% general latent-SVM parameters
+% latent-SVM parameters
 numStateZ = '1';          % number of latent states
 C = '0.3';                % normalization constant - SVM parameter
 E = '0.4';                % epsilon - SVM parameter
@@ -53,7 +55,7 @@ options = 'corrupt';
 % alterProb defines the amount of noise that is added to the data. When
 % alterProb=0, the groundtruth labels are used. When alterProb=0.5, labels at
 % the transition segments are either fliped [2] or treated as soft labels [1]
-% based on the option.
+% based on the 'options'.
 alterProb = '0';
 
 %
