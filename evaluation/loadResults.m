@@ -3,7 +3,7 @@
 clear all; close all
 
 BaseFolder = 'results_semi_supervised';
-flipProb = 0;
+alterProb = 0;
 options = 'corrupt'; % flip | corrupt
 C = 0.3;
 E = 0.4;
@@ -27,7 +27,7 @@ for i = 1 : length(baseFiles)
   baseFile = baseFiles{i};
   
   dirResults = sprintf('opt_%s_Prob_%.2f_%s_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s',...
-    options,flipProb,baseFile,C,E,W,tfeat,thres,initStrategy);
+    options,alterProb,baseFile,C,E,W,tfeat,thres,initStrategy);
 
   for numStateZ = 1 : 8
     if numStateZ > 1

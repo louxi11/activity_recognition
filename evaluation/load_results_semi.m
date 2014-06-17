@@ -10,7 +10,7 @@ options = 'corrupt'; % flip | corrupt
 C = 0.3;
 E = 0.4;
 initStrategy = 'learning';
-flipProbSet = 0 : 0.1 : 1;
+alterProbSet = 0 : 0.1 : 1;
 Zset = 1:8;
 tfeat = 'tfeat_on';
 thres = 1;
@@ -20,14 +20,14 @@ baseFiles = {'groundtruth' ...
   'uniform_20_0' 'uniform_20_15' 'uniform_30_10' 'uniform_40_10' ...
   'm1_100' 'm1_500' 'm1_1000' 'm2_100' 'm2_500' 'm2_1000'};
 
-ACCURACY_CURVE = nan(length(flipProbSet),length(baseFiles));
+ACCURACY_CURVE = nan(length(alterProbSet),length(baseFiles));
 FSCORE_CURVE = ACCURACY_CURVE;
 PREC_CURVE = ACCURACY_CURVE;
 RECALL_CURVE = ACCURACY_CURVE;
   
-for j = 1 : length(flipProbSet)
+for j = 1 : length(alterProbSet)
   
-  flipProb = flipProbSet(j);
+  alterProb = alterProbSet(j);
   
   FSCORE = nan(length(Zset),length(baseFiles));
   ACCURACY = nan(length(Zset),length(baseFiles));
@@ -39,7 +39,7 @@ for j = 1 : length(flipProbSet)
     baseFile = baseFiles{i};
     
     dirResults = sprintf('opt_%s_Prob_%.2f_%s_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s',...
-      options,flipProb,baseFile,C,E,W,tfeat,thres,initStrategy);
+      options,alterProb,baseFile,C,E,W,tfeat,thres,initStrategy);
     
     for numStateZ = 1 : length(Zset)
       if numStateZ > 1
@@ -86,11 +86,11 @@ for j = 1 : length(flipProbSet)
     end
     
   end
-% flipProb*10+1
-  ACCURACY_CURVE(int32(flipProb*10+1),:) = max(ACCURACY);
-  FSCORE_CURVE(int32(flipProb*10+1),:) = max(FSCORE);
-  PREC_CURVE(int32(flipProb*10+1),:) = max(PRECISION);
-  RECALL_CURVE(int32(flipProb*10+1),:) = max(RECALL);
+% alterProb*10+1
+  ACCURACY_CURVE(int32(alterProb*10+1),:) = max(ACCURACY);
+  FSCORE_CURVE(int32(alterProb*10+1),:) = max(FSCORE);
+  PREC_CURVE(int32(alterProb*10+1),:) = max(PRECISION);
+  RECALL_CURVE(int32(alterProb*10+1),:) = max(RECALL);
 end
 
 UniformACC = mean(ACCURACY_CURVE(:,2:5),2);
@@ -110,12 +110,12 @@ close all
 
 BaseFolder = 'results_semi_supervised';
 
-flipProb = 0;
+alterProb = 0;
 options = 'flip'; % flip | corrupt
 C = 0.3;
 E = 0.4;
 initStrategy = 'learning';
-flipProbSet = 0 : 0.1 : 1;
+alterProbSet = 0 : 0.1 : 1;
 Zset = 1 : 8;
 
 tfeat = 'tfeat_on';
@@ -126,14 +126,14 @@ baseFiles = {'groundtruth' ...
   'uniform_20_0' 'uniform_20_15' 'uniform_30_10' 'uniform_40_10' ...
   'm1_100' 'm1_500' 'm1_1000' 'm2_100' 'm2_500' 'm2_1000'};
 
-ACCURACY_CURVE = nan(length(flipProbSet),length(baseFiles));
+ACCURACY_CURVE = nan(length(alterProbSet),length(baseFiles));
 FSCORE_CURVE = ACCURACY_CURVE;
 PREC_CURVE = ACCURACY_CURVE;
 RECALL_CURVE = ACCURACY_CURVE;
 
-for j = 1 : length(flipProbSet)
+for j = 1 : length(alterProbSet)
   
-  flipProb = flipProbSet(j);
+  alterProb = alterProbSet(j);
   
   FSCORE = nan(length(Zset),length(baseFiles));
   ACCURACY = nan(length(Zset),length(baseFiles));
@@ -145,7 +145,7 @@ for j = 1 : length(flipProbSet)
     baseFile = baseFiles{i};
     
     dirResults = sprintf('opt_%s_Prob_%.2f_%s_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s',...
-      options,flipProb,baseFile,C,E,W,tfeat,thres,initStrategy);
+      options,alterProb,baseFile,C,E,W,tfeat,thres,initStrategy);
     
     for numStateZ = 1 : length(Zset)
       if numStateZ > 1
@@ -186,11 +186,11 @@ for j = 1 : length(flipProbSet)
     end
     
   end
-% flipProb*10+1
-  ACCURACY_CURVE(int32(flipProb*10+1),:) = max(ACCURACY);
-  FSCORE_CURVE(int32(flipProb*10+1),:) = max(FSCORE);
-  PREC_CURVE(int32(flipProb*10+1),:) = max(PRECISION);
-  RECALL_CURVE(int32(flipProb*10+1),:) = max(RECALL);
+% alterProb*10+1
+  ACCURACY_CURVE(int32(alterProb*10+1),:) = max(ACCURACY);
+  FSCORE_CURVE(int32(alterProb*10+1),:) = max(FSCORE);
+  PREC_CURVE(int32(alterProb*10+1),:) = max(PRECISION);
+  RECALL_CURVE(int32(alterProb*10+1),:) = max(RECALL);
   
 end
 

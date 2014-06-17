@@ -1,4 +1,4 @@
-function activity_recognition_demo(numStateZ,C,E,thres,baseFile,options,flipProb,numCores)
+function activity_recognition_demo(numStateZ,C,E,thres,baseFile,options,alterProb,numCores)
 %ACTIVITY_RECOGNITION_DEMO  an example for running this software
 %
 % INPUT PARAMETERS:
@@ -29,7 +29,7 @@ function activity_recognition_demo(numStateZ,C,E,thres,baseFile,options,flipProb
 %              'm1_100', 'm1_500', 'm1_1000', 'm2_100', 'm2_500', 'm2_1000'
 %
 %   options    use 'corrupt' by default
-%   flipProb   TBD, use '0' by default
+%   alterProb   TBD, use '0' by default
 %   numCores   TBD, use '1' by default
 %
 % OUTPUT FILES:
@@ -51,9 +51,9 @@ if ischar(C)
   E = str2double(E);
   numStateZ = str2double(numStateZ);
   thres = str2double(thres);
-  flipProb = str2double(flipProb);
+  alterProb = str2double(alterProb);
   numCores = str2double(numCores);
-  assert(flipProb <= 1 && flipProb >= 0)
+  assert(alterProb <= 1 && alterProb >= 0)
 end
 
 % add global path
@@ -69,7 +69,7 @@ initStrategy = 'learning'; % initialization strategy
 numFolds = 4; % 4-fold cross-validation
 
 % Flag indicate any missing label
-hasPartialLabel = strcmp(options,'corrupt') && flipProb > 0;
+hasPartialLabel = strcmp(options,'corrupt') && alterProb > 0;
 
 % any latent value? (either missing label or latent variable)
 hasLatent = hasPartialLabel || numStateZ > 1 ;
@@ -83,7 +83,7 @@ end
 baseFolder = fullfile(pwd,'CAD120','segmentation_lists');
 path = fullfile(baseFolder,baseFile);
 dirResults = sprintf('opt_%s_Prob_%.2f_%s_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s',...
-  options,flipProb,baseFile,C,E,W,tfeat,thres,initStrategy); % folder to save results
+  options,alterProb,baseFile,C,E,W,tfeat,thres,initStrategy); % folder to save results
 mkdir(dirResults);
 
 %%% allocate buffer for storing results %%%
@@ -135,9 +135,9 @@ for c = 1 : length(eval_set)
 
     % options for corruptLabels and FlipLabels
     if strcmp(options,'corrupt')
-      trainData = corruptLabels(trainData,flipProb);
+      trainData = corruptLabels(trainData,alterProb);
     elseif strcmp(options,'flip')
-      trainData = flipLabels(trainData,flipProb);
+      trainData = flipLabels(trainData,alterProb);
     end
 
     %%% initilize unknown labels by learning with known data

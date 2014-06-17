@@ -10,7 +10,7 @@ BaseFolder = '';
 numFolds = 4;
 tfeat = 'tfeat_on';
 options = 'flip';      % available in next version, DO NOT CHANGE
-flipProb = 0;            % number of slaves in parrallel computing
+alterProb = 0;            % number of slaves in parrallel computing
 initStrategy = 'learning';
 W = 3;
 thres = 1;
@@ -36,7 +36,7 @@ for testid = 1 : 4
   
   % load model
   dirResults = sprintf('opt_%s_Prob_%.2f_%s_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s',...
-    options,flipProb,baseFile,C,E,W,tfeat,thres,initStrategy);
+    options,alterProb,baseFile,C,E,W,tfeat,thres,initStrategy);
   filebase = sprintf('%s_Z%d_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d',...
     baseFile,numStateZ,C,E,W,tfeat,thres,initStrategy,iter);
   file = fullfile(BaseFolder,dirResults,['model_',filebase,'_Test',num2str(test_sid),'.mat']);
@@ -115,7 +115,7 @@ baseFiles = {'groundtruth','m1_100','m1_500','m1_1000'};
 
 %%%
 options = 'flip';      % available in next version, DO NOT CHANGE
-flipProb = 0;            % number of slaves in parrallel computing
+alterProb = 0;            % number of slaves in parrallel computing
 initStrategy = 'learning';
 tfeat = 'tfeat_on';
 W = 3;
@@ -158,7 +158,7 @@ for numStateZmulti = 2 : 2
       
       % load model
       dirResults = sprintf('opt_%s_Prob_%.2f_%s_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s',...
-        options,flipProb,baseFile,C,E,W,tfeat,thres,initStrategy);
+        options,alterProb,baseFile,C,E,W,tfeat,thres,initStrategy);
       filebase = sprintf('%s_Z%d_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d',...
         baseFile,numStateZ,C,E,W,tfeat,thres,initStrategy,iter);
       file = fullfile(BaseFolder,dirResults,['model_',filebase,'_Test',num2str(test_sid),'.mat']);
@@ -198,7 +198,7 @@ baseFiles = {'groundtruth','m1_100','m1_500','m1_1000'};
 
 %%%
 options = 'flip';      % available in next version, DO NOT CHANGE
-flipProb = 0;            % number of slaves in parrallel computing
+alterProb = 0;            % number of slaves in parrallel computing
 initStrategy = 'learning';
 tfeat = 'tfeat_on';
 W = 3;
@@ -243,7 +243,7 @@ for e = 1 : 19
       
       % load model
       dirResults = sprintf('opt_%s_Prob_%.2f_%s_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s',...
-        options,flipProb,baseFile,C,E,W,tfeat,thres,initStrategy);
+        options,alterProb,baseFile,C,E,W,tfeat,thres,initStrategy);
       filebase = sprintf('%s_Z%d_C%.2f_E%.2f_W%d_%s_Thre%.1f_%s_iter%d',...
         baseFile,numStateZ,C,E,W,tfeat,thres,initStrategy,iter);
       file = fullfile(BaseFolder,dirResults,['model_',filebase,'_Test',num2str(test_sid),'.mat']);

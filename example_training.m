@@ -16,15 +16,15 @@
 %
 % soft labeling [1]:  numStateZ: from '1' to '8'
 %                     options = 'corrupt'
-%                     flipProb = from '0.0' to '1.0' with step size '0.1'
+%                     alterProb = from '0.0' to '1.0' with step size '0.1'
 %
 % hard labeling [1]:  numStateZ: from '1' to '8'
 %                     options = 'flip'
-%                     flipProb = from '0.0' to '1.0' with step size '0.1'
+%                     alterProb = from '0.0' to '1.0' with step size '0.1'
 %
 % latent activity model [2]:  numStateZ: from '1' to '4'
 %                             options = 'flip'
-%                             flipProb = '0'
+%                             alterProb = '0'
 %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -50,12 +50,12 @@ baseFile = 'groundtruth';
 % both options will compute the high-level activities, i.e. [3]
 options = 'corrupt';
 
-% flipProb defines the amount of noise that is added to the data. When
-% flipProb=0, the groundtruth labels are used. When flipProb=0.5, labels at
+% alterProb defines the amount of noise that is added to the data. When
+% alterProb=0, the groundtruth labels are used. When alterProb=0.5, labels at
 % the transition segments are either fliped [2] or treated as soft labels [1]
 % based on the option.
-flipProb = '0';
+alterProb = '0';
 
 %
-activity_recognition_demo(numStateZ,C,E,thres,baseFile,options,flipProb,numCores);
+activity_recognition_demo(numStateZ,C,E,thres,baseFile,options,alterProb,numCores);
 
