@@ -6,8 +6,11 @@ function phi = featureCB(params, X, YZ)
 %  phi must be sparse column vector
 
 [Y,Z] = splitYZ(params.numStateZ,YZ);
-YZcomb = sub2indYZ(params,Y,Z);
-
+if ~isempty(Z)
+  YZcomb = sub2indYZ(params,Y,Z);
+else
+  YZcomb = Y;
+end
 
 % unary features
 maskX = find(X);

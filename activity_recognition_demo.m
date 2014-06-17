@@ -28,7 +28,7 @@ function activity_recognition_demo(numStateZ,C,E,thres,baseFile,options,flipProb
 %              GRAPH-BASED SEGMENTAION:
 %              'm1_100', 'm1_500', 'm1_1000', 'm2_100', 'm2_500', 'm2_1000'
 %
-%   options    TBD, use 'corrupt' by default
+%   options    use 'corrupt' by default
 %   flipProb   TBD, use '0' by default
 %   numCores   TBD, use '1' by default
 %

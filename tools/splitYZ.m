@@ -6,7 +6,7 @@ if numStateZ > 1
   Z = YZ(K+1:end);
 else
   Y = YZ;
-  Z = ones(size(Y));
+  Z = [];
 end
 
 end
