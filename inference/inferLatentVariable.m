@@ -14,9 +14,9 @@ factors = build_graphical_factors(X,params,model,Y);
 
 % argmax_z <phi(x,y,z), w>
 [YZhat,score] = RunInference(factors);
-[Yhat,Zhat] = ind2subYZ(params,YZhat);
 
-Zhat = Zhat(:);
+
+[Yhat,Zhat] = splitYZ(params.numStateZ,YZhat);
 
 % assert(isequal(Y,Yhat(:)));
 

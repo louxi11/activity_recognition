@@ -13,7 +13,7 @@ for i = 1 : length(params.labels)
 
     X = patterns{i};
     Y = labels{i};
-    YZ = sub2ind(sz, Y, ones(size(Y))); % assign an arbitrary Z because Y will be recoverd when compute loss factor
+    YZ = [Y; ones(size(Y))]; % assign an arbitrary Z because Y will be recoverd when compute loss factor
 
     % max_yz (delta(yzi, yz) + <psi(xi,yz), w>)
     [~,F(i)] = constraintCB(params, model, X, YZ,i);

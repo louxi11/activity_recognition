@@ -1,4 +1,4 @@
-function obs_factor = compute_observation_factor( xk, model, params, k, yk)
+function obs_factor = compute_observation_factor( xk, model, params, k, K, yk)
 %COMPUTE_TRIPLET_OBSERVATION_FACTOR Summary of this function goes here
 %   Detailed explanation goes here
 % evidence yk
@@ -20,9 +20,15 @@ psi_k = exp(psi_k); % potential for libDAI
 
 % construct factor
 obs_factor = struct('var', [], 'card', [], 'val', []);
-obs_factor.var = k;
-obs_factor.card = params.numStateYZ;
-obs_factor.val = psi_k';
+if params.numStateZ > 1
+  obs_factor.var = [k, k+K];
+  obs_factor.card = [params.numStateY, params.numStateZ];
+  obs_factor.val = psi_k';
+else
+  obs_factor.var = k;
+  obs_factor.card = params.numStateY;
+  obs_factor.val = psi_k';
+end
 
 % set factor value to 0 if y violate evidence yk
 if ~isempty(yk) && ~isnan(yk) %TODO

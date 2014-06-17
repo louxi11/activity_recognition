@@ -5,21 +5,22 @@ function phi = featureCB(params, X, YZ)
 %  function psi(x,y;w) = <w,phi(x,y)>
 %  phi must be sparse column vector
 
-% K = length(X) / params.DimX; % number of time slices
+[Y,Z] = splitYZ(params.numStateZ,YZ);
+YZcomb = sub2indYZ(params,Y,Z);
+
 
 % unary features
 maskX = find(X);
-[indYZ,indXDimension] = meshgrid(YZ,1:params.DimX);
+[indYZ,indXDimension] = meshgrid(YZcomb,1:params.DimX);
 A = accumarray([indXDimension(maskX),indYZ(maskX)],full(X(maskX)),[params.DimX,params.numStateYZ],[],[],true);
 
 
 % prior features
-B = accumarray(YZ,1,[params.numStateYZ,1],[],[],true);
-
+B = accumarray(YZcomb,1,[params.numStateYZ,1],[],[],true);
 
 % transition features P(i->j) at (i,j)
-if length(YZ) > 1
-  C = accumarray([YZ(1:end-1),YZ(2:end)], 1,...
+if length(YZcomb) > 1
+  C = accumarray([YZcomb(1:end-1),YZcomb(2:end)], 1,...
     [params.numStateYZ,params.numStateYZ],[],[],true);
 else
   % set trans features to zeros when sequence contains no transition

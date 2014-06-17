@@ -22,8 +22,7 @@ if params.need_init
       for i = 1 : length(params.patterns)
         Y = trainData.labels{i};
         Zhat = randsample(params.numStateZ,length(Y),true); % random sample with replacement
-        YZ = sub2indYZ(params,Y,Zhat);
-        params.labels{i} = YZ;
+        params.labels{i} = [Y;Zhat];
       end
     case 'clustering'
       fprintf('initilizing latent variables by clustering\n')
@@ -49,8 +48,7 @@ else
     X = trainData.patterns{i};
     Y = trainData.labels{i};
     [Zhat,~,Yhat] = inferLatentVariable(params,model,X,Y);
-    YZ = sub2indYZ(params,Yhat,Zhat);
-    params.labels{i} = YZ;
+    params.labels{i} = [Yhat;Zhat];
   end
 end
 

@@ -1,4 +1,4 @@
-function trans_factor = compute_transition_factor(model, params, k, yk1, yk2)
+function trans_factor = compute_transition_factor(model, params, k, K, yk1, yk2)
 % COMPUTE_TRANSITION_FACTOR computes the transition factors among
 % (y_{k},z_{k}) -> (y_{k+1},z_{k+1})
 %   Detailed explanation goes here
@@ -40,9 +40,15 @@ end
 
 % construct transition factor
 trans_factor = struct('var', [], 'card', [], 'val', []);
-trans_factor.var = [k,k+1]; % (y_{k},z_{k}) -> (y_{k+1},z_{k+1})
-trans_factor.card = [params.numStateYZ, params.numStateYZ];
-trans_factor.val = exp(W(:)'); % make sure it is a row vector
+if params.numStateZ > 1
+  trans_factor.var = [k,k+K,k+1,k+K+1]; % (y_{k},z_{k}) -> (y_{k+1},z_{k+1})
+  trans_factor.card = [params.numStateY,params.numStateZ,params.numStateY,params.numStateZ];
+  trans_factor.val = exp(W(:)'); % mak1e sure it is a row vector
+else
+  trans_factor.var = [k,k+1]; % (y_{k},z_{k}) -> (y_{k+1},z_{k+1})
+  trans_factor.card = [params.numStateY,params.numStateY];
+  trans_factor.val = exp(W(:)'); % mak1e sure it is a row vector
+end
 
 assert(isrow(trans_factor.val)) % graph factor value must be row vector
 

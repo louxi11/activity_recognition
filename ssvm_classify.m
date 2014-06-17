@@ -15,6 +15,6 @@ factors = build_graphical_factors(X,params,model,[]);
 % argmax_y <psi(x,y), w>
 YZhat = RunInference(factors);
 
-[Yhat,Zhat] = ind2subYZ(params,YZhat);
+[Yhat,Zhat] = splitYZ(params.numStateZ,YZhat);
 
 end

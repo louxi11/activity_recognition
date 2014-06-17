@@ -1,6 +1,5 @@
 function labels = initBySemi2(trainData,params)
 % labels is a cell array
-% semi supervised learning
 
 X = trainData.patterns;
 Y = trainData.labels;
@@ -34,13 +33,19 @@ if params.numStateZ > 1
   IDX = kmeans(XX,params.numStateZ,'Replicates',10,...
     'emptyaction','singleton',...
     'Options',opts); % TODO
+  
   % data is complete, compute joint state YZ
-  YZ = sub2indYZ(params,YY,IDX);
+  YY = mat2cell(YY,NUM);
+  IDX = mat2cell(IDX,NUM);
+  YZ = cell(size(YY));
+  for i = 1 : length(YY)
+    YZ{i} = [YY{i};IDX{i}];
+  end
 else
-  YZ = YY;
+  YZ = mat2cell(YY,NUM); % use 1 when there is only one stateZ
 end
 
 % split labels into videos
-labels = mat2cell(YZ,NUM);
+labels = YZ;
 
 end

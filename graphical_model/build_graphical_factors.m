@@ -13,23 +13,23 @@ factors = repmat(struct('var', [], 'card', [], 'val', []), 2 * K - 1, 1);
 if isempty(ObsY)
   for k = 1 : K
     xk = X(:,k);
-    factors(k) = compute_observation_factor(xk,model,params,k,[]);
+    factors(k) = compute_observation_factor(xk,model,params,k,K,[]);
   end
 else
   for k = 1 : K
     xk = X(:,k);
-    factors(k) = compute_observation_factor(xk,model,params,k,ObsY(k));
+    factors(k) = compute_observation_factor(xk,model,params,k,K,ObsY(k));
   end
 end
 
 % all transition factors
 if isempty(ObsY)
   for k = 1 : K - 1
-    factors(K+k) = compute_transition_factor(model,params,k,[],[]);
+    factors(K+k) = compute_transition_factor(model,params,k,K,[],[]);
   end
 else
   for k = 1 : K - 1
-    factors(K+k) = compute_transition_factor(model,params,k,ObsY(k),ObsY(k+1));
+    factors(K+k) = compute_transition_factor(model,params,k,K,ObsY(k),ObsY(k+1));
   end
 end
 
