@@ -45,7 +45,7 @@ if params.need_init
 else
   % otherwise compute Zhat under the current model.w TODO
   for i = 1 : length(params.patterns)
-    X = trainData.patterns{i};
+    X = params.patterns{i};
     Y = trainData.labels{i};
     [Zhat,~,Yhat] = inferLatentVariable(params,model,X,Y);
     params.labels{i} = [Yhat;Zhat];

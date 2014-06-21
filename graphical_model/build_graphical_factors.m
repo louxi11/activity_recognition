@@ -2,6 +2,7 @@ function factors = build_graphical_factors(X, params, model, ObsY)
 % collect all factors of the graph into a vector
 
 K = size(X,1) / params.DimX; % number of time slices
+
 X = reshape(X,params.DimX,K);
 
 assert(isempty(ObsY) | length(ObsY) == K)
