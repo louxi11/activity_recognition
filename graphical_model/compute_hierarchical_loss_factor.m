@@ -1,6 +1,6 @@
-function hierachical_loss_factor = compute_hierachical_loss_factor( params, K, idx)
+function hierarchical_loss_factor = compute_hierarchical_loss_factor( params, K, idx)
 
-hierachical_loss_factor = struct('var', [], 'card', [], 'val', []);
+hierarchical_loss_factor = struct('var', [], 'card', [], 'val', []);
 
 YHigh = params.trainData.HighLabels(idx); % compute groundtruth Yk
 
@@ -11,8 +11,8 @@ else
   delta_k = zeros(params.numStateYHigh,1);
 end
 
-hierachical_loss_factor.var = K + 1; % yz{k}
-hierachical_loss_factor.card = params.numStateYHigh;
-hierachical_loss_factor.val = exp(delta_k(:)'); % libDAI 'val must be in exponential space
+hierarchical_loss_factor.var = K + 1; % yz{k}
+hierarchical_loss_factor.card = params.numStateYHigh;
+hierarchical_loss_factor.val = exp(delta_k(:)'); % libDAI 'val must be in exponential space
 
 end
